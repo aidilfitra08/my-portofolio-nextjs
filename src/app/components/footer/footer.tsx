@@ -35,7 +35,7 @@ export default function Footer() {
             </a>
           </div>
           <div className="col-span-1">
-            <p className="block mb-3 text-2xl">Let's Connect</p>
+            <p className="block mb-3 text-2xl">Let&apos;s Connect</p>
             <a className="" href="https://wa.me/6282388157890">
               {" "}
               <FontAwesomeIcon

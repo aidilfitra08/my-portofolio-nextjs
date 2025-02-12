@@ -9,9 +9,9 @@ export default function AboutMe() {
           Hello, <br /> I am <span className="font-extrabold">Aidil</span>
         </p>
         <p>
-          I'm a Computer Science graduate with experience in backend, web, and
-          mobile development. I'm skilled in technologies like CodeIgniter,
-          Flutter, Node.js, React, Golang, MySQL, and MongoDB.
+          I&apos;m a Computer Science graduate with experience in backend, web,
+          and mobile development. I&apos;m skilled in technologies like
+          CodeIgniter, Flutter, Node.js, React, Golang, MySQL, and MongoDB.
         </p>
         {/* <div>My main skill</div> */}
         <p className="mt-6">
