@@ -5,13 +5,12 @@ import { useEffect, useState } from "react";
 
 export default function Navbar() {
   const [bgColor, setBgColor] = useState(false);
-  const listenScrollEvent = (e: Event) => {
-    const window = e.currentTarget as Window;
-    window.scrollY > 10 ? setBgColor(true) : setBgColor(false);
-  };
 
   useEffect(() => {
-    window.addEventListener("scroll", listenScrollEvent);
+    window.addEventListener("scroll", (e: Event) => {
+      const window = e.currentTarget as Window;
+      window.scrollY > 10 ? setBgColor(true) : setBgColor(false);
+    });
   }, []);
   // const [scrollTo, setScrollTo] = useState();
   return (
