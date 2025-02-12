@@ -10,6 +10,7 @@ export default function Navbar() {
     window.addEventListener("scroll", (e: Event) => {
       const window = e.currentTarget as Window;
       window.scrollY > 10 ? setBgColor(true) : setBgColor(false);
+      return;
     });
   }, []);
   // const [scrollTo, setScrollTo] = useState();
