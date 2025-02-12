@@ -23,9 +23,9 @@ export default function Navbar() {
     >
       <div className="flex">
         <div className=" px-10 h-full ">
-          <a className=" font-bold text-4xl" href="/">
+          <Link className=" font-bold text-4xl" href="/">
             Logo
-          </a>
+          </Link>
         </div>
       </div>
       <div className="flex content-center h-full ">

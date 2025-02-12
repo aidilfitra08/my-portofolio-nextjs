@@ -1,4 +1,3 @@
-import Image from "next/image";
 import AboutMe from "./components/aboutme/aboutme";
 import Skill from "./components/skill/skill";
 import Projects from "./components/projects/projects";
