@@ -9,7 +9,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer id="footer" className="bg-neutral-900 py-2 text-white">
+    <footer id="footer" className="bg-neutral-900 py-2 text-white font-mono">
       <div className="grid grid-cols-1 pb-6 px-10 mt-12">
         <div className="col-span-1 grid-cols-2 grid">
           <div className="col-span-1 space-y-2 max-md:col-span-2">
