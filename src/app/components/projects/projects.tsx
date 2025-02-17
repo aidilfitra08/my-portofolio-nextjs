@@ -10,7 +10,7 @@ export default function Projects() {
   // let dataProjects = dataProject;
   const [onlyImage, setOnlyImage] = useState({
     image1: dataProject[0].onlyImage,
-    image2: dataProject[1].onlyImage,
+    // image2: dataProject[1].onlyImage,
   });
   return (
     <div
@@ -26,17 +26,18 @@ export default function Projects() {
             key={project.id}
             className={` grid-cols-1 col-span-1 grid relative z-0 ease-in duration-300 w-96 h-56justify-self-center overflow-hidden`}
             onClick={() => {
-              if (project.id == 0) {
-                setOnlyImage({
-                  image1: false,
-                  image2: true,
-                });
-              } else if (project.id == 1) {
-                setOnlyImage({
-                  image1: true,
-                  image2: false,
-                });
-              }
+              // if (project.id == 0) {
+              //   setOnlyImage({
+              //     image1: false,
+              //     image2: true,
+              //   });
+              // } else if (project.id == 1) {
+              //   setOnlyImage({
+              //     image1: true,
+              //     image2: false,
+              //   });
+              // }
+              setOnlyImage({ image1: false });
             }}
           >
             <div>
@@ -52,13 +53,14 @@ export default function Projects() {
             </div>
             <div
               className={` ${
-                (
-                  project.id == 0
-                    ? onlyImage.image1
-                    : project.id == 1
-                    ? onlyImage.image2
-                    : true
-                )
+                // (
+                //   project.id == 0
+                //     ? onlyImage.image1
+                //     : project.id == 1
+                //     ? onlyImage.image2
+                //     : true
+                // )
+                (project.id == 0 ? onlyImage.image1 : true)
                   ? "opacity-0"
                   : "opacity-100"
               }
@@ -66,13 +68,14 @@ export default function Projects() {
             >
               <p
                 className={`${
-                  (
-                    project.id == 0
-                      ? onlyImage.image1
-                      : project.id == 1
-                      ? onlyImage.image2
-                      : true
-                  )
+                  // (
+                  //   project.id == 0
+                  //     ? onlyImage.image1
+                  //     : project.id == 1
+                  //     ? onlyImage.image2
+                  //     : true
+                  // )
+                  (project.id == 0 ? onlyImage.image1 : true)
                     ? "hidden"
                     : "block"
                 } text-xl font-bold`}
