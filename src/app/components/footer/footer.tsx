@@ -40,7 +40,7 @@ export default function Footer() {
           <div className="col-span-1 space-y-2 max-md:col-span-2 max-md:mt-10">
             <p className="block mb-6 text-2xl">Let&apos;s Connect</p>
             <p>
-              <Link className="" href="https://wa.me/6282388157890">
+              <Link className="" href="https://www.linkedin.com/in/aidil-fitra">
                 {" "}
                 <FontAwesomeIcon
                   icon={faLinkedin}
@@ -51,7 +51,7 @@ export default function Footer() {
               </Link>
             </p>
             <p>
-              <Link className="" href="https://wa.me/6282388157890">
+              <Link className="" href="https://github.com/aidilfitra08">
                 {" "}
                 <FontAwesomeIcon
                   icon={faGithub}
