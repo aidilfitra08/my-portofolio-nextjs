@@ -12,8 +12,8 @@ export default function ContactMe() {
         </h2>
 
         <p className="text-neutral-900 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
-          I'm always interested in new opportunities and collaborations. Let's
-          build something amazing together!
+          I&apos;m always interested in new opportunities and collaborations.
+          Let&apos;s build something amazing together!
         </p>
 
         <div className="flex justify-center space-x-4">

@@ -6,7 +6,6 @@ import {
   useEffect,
   ClipboardEvent,
   KeyboardEvent,
-  MouseEvent,
   ChangeEvent,
   JSX,
 } from "react";

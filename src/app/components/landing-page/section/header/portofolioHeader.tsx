@@ -37,9 +37,9 @@ export default function PortofolioHeader() {
             className="text-neutral-900 dark:text-gray-400 max-w-2xl leading-relaxed"
             style={{ fontSize: "14px", lineHeight: "1.4" }}
           >
-            I'm a Computer Science graduate with experience in backend, web, and
-            mobile development. I'm skilled in technologies like CodeIgniter,
-            Flutter, Node.js, React, Golang, MySQL, and MongoDB.
+            I&apos;m a Computer Science graduate with experience in backend,
+            web, and mobile development. I&apos;m skilled in technologies like
+            CodeIgniter, Flutter, Node.js, React, Golang, MySQL, and MongoDB.
           </p>
         </div>
       </div>

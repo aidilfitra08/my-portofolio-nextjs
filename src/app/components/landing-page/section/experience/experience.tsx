@@ -37,8 +37,8 @@ export default function Experience() {
                 •
               </span>
               <span>
-                Developed and integrated new 15 APIs for Vocasia's website and
-                mobile applications using CodeIgniter 4 and MySQL
+                Developed and integrated new 15 APIs for Vocasia&apos;s website
+                and mobile applications using CodeIgniter 4 and MySQL
               </span>
             </li>
             <li className="flex items-start">
