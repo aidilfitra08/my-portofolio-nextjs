@@ -1,15 +1,9 @@
-import AboutMe from "./components/aboutme/aboutme";
-import Skill from "./components/skill/skill";
-import Projects from "./components/projects/projects";
-import Work from "./components/work/work";
+import Homepage from "./components/Homepage/homepage";
 
 export default function Home() {
   return (
-    <div>
-      <AboutMe />
-      <Skill />
-      <Work />
-      <Projects />
-    </div>
+    <>
+      <Homepage />
+    </>
   );
 }

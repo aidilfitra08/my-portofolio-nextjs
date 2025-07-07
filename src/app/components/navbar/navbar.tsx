@@ -22,15 +22,13 @@ export default function Navbar() {
   return (
     <nav
       className={`${
-        bgColor
-          ? " bg-black bg-opacity-90 text-white dark:bg-neutral-800 dark:bg-opacity-80"
-          : ""
+        bgColor ? " bg-opacity-90 dark:bg-neutral-800 dark:bg-opacity-80" : ""
       } ease-out duration-300 fixed inset-x-0 w-screen h-16 flex flex-row text-center sm:flex-row sm:text-left justify-between items-center z-40 pr-2 sm:pr-10 font-mono backdrop-blur-sm`}
     >
       <div className="flex">
         <div className=" px-10 h-full ">
           <Link className=" font-bold text-4xl" href="/">
-            AidilDev
+            {bgColor ? "AidilDev" : ""}
           </Link>
         </div>
       </div>
@@ -78,7 +76,7 @@ export default function Navbar() {
           }`}
         >
           <Link
-            href="#footer"
+            href="#contact-me"
             className={`${
               bgColor ? " hover:bg-white " : ""
             }px-5 hover:bg-black dark:hover:bg-white w-32 align-middle text-center  ease-in duration-200 h-16 table-cell`}
@@ -141,7 +139,7 @@ export default function Navbar() {
             }`}
           >
             <Link
-              href="#footer"
+              href="#contact-me"
               className={`${
                 bgColor ? " hover:bg-white " : ""
               }px-5 hover:bg-black dark:hover:bg-white align-middle text-center  ease-in duration-200 h-16 table-cell w-screen`}

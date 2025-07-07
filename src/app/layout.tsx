@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "./components/navbar/navbar";
-import Footer from "./components/footer/footer";
 
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
@@ -31,11 +29,9 @@ export default function RootLayout({
   return (
     <html className="scroll-smooth" lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased dark:bg-neutral-950 bg-neutral-100`}
+        className={`${geistSans.variable} font-mono antialiased dark:bg-neutral-950 bg-neutral-100`}
       >
-        <Navbar />
         {children}
-        <Footer />
       </body>
     </html>
   );
