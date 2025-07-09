@@ -28,7 +28,7 @@ export default function IPCheckerPage() {
         setIpInfo({
           ip: "",
           loading: false,
-          error: "Failed to fetch IP address",
+          error: "Failed to fetch IP address and Error: " + error,
         });
       }
     };
