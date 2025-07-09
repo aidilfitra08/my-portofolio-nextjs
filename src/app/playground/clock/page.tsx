@@ -13,8 +13,10 @@ export default function ClockPage() {
   }, []);
 
   return (
-    <main className="h-screen w-screen flex items-center justify-center">
-      <h1 className="md:text-9xl text-5xl font-mono tracking-widest">{time}</h1>
+    <main className="h-screen w-screen flex items-center justify-center overflow-hidden fixed inset-0">
+      <h1 className="md:text-9xl text-5xl font-mono tracking-widest select-none">
+        {time}
+      </h1>
     </main>
   );
 }
