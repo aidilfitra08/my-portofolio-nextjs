@@ -12,6 +12,10 @@ export const metadata: Metadata = {
     "msapplication-TileColor": "#ffffff",
     "msapplication-tap-highlight": "no",
   },
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f172a" },
+  ],
 };
 
 export const viewport = {
@@ -19,8 +23,6 @@ export const viewport = {
   initialScale: 1,
   viewportFit: "cover",
 };
-
-export const themeColor = "#ffffff";
 
 export default function ClockLayout({
   children,
