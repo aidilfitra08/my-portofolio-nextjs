@@ -33,7 +33,7 @@ export default function DynamicFavicon() {
       ];
 
       faviconTypes.forEach(({ rel, type }) => {
-        const link = document.createElement("link");
+        let link = document.createElement("link");
         link.rel = rel;
         link.type = type;
         link.href = faviconUrl;
