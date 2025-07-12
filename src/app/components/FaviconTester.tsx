@@ -23,7 +23,7 @@ export default function FaviconTester() {
     link.rel = "icon";
     link.type = "image/x-icon";
     link.href = faviconUrl;
-    link.sizes = "any";
+    link.setAttribute("sizes", "any");
     document.head.appendChild(link);
 
     setCurrentTheme(theme);
