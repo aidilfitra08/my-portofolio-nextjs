@@ -129,6 +129,12 @@ export const metadata: Metadata = {
   // },
 
   category: "technology",
+
+  // 🎨 Theme color
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f172a" },
+  ],
 };
 
 // ✅ Required separate export
@@ -136,9 +142,3 @@ export const viewport = {
   width: "device-width",
   initialScale: 1,
 };
-
-// ✅ Separate theme color export
-export const themeColor = [
-  { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-  { media: "(prefers-color-scheme: dark)", color: "#0f172a" },
-];
