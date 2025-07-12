@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
+import DynamicFavicon from "./components/DynamicFavicon";
 
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
@@ -26,6 +27,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} font-mono antialiased dark:bg-neutral-950 bg-neutral-100`}
       >
+        <DynamicFavicon />
         {children}
       </body>
     </html>
@@ -66,17 +68,30 @@ export const metadata: Metadata = {
   // },
 
   // 🟥 Icons (for favicon, app icon, etc.)
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    // apple: "/apple-touch-icon.png",
-  },
-
-  // 🟨 Theme / color
-  // themeColor: [
-  //   { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-  //   { media: "(prefers-color-scheme: dark)", color: "#0f172a" }, // dark background
-  // ],
+  icons: [
+    {
+      url: "/favicon-dynamic.svg",
+      type: "image/svg+xml",
+      sizes: "any",
+    },
+    {
+      url: "/favicon-light.ico",
+      type: "image/x-icon",
+      media: "(prefers-color-scheme: light)",
+      sizes: "any",
+    },
+    {
+      url: "/favicon-dark.ico",
+      type: "image/x-icon",
+      media: "(prefers-color-scheme: dark)",
+      sizes: "any",
+    },
+    {
+      url: "/favicon.ico",
+      type: "image/x-icon",
+      sizes: "any",
+    },
+  ],
 
   // 🟧 App Info
   generator: "Next.js",
@@ -113,7 +128,17 @@ export const metadata: Metadata = {
   //   },
   // },
 
-  // 🟨 Other optional metadata
-  // viewport: "width=device-width, initial-scale=1.0",
   category: "technology",
 };
+
+// ✅ Required separate export
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
+
+// ✅ Separate theme color export
+export const themeColor = [
+  { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+  { media: "(prefers-color-scheme: dark)", color: "#0f172a" },
+];

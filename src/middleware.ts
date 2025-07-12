@@ -10,7 +10,10 @@ const ALLOWED_IPS = [
 
 export function middleware(request: NextRequest) {
   // Only apply IP restriction to the clock page
-  if (request.nextUrl.pathname.startsWith("/playground/clock")) {
+  if (
+    request.nextUrl.pathname.startsWith("/playground/clock") ||
+    request.nextUrl.pathname.startsWith("/playground/vscode-clone")
+  ) {
     const clientIP = getClientIP(request);
 
     if (!ALLOWED_IPS.includes(clientIP)) {

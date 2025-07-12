@@ -1,6 +1,12 @@
 {
-  "name": "AidilDev",
-  "short_name": "AidilDev",
+  "name": "Clock",
+  "short_name": "Clock",
+  "description": "A fullscreen digital clock",
+  "start_url": "/playground/clock",
+  "display": "fullscreen",
+  "orientation": "any",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
@@ -14,8 +20,5 @@
       "type": "image/png",
       "purpose": "maskable"
     }
-  ],
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
-  "display": "standalone"
+  ]
 }

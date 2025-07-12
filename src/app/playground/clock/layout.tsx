@@ -1,26 +1,26 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Fullscreen Clock",
+  title: "Clock",
   description: "A fullscreen digital clock",
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
-    viewportFit: "cover",
-  },
-  themeColor: "#000000",
-  manifest: "/manifest.json",
+  manifest: "/custom-manifest/manifest-clock.json",
   other: {
     "mobile-web-app-capable": "yes",
     "apple-mobile-web-app-capable": "yes",
     "apple-mobile-web-app-status-bar-style": "black-translucent",
     "apple-mobile-web-app-title": "Clock",
-    "msapplication-TileColor": "#000000",
+    "msapplication-TileColor": "#ffffff",
     "msapplication-tap-highlight": "no",
   },
 };
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
+
+export const themeColor = "#ffffff";
 
 export default function ClockLayout({
   children,
