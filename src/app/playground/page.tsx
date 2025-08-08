@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Notes from "../components/notes/notes";
 
 const playgroundLinks = [
   { name: "Clock Playground", url: "/playground/clock", icon: "🕒" },
@@ -26,6 +27,7 @@ export default function PlaygroundIndex() {
           </li>
         ))}
       </ul>
+      <Notes />
     </main>
   );
 }

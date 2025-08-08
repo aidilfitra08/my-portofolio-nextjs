@@ -5,7 +5,6 @@ import "./globals.css";
 
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
-// import Notes from "./components/notes/notes";
 config.autoAddCss = false;
 
 const geistSans = Geist({
@@ -42,7 +41,6 @@ export default function RootLayout({
       >
         {/* <DynamicFavicon /> */}
         {children}
-        {/* <Notes /> */}
       </body>
     </html>
   );
