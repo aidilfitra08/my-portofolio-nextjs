@@ -42,6 +42,7 @@ export default function PortofolioHeader() {
             CodeIgniter, Flutter, Node.js, React, Golang, MySQL, and MongoDB.
           </p>
         </div>
+        {/* <div>photo</div> */}
       </div>
     </header>
   );

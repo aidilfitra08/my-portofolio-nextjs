@@ -19,3 +19,33 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Handwriting style for notebook */
+.handwriting {
+  font-family: "Caveat", "Kalam", "Patrick Hand", cursive;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0.5px;
+}
+
+/* Add slight rotation to simulate handwritten text */
+.handwriting p:nth-child(odd) {
+  transform: rotate(0.3deg);
+}
+
+.handwriting p:nth-child(even) {
+  transform: rotate(-0.2deg);
+}
+
+/* Hide scrollbar for all browsers */
+.scrollbar-hide {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  -webkit-scrollbar: none;
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

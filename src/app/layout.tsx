@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
-import DynamicFavicon from "./components/DynamicFavicon";
+// import DynamicFavicon from "./components/DynamicFavicon";
 
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
+// import Notes from "./components/notes/notes";
 config.autoAddCss = false;
 
 const geistSans = Geist({
@@ -24,11 +25,24 @@ export default function RootLayout({
 }>) {
   return (
     <html className="scroll-smooth" lang="en">
+      {/* <head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Kalam:wght@300;400;700&display=swap"
+          rel="preconnect"
+        />
+        <link href="https://fonts.googleapis.com" rel="preconnect" />
+        <link
+          href="https://fonts.gstatic.com"
+          rel="preconnect"
+          crossOrigin="anonymous"
+        />
+      </head> */}
       <body
-        className={`${geistSans.variable} font-mono antialiased dark:bg-neutral-950 bg-neutral-100`}
+        className={`${geistSans.variable} font-mono antialiased dark:bg-neutral-900 bg-neutral-100`}
       >
-        <DynamicFavicon />
+        {/* <DynamicFavicon /> */}
         {children}
+        {/* <Notes /> */}
       </body>
     </html>
   );
@@ -131,14 +145,14 @@ export const metadata: Metadata = {
   category: "technology",
 
   // 🎨 Theme color
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0f172a" },
-  ],
 };
 
 // ✅ Required separate export
 export const viewport = {
   width: "device-width",
   initialScale: 1,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f172a" },
+  ],
 };

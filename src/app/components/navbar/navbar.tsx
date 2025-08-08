@@ -76,6 +76,23 @@ export default function Navbar() {
           }`}
         >
           <Link
+            href="/playground"
+            prefetch
+            className={`${
+              bgColor ? " hover:bg-white " : ""
+            }px-5 hover:bg-black dark:hover:bg-white w-28 align-middle text-center  ease-in duration-200 h-16 table-cell`}
+          >
+            Playground
+          </Link>
+        </p>
+        <p
+          className={`${
+            bgColor
+              ? " hover:text-black "
+              : "hover:text-white dark:hover:text-black"
+          }`}
+        >
+          <Link
             href="#contact-me"
             className={`${
               bgColor ? " hover:bg-white " : ""

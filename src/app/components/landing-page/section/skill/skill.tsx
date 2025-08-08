@@ -36,6 +36,7 @@ export default function Skill() {
 
   return (
     <section className="py-6 px-4" id="skill">
+      {/* <FeatureList className="absolute right-1/4 bottom-40 rotate-6" /> */}
       <div className="max-w-4xl mx-auto">
         <h2 className="text-lg font-normal mb-4" style={{ fontSize: "16px" }}>
           <span className="text-pink-400">const</span>
