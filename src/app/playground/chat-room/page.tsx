@@ -131,6 +131,7 @@ export default function Page() {
         } catch (error) {
           // If it's not JSON, just display the raw message
           setMessages((prev) => [...prev, `📩 Raw: ${event.data}`]);
+          console.error("Failed to parse message:", error);
         }
       };
 
