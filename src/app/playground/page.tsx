@@ -8,6 +8,7 @@ const playgroundLinks = [
   { name: "Trial Input Box", url: "/playground/trial-input-box", icon: "🔲" },
   { name: "VSCode Clone", url: "/playground/vscode-clone", icon: "💻" },
   { name: "Simple Ai Agent", url: "/playground/simple-ai-agent", icon: "🤖" },
+  { name: "Chat Room", url: "/playground/chat-room", icon: "💬" },
 ];
 
 export default function PlaygroundIndex() {
