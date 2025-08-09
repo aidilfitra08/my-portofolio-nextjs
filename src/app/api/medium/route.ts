@@ -3,7 +3,7 @@ import Parser from "rss-parser";
 
 export async function GET() {
   const parser = new Parser();
-  const feed = await parser.parseURL("https://medium.com/feed/@aidilfitra");
+  const feed = await parser.parseURL(process.env.MEDIUM_URL || "");
   const articles = feed.items?.slice(0, 5).map((item) => {
     const content = item["content:encoded"] || item.content || "";
     const imgMatch = content.match(/<img[^>]+src="([^">]+)"/);
