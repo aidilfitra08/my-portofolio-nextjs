@@ -1,8 +1,11 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-accent-green: var(--vintage-green);
+  --color-accent-amber: var(--vintage-amber);
+  --color-accent-cyan: var(--vintage-cyan);
 }
 
 /*
@@ -24,21 +27,154 @@
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f5f1e8;
+  --foreground: #2a2a2a;
+  --vintage-green: #4caf50;
+  --vintage-amber: #ffb000;
+  --vintage-cyan: #00d9ff;
+  --paper-texture: #faf8f3;
+  --ink-black: #1a1a1a;
+  --terminal-green: #33ff33;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0d0d0d;
+    --foreground: #e0e0e0;
+    --paper-texture: #1a1a1a;
+    --vintage-green: #00ff41;
   }
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Courier New", "Courier", monospace;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+}
+
+/* Typewriter effect */
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.typewriter-cursor {
+  animation: blink 1s infinite;
+}
+
+/* Vintage CRT screen effect */
+.crt-effect {
+  animation: flicker 0.15s infinite;
+}
+
+@keyframes flicker {
+  0% {
+    opacity: 0.97;
+  }
+  5% {
+    opacity: 0.98;
+  }
+  10% {
+    opacity: 0.96;
+  }
+  15% {
+    opacity: 1;
+  }
+  20% {
+    opacity: 0.97;
+  }
+  25% {
+    opacity: 0.98;
+  }
+  30% {
+    opacity: 0.99;
+  }
+  35% {
+    opacity: 0.97;
+  }
+  40% {
+    opacity: 1;
+  }
+  45% {
+    opacity: 0.98;
+  }
+  50% {
+    opacity: 0.97;
+  }
+  55% {
+    opacity: 0.99;
+  }
+  60% {
+    opacity: 0.98;
+  }
+  65% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 0.97;
+  }
+  75% {
+    opacity: 0.99;
+  }
+  80% {
+    opacity: 0.98;
+  }
+  85% {
+    opacity: 0.97;
+  }
+  90% {
+    opacity: 1;
+  }
+  95% {
+    opacity: 0.98;
+  }
+  100% {
+    opacity: 0.97;
+  }
+}
+
+/* Retro terminal glow */
+.terminal-glow {
+  text-shadow: 0 0 5px rgba(0, 255, 65, 0.7), 0 0 10px rgba(0, 255, 65, 0.5),
+    0 0 15px rgba(0, 255, 65, 0.3);
+}
+
+/* Paper-like card effect */
+.vintage-card {
+  background: var(--paper-texture);
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1),
+    inset 0 0 100px rgba(0, 0, 0, 0.02);
+  position: relative;
+}
+
+.vintage-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.01) 2px,
+    rgba(0, 0, 0, 0.01) 4px
+  );
+  pointer-events: none;
 }
 
 /* Handwriting style for notebook */

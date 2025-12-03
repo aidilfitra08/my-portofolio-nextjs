@@ -1,48 +1,92 @@
 import { faGithub, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
+import { faHandshake, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 
 export default function ContactMe() {
   return (
-    <section className="py-6 px-4" id="contact-me">
-      <div className="max-w-4xl mx-auto text-center">
-        <h2 className="text-lg font-bold mb-4">
-          <span className="text-cyan-900 dark:text-cyan-400">Get In Touch</span>
-        </h2>
+    <section className="py-12 md:py-16 px-4 mb-8" id="contact-me">
+      <div className="max-w-4xl mx-auto">
+        {/* Section Title */}
+        <div className="flex items-center justify-center gap-3 mb-6">
+          <FontAwesomeIcon
+            icon={faHandshake}
+            className="text-2xl md:text-3xl text-[#00d9ff]"
+          />
+          <h2 className="text-2xl md:text-3xl font-bold text-center text-[#00d9ff]">
+            Get In Touch
+          </h2>
+        </div>
 
-        <p className="text-neutral-900 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
-          I&apos;m always interested in new opportunities and collaborations.
-          Let&apos;s build something amazing together!
-        </p>
+        {/* Description */}
+        <div className="vintage-card dark:bg-[#1a1a1a] rounded-lg p-8 border-2 border-[#00d9ff] border-opacity-30 mb-8 text-center">
+          <p className="text-base md:text-lg text-[#2a2a2a] dark:text-[#c0c0c0] max-w-2xl mx-auto leading-relaxed">
+            <span className="text-[#ff6b6b] font-bold">&gt;&gt;</span> I&apos;m
+            always interested in{" "}
+            <span className="text-accent-green font-semibold">
+              new opportunities
+            </span>{" "}
+            and{" "}
+            <span className="text-accent-green font-semibold">
+              collaborations
+            </span>
+            . Let&apos;s build something{" "}
+            <span className="text-[#ffb000] font-semibold">amazing</span>{" "}
+            together!
+          </p>
+        </div>
 
-        <div className="flex justify-center space-x-4">
+        {/* Contact Buttons */}
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-4 md:gap-6">
           <Link
             href="mailto:aidil.fitra.work@gmail.com"
-            className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition-colors"
-            style={{ fontSize: "12px" }}
+            className="group w-full sm:w-auto flex items-center justify-center gap-3 vintage-card dark:bg-[#1a1a1a] hover:bg-[#00d9ff] dark:hover:bg-[#00d9ff] border-2 border-[#00d9ff] px-6 py-4 rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
           >
-            <FontAwesomeIcon icon={faEnvelope} />
-            <span>Email</span>
+            <FontAwesomeIcon
+              icon={faPaperPlane}
+              className="text-lg text-[#00d9ff] group-hover:text-[#1a1a1a] transition-colors"
+            />
+            <span className="font-semibold text-[#2a2a2a] dark:text-[#00d9ff] group-hover:text-[#1a1a1a] transition-colors">
+              Email Me
+            </span>
           </Link>
+
           <Link
             href="https://github.com/aidilfitra08"
             target="_blank"
-            className="flex items-center space-x-2 bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg transition-colors"
-            style={{ fontSize: "12px" }}
+            className="group w-full sm:w-auto flex items-center justify-center gap-3 vintage-card dark:bg-[#1a1a1a] hover:bg-[#2a2a2a] dark:hover:bg-[#2a2a2a] border-2 border-[#2a2a2a] dark:border-[#a0a0a0] px-6 py-4 rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
           >
-            <FontAwesomeIcon icon={faGithub} />
-            <span>GitHub</span>
+            <FontAwesomeIcon
+              icon={faGithub}
+              className="text-lg text-[#2a2a2a] dark:text-[#a0a0a0] group-hover:text-white transition-colors"
+            />
+            <span className="font-semibold text-[#2a2a2a] dark:text-[#a0a0a0] group-hover:text-white transition-colors">
+              GitHub
+            </span>
           </Link>
+
           <Link
             href="https://www.linkedin.com/in/aidil-fitra"
             target="_blank"
-            className="flex items-center space-x-2 bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-lg transition-colors"
-            style={{ fontSize: "12px" }}
+            className="group w-full sm:w-auto flex items-center justify-center gap-3 vintage-card dark:bg-[#1a1a1a] hover:bg-[#0077b5] dark:hover:bg-[#0077b5] border-2 border-[#0077b5] px-6 py-4 rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
           >
-            <FontAwesomeIcon icon={faLinkedin} />
-            <span>LinkedIn</span>
+            <FontAwesomeIcon
+              icon={faLinkedin}
+              className="text-lg text-[#0077b5] group-hover:text-white transition-colors"
+            />
+            <span className="font-semibold text-[#2a2a2a] dark:text-[#0077b5] group-hover:text-white transition-colors">
+              LinkedIn
+            </span>
           </Link>
+        </div>
+
+        {/* Terminal-style footer */}
+        <div className="mt-12 text-center text-sm text-[#2a2a2a] dark:text-[#606060] font-mono">
+          <span className="text-[#ff6b6b]">$</span> echo "Looking forward to
+          hearing from you!"
+          <br />
+          <span className="text-accent-green animate-pulse">▊</span>
         </div>
       </div>
     </section>
