@@ -414,7 +414,7 @@ export default function SimpleAIAgentPage() {
       if (isInline) {
         return (
           <code
-            className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-sm font-mono text-red-600 dark:text-red-400"
+            className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded-sm text-sm font-mono text-red-600 dark:text-red-400"
             {...props}
           >
             {children}
@@ -519,12 +519,12 @@ export default function SimpleAIAgentPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 flex flex-col">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 flex flex-col">
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 p-4">
+      <div className="bg-white dark:bg-gray-800 shadow-xs border-b border-gray-200 dark:border-gray-700 p-4">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+            <div className="w-10 h-10 bg-linear-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
               <FontAwesomeIcon icon={faRobot} className="text-white text-lg" />
             </div>
             <div>
@@ -614,10 +614,10 @@ export default function SimpleAIAgentPage() {
               >
                 {/* Avatar */}
                 <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                  className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
                     message.sender === "user"
-                      ? "bg-gradient-to-br from-green-400 to-blue-500"
-                      : "bg-gradient-to-br from-purple-400 to-pink-500"
+                      ? "bg-linear-to-br from-green-400 to-blue-500"
+                      : "bg-linear-to-br from-purple-400 to-pink-500"
                   }`}
                 >
                   <FontAwesomeIcon
@@ -628,7 +628,7 @@ export default function SimpleAIAgentPage() {
 
                 {/* Message Bubble */}
                 <div
-                  className={`max-w-xs sm:max-w-md lg:max-w-lg xl:max-w-xl p-3 rounded-lg shadow-sm ${
+                  className={`max-w-xs sm:max-w-md lg:max-w-lg xl:max-w-xl p-3 rounded-lg shadow-xs ${
                     message.sender === "user"
                       ? "bg-blue-500 text-white rounded-br-none"
                       : "bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-bl-none border border-gray-200 dark:border-gray-600"
@@ -667,13 +667,13 @@ export default function SimpleAIAgentPage() {
             {/* Loading Indicator */}
             {isLoading && (
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-400 to-pink-500 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-full bg-linear-to-br from-purple-400 to-pink-500 flex items-center justify-center">
                   <FontAwesomeIcon
                     icon={faRobot}
                     className="text-white text-sm"
                   />
                 </div>
-                <div className="bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 p-3 rounded-lg rounded-bl-none shadow-sm">
+                <div className="bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 p-3 rounded-lg rounded-bl-none shadow-xs">
                   <div className="flex items-center gap-2">
                     <FontAwesomeIcon
                       icon={faSpinner}
@@ -691,14 +691,14 @@ export default function SimpleAIAgentPage() {
           </div>
 
           {/* Input Area */}
-          <div className="mt-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+          <div className="mt-4 bg-white dark:bg-gray-800 rounded-lg shadow-xs border border-gray-200 dark:border-gray-700 p-4">
             <div className="flex gap-3">
               <textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Type your message here or use voice input... (Tell me about yourself for a more personal conversation!)"
-                className="flex-1 resize-none bg-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none min-h-[60px] max-h-32"
+                className="flex-1 resize-none bg-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-hidden min-h-[60px] max-h-32"
                 rows={1}
                 disabled={isLoading}
               />
@@ -741,11 +741,11 @@ export default function SimpleAIAgentPage() {
             {/* Enhanced Helper Text */}
             <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
               Press{" "}
-              <kbd className="px-1 py-0.5 bg-gray-100 dark:bg-gray-700 rounded text-xs">
+              <kbd className="px-1 py-0.5 bg-gray-100 dark:bg-gray-700 rounded-sm text-xs">
                 Enter
               </kbd>{" "}
               to send,{" "}
-              <kbd className="px-1 py-0.5 bg-gray-100 dark:bg-gray-700 rounded text-xs">
+              <kbd className="px-1 py-0.5 bg-gray-100 dark:bg-gray-700 rounded-sm text-xs">
                 Shift+Enter
               </kbd>{" "}
               for new line

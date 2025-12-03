@@ -176,14 +176,14 @@ export default function TokenCalculator() {
           </div>
 
           {/* Results */}
-          <div className="bg-linear-to-r from-indigo-500 to-purple-600 dark:from-gray-600 dark:to-slate-800 rounded-xl p-6">
+          <div className="bg-linear-to-r from-indigo-50 to-purple-50 dark:from-gray-600 dark:to-slate-800 rounded-xl p-6">
             <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
               <FontAwesomeIcon icon={faDollarSign} />
               Token Count & Cost Summary
             </h2>
 
             <div className="grid md:grid-cols-4 gap-4">
-              <div className="bg-indigo-300 bg-opacity-20 dark:bg-gray-800 rounded-lg p-4">
+              <div className="bg-white dark:bg-gray-800 rounded-lg p-4">
                 <div className="text-sm opacity-90 mb-1">Input Tokens</div>
                 <div className="text-2xl font-bold">
                   {calculations.inputTokens.toLocaleString()}

@@ -42,7 +42,7 @@ export default function PlaygroundIndex() {
             >
               {/* Scanline effect overlay */}
               <div
-                className="absolute inset-0 bg-gradient-to-b from-transparent via-neutral-900/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
+                className="absolute inset-0 bg-linear-to-b from-transparent via-neutral-900/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
                 style={{ backgroundSize: "100% 4px" }}
               />
 

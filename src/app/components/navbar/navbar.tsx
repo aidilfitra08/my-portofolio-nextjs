@@ -23,7 +23,7 @@ export default function Navbar() {
     <nav
       className={`${
         bgColor ? " bg-opacity-90 dark:bg-neutral-800 dark:bg-opacity-80" : ""
-      } ease-out duration-300 fixed inset-x-0 w-screen h-16 flex flex-row text-center sm:flex-row sm:text-left justify-between items-center z-40 pr-2 sm:pr-10 font-mono backdrop-blur-sm`}
+      } ease-out duration-300 fixed inset-x-0 w-screen h-16 flex flex-row text-center sm:flex-row sm:text-left justify-between items-center z-40 pr-2 sm:pr-10 font-mono backdrop-blur-xs`}
     >
       <div className="flex">
         <div className=" px-10 h-full ">

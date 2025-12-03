@@ -40,7 +40,7 @@ export default function HTMLViewer() {
             value={htmlContent}
             onChange={(e) => setHtmlContent(e.target.value)}
             placeholder="Type or paste your HTML code here..."
-            className="flex-1 w-full px-4 py-3 bg-gray-900 text-gray-100 font-mono text-sm resize-none focus:outline-none"
+            className="flex-1 w-full px-4 py-3 bg-gray-900 text-gray-100 font-mono text-sm resize-none focus:outline-hidden"
             spellCheck={false}
           />
         </div>

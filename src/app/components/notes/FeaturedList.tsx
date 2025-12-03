@@ -41,7 +41,7 @@ const FeatureList: React.FC<FeatureListProps> = ({
 }) => {
   return (
     <div
-      className={`bg-gradient-to-br from-amber-50 via-orange-50 to-pink-50 rounded-lg py-6 px-[2px] border border-orange-100 shadow-sm max-w-md ${className}`}
+      className={`bg-linear-to-br from-amber-50 via-orange-50 to-pink-50 rounded-lg py-6 px-[2px] border border-orange-100 shadow-xs max-w-md ${className}`}
     >
       <div className="space-y-2 text-gray-800 text-xs">
         <h1 className="text-lg font-semibold pl-6">My soft skills</h1>
@@ -50,7 +50,7 @@ const FeatureList: React.FC<FeatureListProps> = ({
             key={feature.id}
             className="flex items-start space-x-3 border-b border-gray-300 px-6"
           >
-            <div className="flex-shrink-0 mt-0.5 mr-2">
+            <div className="shrink-0 mt-0.5 mr-2">
               <FontAwesomeIcon
                 icon={faCheck}
                 className="text-green-500 w-4 h-4"

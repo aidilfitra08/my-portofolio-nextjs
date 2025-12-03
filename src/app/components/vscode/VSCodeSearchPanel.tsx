@@ -55,7 +55,7 @@ const VSCodeSearchPanel: React.FC = () => {
             placeholder="Search"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full px-3 py-2 text-sm bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 text-sm bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-sm focus:outline-hidden focus:ring-2 focus:ring-blue-500"
           />
           <FontAwesomeIcon
             icon={faSearch}
@@ -83,7 +83,7 @@ const VSCodeSearchPanel: React.FC = () => {
               placeholder="Replace"
               value={replaceQuery}
               onChange={(e) => setReplaceQuery(e.target.value)}
-              className="w-full px-3 py-2 text-sm bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 text-sm bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-sm focus:outline-hidden focus:ring-2 focus:ring-blue-500"
             />
             <FontAwesomeIcon
               icon={faExchangeAlt}
@@ -129,7 +129,7 @@ const VSCodeSearchPanel: React.FC = () => {
                 {result.matches.map((match, matchIndex) => (
                   <div
                     key={matchIndex}
-                    className="ml-4 py-1 px-2 text-xs hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer rounded"
+                    className="ml-4 py-1 px-2 text-xs hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer rounded-sm"
                   >
                     <div className="text-gray-600 dark:text-gray-400">
                       Line {match.line}

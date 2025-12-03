@@ -277,7 +277,7 @@ const VSCodeEditor: React.FC<VSCodeEditorProps> = ({
           {onCloseFile && (
             <button
               onClick={onCloseFile}
-              className="ml-2 p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded"
+              className="ml-2 p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-sm"
             >
               <FontAwesomeIcon
                 icon={faTimes}
@@ -294,7 +294,7 @@ const VSCodeEditor: React.FC<VSCodeEditorProps> = ({
             file.language === "html") && (
             <button
               onClick={executeCode}
-              className="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded flex items-center space-x-1"
+              className="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-sm flex items-center space-x-1"
             >
               <FontAwesomeIcon icon={faPlay} className="w-3 h-3" />
               <span>Run</span>
@@ -334,7 +334,7 @@ const VSCodeEditor: React.FC<VSCodeEditorProps> = ({
               <textarea
                 value={content}
                 onChange={(e) => handleContentChange(e.target.value)}
-                className="w-full h-full bg-transparent text-gray-800 dark:text-gray-200 font-mono text-sm resize-none outline-none"
+                className="w-full h-full bg-transparent text-gray-800 dark:text-gray-200 font-mono text-sm resize-none outline-hidden"
                 style={{
                   fontFamily: "'Courier New', monospace",
                   lineHeight: "1.5",

@@ -124,7 +124,7 @@ export default function CharacterInput(): JSX.Element {
               }
               onPaste={handlePaste}
               onClick={() => handleClick(index)}
-              className="w-10 h-10 sm:w-12 sm:h-12 text-center text-lg font-semibold border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none transition-colors"
+              className="w-10 h-10 sm:w-12 sm:h-12 text-center text-lg font-semibold border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-hidden transition-colors"
               maxLength={1}
             />
           ))}
@@ -135,7 +135,7 @@ export default function CharacterInput(): JSX.Element {
             <p className="text-sm text-gray-600 dark:text-gray-100 mb-2">
               Current Value:
             </p>
-            <p className="text-lg font-mono bg-gray-100 px-4 py-2 rounded border">
+            <p className="text-lg font-mono bg-gray-100 px-4 py-2 rounded-sm border">
               {getValue() || "Empty"}
             </p>
           </div>
@@ -143,13 +143,13 @@ export default function CharacterInput(): JSX.Element {
           <div className="flex justify-center space-x-4">
             <button
               onClick={clearAll}
-              className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
+              className="px-4 py-2 bg-red-500 text-white rounded-sm hover:bg-red-600 transition-colors"
             >
               Clear All
             </button>
             <button
               onClick={() => navigator.clipboard.writeText(getValue())}
-              className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors"
+              className="px-4 py-2 bg-green-500 text-white rounded-sm hover:bg-green-600 transition-colors"
               disabled={!getValue()}
             >
               Copy Value

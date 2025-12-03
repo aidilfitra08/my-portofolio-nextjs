@@ -64,7 +64,7 @@ export default function BlogPage() {
                   {article.categories.map((category, idx) => (
                     <p
                       key={idx}
-                      className="text-sm bg-neutral-500 px-3 py-1 rounded"
+                      className="text-sm bg-neutral-500 px-3 py-1 rounded-sm"
                     >
                       {category}
                     </p>

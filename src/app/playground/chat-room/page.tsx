@@ -377,7 +377,7 @@ export default function Page() {
                 value={userName}
                 onChange={(e) => setUserName(e.target.value)}
                 placeholder="Enter your name..."
-                className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               />
               <button
                 onClick={generateRandomUser}
@@ -477,7 +477,7 @@ export default function Page() {
           </div>
           <button
             onClick={leaveRoom}
-            className="px-3 py-1 text-sm bg-red-100 text-red-800 rounded hover:bg-red-200 transition-colors"
+            className="px-3 py-1 text-sm bg-red-100 text-red-800 rounded-sm hover:bg-red-200 transition-colors"
           >
             Leave Room
           </button>
@@ -500,7 +500,7 @@ export default function Page() {
               </div>
               <button
                 onClick={retryConnection}
-                className="px-3 py-1 text-xs bg-red-100 dark:bg-red-800 text-red-800 dark:text-red-200 rounded hover:bg-red-200 dark:hover:bg-red-700 transition-colors"
+                className="px-3 py-1 text-xs bg-red-100 dark:bg-red-800 text-red-800 dark:text-red-200 rounded-sm hover:bg-red-200 dark:hover:bg-red-700 transition-colors"
               >
                 Retry
               </button>
@@ -525,7 +525,7 @@ export default function Page() {
           <button
             onClick={sendPing}
             disabled={!isConnected}
-            className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded hover:bg-blue-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-sm hover:bg-blue-200 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Ping
           </button>
@@ -542,7 +542,7 @@ export default function Page() {
               {messages.map((message, index) => (
                 <div
                   key={index}
-                  className="text-sm text-gray-800 dark:text-gray-200 break-words"
+                  className="text-sm text-gray-800 dark:text-gray-200 wrap-break-word"
                 >
                   <span className="text-gray-500 text-xs">
                     [{new Date().toLocaleTimeString()}]
@@ -563,7 +563,7 @@ export default function Page() {
             onChange={(e) => setInputMessage(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder={`Message as ${userName}...`}
-            className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+            className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
             disabled={!isConnected}
           />
           <button

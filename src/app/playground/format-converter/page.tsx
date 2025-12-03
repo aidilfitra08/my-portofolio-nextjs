@@ -305,7 +305,7 @@ export default function FileConverter() {
                 value={inputData}
                 onChange={(e) => setInputData(e.target.value)}
                 placeholder={`Paste your ${inputFormat.toUpperCase()} data here...`}
-                className="w-full h-64 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm dark:bg-gray-700 dark:border-gray-600 focus:outline-none"
+                className="w-full h-64 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm dark:bg-gray-700 dark:border-gray-600 focus:outline-hidden"
               />
             </div>
 
@@ -320,7 +320,7 @@ export default function FileConverter() {
                 value={outputData}
                 readOnly
                 placeholder="Converted data will appear here..."
-                className="w-full h-64 px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 font-mono text-sm dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full h-64 px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 font-mono text-sm dark:bg-gray-700 dark:border-gray-600 focus:outline-hidden focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
           </div>
@@ -358,10 +358,8 @@ export default function FileConverter() {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-xl p-6">
-          <h2 className="text-xl font-bold text-gray-800 mb-4">
-            Supported Conversions
-          </h2>
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6">
+          <h2 className="text-xl font-bold mb-4">Supported Conversions</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             {formats.map((from) =>
               formats
@@ -369,7 +367,7 @@ export default function FileConverter() {
                 .map((to) => (
                   <div
                     key={`${from}-${to}`}
-                    className="text-sm text-gray-600 bg-gray-50 px-3 py-2 rounded"
+                    className="text-sm bg-gray-50 dark:bg-gray-700 px-3 py-2 rounded-sm"
                   >
                     {from.toUpperCase()} → {to.toUpperCase()}
                   </div>

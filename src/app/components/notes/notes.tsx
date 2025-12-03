@@ -48,13 +48,13 @@ export default function Notes() {
       >
         {/* Notebook Cover */}
         <div
-          className={`absolute inset-0 bg-gradient-to-br from-amber-100 to-amber-200 dark:from-amber-900 dark:to-amber-800 rounded-lg shadow-2xl border-2 border-amber-300 dark:border-amber-700 cursor-pointer transition-all duration-300 ${
+          className={`absolute inset-0 bg-linear-to-br from-amber-100 to-amber-200 dark:from-amber-900 dark:to-amber-800 rounded-lg shadow-2xl border-2 border-amber-300 dark:border-amber-700 cursor-pointer transition-all duration-300 ${
             isOpen ? "rotate-0" : "rotate-3"
           }`}
           onClick={() => !isOpen && setIsOpen(true)}
         >
           {/* Spiral Binding */}
-          <div className="absolute left-2 top-0 bottom-0 w-1 bg-gradient-to-b from-gray-400 to-gray-600 rounded-full"></div>
+          <div className="absolute left-2 top-0 bottom-0 w-1 bg-linear-to-b from-gray-400 to-gray-600 rounded-full"></div>
           <div className="absolute left-1 top-4 w-3 h-3 bg-gray-300 rounded-full shadow-inner"></div>
           <div className="absolute left-1 top-12 w-3 h-3 bg-gray-300 rounded-full shadow-inner"></div>
           <div className="absolute left-1 bottom-12 w-3 h-3 bg-gray-300 rounded-full shadow-inner"></div>
@@ -107,7 +107,7 @@ export default function Notes() {
                         <div className="space-y-2 ml-4">
                           <p className="flex items-center gap-2">
                             <span className="text-red-600">✉️</span>
-                            <span className="font-mono text-xs bg-yellow-100 dark:bg-yellow-900 px-2 py-1 rounded">
+                            <span className="font-mono text-xs bg-yellow-100 dark:bg-yellow-900 px-2 py-1 rounded-sm">
                               aidil.fitra.work@gmail.com
                             </span>
                           </p>
@@ -132,7 +132,7 @@ export default function Notes() {
                             Github Profile
                           </Link>
 
-                          <div className="mt-4 p-2 bg-green-100 dark:bg-green-900 rounded border-l-4 border-green-400">
+                          <div className="mt-4 p-2 bg-green-100 dark:bg-green-900 rounded-sm border-l-4 border-green-400">
                             <p className="text-green-800 dark:text-green-200 text-xs italic">
                               💡 Feel free to reach out for collaborations!
                             </p>

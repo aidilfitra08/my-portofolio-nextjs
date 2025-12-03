@@ -83,7 +83,7 @@ export default function HTMLViewerWithTailwindComponent() {
               <textarea
                 value={html}
                 onChange={(e) => setHtml(e.target.value)}
-                className="flex-1 bg-gray-900 text-gray-100 p-4 rounded-b-lg font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none min-h-[500px]"
+                className="flex-1 bg-gray-900 text-gray-100 p-4 rounded-b-lg font-mono text-sm focus:outline-hidden focus:ring-2 focus:ring-blue-500 resize-none min-h-[500px]"
                 placeholder="Paste your HTML code here..."
                 spellCheck={false}
               />

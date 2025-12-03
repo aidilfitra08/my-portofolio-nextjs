@@ -64,7 +64,7 @@ export default function IPCheckerPage() {
 
             <button
               onClick={copyToClipboard}
-              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-colors"
+              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-sm transition-colors"
             >
               Copy IP Address
             </button>
@@ -72,10 +72,10 @@ export default function IPCheckerPage() {
             {/* <div className="text-sm text-gray-600 mt-4">
               <p>
                 Add this IP to the{" "}
-                <code className="bg-gray-200 px-1 rounded">ALLOWED_IPS</code>{" "}
+                <code className="bg-gray-200 px-1 rounded-sm">ALLOWED_IPS</code>{" "}
                 array in your middleware file:
               </p>
-              <code className="block mt-2 p-2 bg-gray-100 rounded text-left text-xs">
+              <code className="block mt-2 p-2 bg-gray-100 rounded-sm text-left text-xs">
                 src/middleware.ts
               </code>
             </div> */}

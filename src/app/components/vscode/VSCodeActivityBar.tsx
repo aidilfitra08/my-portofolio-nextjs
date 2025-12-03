@@ -91,7 +91,7 @@ const VSCodeActivityBar: React.FC<ActivityBarProps> = ({
             />
 
             {/* Tooltip */}
-            <div className="absolute left-12 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10 pointer-events-none">
+            <div className="absolute left-12 bg-gray-900 text-white text-xs px-2 py-1 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10 pointer-events-none">
               {item.title}
               <div className="text-gray-400">{item.shortcut}</div>
             </div>
@@ -122,7 +122,7 @@ const VSCodeActivityBar: React.FC<ActivityBarProps> = ({
             />
 
             {/* Tooltip */}
-            <div className="absolute left-12 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10 pointer-events-none">
+            <div className="absolute left-12 bg-gray-900 text-white text-xs px-2 py-1 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10 pointer-events-none">
               {item.title}
             </div>
           </button>
