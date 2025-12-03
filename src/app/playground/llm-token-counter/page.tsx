@@ -5,7 +5,7 @@ import {
   faFileLines,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 
 export default function TokenCalculator() {
   const [inputText, setInputText] = useState("");
@@ -101,11 +101,11 @@ export default function TokenCalculator() {
                 step="0.01"
                 value={inputPricePer1M}
                 onChange={(e) => setInputPricePer1M(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent dark:bg-gray-600 dark:border-gray-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-sm font-medium mb-2">
                 Output Price per 1M Tokens ($)
               </label>
               <input
@@ -113,7 +113,7 @@ export default function TokenCalculator() {
                 step="0.01"
                 value={outputPricePer1M}
                 onChange={(e) => setOutputPricePer1M(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent dark:bg-gray-600 dark:border-gray-500"
               />
             </div>
           </div>
@@ -123,7 +123,7 @@ export default function TokenCalculator() {
             {/* Input Text */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="block text-sm font-medium text-gray-700 flex items-center gap-2">
+                <label className="text-sm font-medium  flex items-center gap-2">
                   <FontAwesomeIcon icon={faFileLines} />
                   Input Text (Prompt)
                 </label>
@@ -135,7 +135,7 @@ export default function TokenCalculator() {
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 placeholder="Paste your prompt or input text here..."
-                className="w-full h-64 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none font-mono text-sm"
+                className="w-full h-64 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none font-mono text-sm dark:bg-gray-600 dark:border-gray-500"
               />
               <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
                 Characters: {inputText.length.toLocaleString()} | Words:{" "}
@@ -150,7 +150,7 @@ export default function TokenCalculator() {
             {/* Output Text */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center gap-2">
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-300 flex items-center gap-2">
                   <FontAwesomeIcon icon={faFileLines} />
                   Output Text (Response)
                 </label>
@@ -162,7 +162,7 @@ export default function TokenCalculator() {
                 value={outputText}
                 onChange={(e) => setOutputText(e.target.value)}
                 placeholder="Paste the model's response here..."
-                className="w-full h-64 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none font-mono text-sm"
+                className="w-full h-64 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none font-mono text-sm dark:bg-gray-600 dark:border-gray-500"
               />
               <div className="mt-2 text-xs text-gray-500">
                 Characters: {outputText.length.toLocaleString()} | Words:{" "}
@@ -176,14 +176,14 @@ export default function TokenCalculator() {
           </div>
 
           {/* Results */}
-          <div className="bg-linear-to-r from-indigo-500 to-purple-600 dark:from-gray-600 dark:to-slate-800 rounded-xl p-6 text-white">
+          <div className="bg-linear-to-r from-indigo-500 to-purple-600 dark:from-gray-600 dark:to-slate-800 rounded-xl p-6">
             <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
               <FontAwesomeIcon icon={faDollarSign} />
               Token Count & Cost Summary
             </h2>
 
             <div className="grid md:grid-cols-4 gap-4">
-              <div className="bg-white bg-opacity-20 dark:bg-gray-800 rounded-lg p-4">
+              <div className="bg-indigo-300 bg-opacity-20 dark:bg-gray-800 rounded-lg p-4">
                 <div className="text-sm opacity-90 mb-1">Input Tokens</div>
                 <div className="text-2xl font-bold">
                   {calculations.inputTokens.toLocaleString()}
