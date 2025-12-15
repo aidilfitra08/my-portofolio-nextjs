@@ -20,28 +20,38 @@ export default function Projects() {
       image: "/lms.png",
     },
     {
-      name: "Task Management App",
-      tech: "React, Node.js, MongoDB",
+      name: "Vitour",
+      tech: "React.js, Express.js, PostgreSQL, Vercel",
       description:
-        "Collaborative task management with real-time updates and team collaboration",
-      github: "#",
-      live: "#",
+        "Virtual tour web application that allows users to explore tourist destinations virtually. The user can navigate 360-degree views of various locations, providing an immersive experience from the comfort of their homes. Also includes features such as destination information, user reviews, booking options for real-life visits, and merchandise marketplace.",
+      github: "https://github.com/aidilfitra08/Vitour-web-main",
+      live: "https://vitour-web-main.vercel.app/",
+      image: "/project/vitour.png",
     },
     {
       name: "API Gateway Service",
-      tech: "Golang, PostgreSQL, Redis",
+      tech: "Golang, PostgreSQL, Redis, Docker, RabbitMQ",
       description:
         "High-performance API gateway with rate limiting and authentication",
       github: "#",
       live: "#",
     },
     {
-      name: "Mobile Learning App",
-      tech: "Flutter, Firebase, Node.js",
+      name: "Order Management Backend Service",
+      tech: "Golang, PostgreSQL, RabbitMQ, Redis, Docker, Gin",
       description:
-        "Cross-platform learning application with offline capabilities",
-      github: "#",
+        "Backend service for managing orders and customer data. Includes features such as order tracking, customer profiles, and reporting.",
+      github: "https://github.com/aidilfitra08/client-order-backend",
       live: "#",
+    },
+    {
+      name: "RSVP Form",
+      tech: "Next.js, TypeScript, Vercel, Tailwind CSS, Google Spreadsheets API",
+      description:
+        "A simple and elegant RSVP form for events, built with Next.js and TypeScript. It features a responsive design using Tailwind CSS and stores responses in Google Spreadsheets via the Google Sheets API.",
+      github: "https://github.com/aidilfitra08/rsvp-form",
+      live: "https://rsvp-form-orpin.vercel.app",
+      image: "/project/rsvp.png",
     },
   ];
 
