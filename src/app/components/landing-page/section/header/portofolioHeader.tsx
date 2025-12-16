@@ -108,8 +108,8 @@ export default function PortofolioHeader() {
                 <span className="text-[#00d9ff] dark:text-[#00d9ff] font-semibold">
                   mobile development
                 </span>
-                . Skilled in technologies like CodeIgniter, Flutter, Node.js,
-                React, Golang, MySQL, and MongoDB.
+                . Skilled in technologies like Laravel, Flutter, Node.js, React,
+                Next.js, Golang, MySQL, and MongoDB.
               </p>
             </div>
 

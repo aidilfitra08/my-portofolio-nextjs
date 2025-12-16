@@ -19,7 +19,7 @@ export function HoloHelp() {
       {/* Phone-shaped button with endless rotation */}
       <button
         onClick={() => setOpen((v) => !v)}
-        className="relative w-14 h-20 rounded-[12px] border-3 border-neutral-900 dark:border-accent-green bg-gradient-to-br from-white/90 to-neutral-100/90 dark:from-[#0a0a0a]/90 dark:to-[#1a1a1a]/90 backdrop-blur-md shadow-2xl hover:scale-105 transition-transform animate-rotate-slow overflow-hidden"
+        className="relative w-14 h-20 rounded-xl border-3 border-neutral-900 dark:border-accent-green bg-linear-to-br from-white/90 to-neutral-100/90 dark:from-[#0a0a0a]/90 dark:to-[#1a1a1a]/90 backdrop-blur-md shadow-2xl hover:scale-105 transition-transform animate-rotate-slow overflow-hidden"
         style={{
           boxShadow: open
             ? "0 0 30px rgba(0, 255, 65, 0.6), inset 0 0 20px rgba(0, 255, 65, 0.2)"
@@ -32,7 +32,7 @@ export function HoloHelp() {
         <div className="absolute top-1 left-1/2 -translate-x-1/2 w-8 h-1 bg-neutral-800 dark:bg-neutral-700 rounded-full" />
 
         {/* Screen glow */}
-        <div className="absolute inset-2 rounded-lg bg-gradient-to-br from-accent-green/20 to-transparent dark:from-accent-green/30 dark:to-transparent animate-pulse" />
+        <div className="absolute inset-2 rounded-lg bg-linear-to-br from-accent-green/20 to-transparent dark:from-accent-green/30 dark:to-transparent animate-pulse" />
 
         {/* Icon */}
         <div className="absolute inset-0 flex items-center justify-center text-2xl text-neutral-900 dark:text-accent-green">
@@ -41,14 +41,14 @@ export function HoloHelp() {
 
         {/* Scan line effect */}
         <div className="absolute inset-0 opacity-20 pointer-events-none">
-          <div className="h-full w-full animate-scan-vertical bg-gradient-to-b from-transparent via-accent-green/50 to-transparent" />
+          <div className="h-full w-full animate-scan-vertical bg-linear-to-b from-transparent via-accent-green/50 to-transparent" />
         </div>
       </button>
 
       {/* Holographic projection beam */}
       {open && (
         <div className="absolute bottom-full right-0 mb-4 w-1 h-24 origin-bottom">
-          <div className="absolute inset-0 bg-gradient-to-t from-accent-green/60 via-accent-green/30 to-transparent blur-sm animate-pulse" />
+          <div className="absolute inset-0 bg-linear-to-t from-accent-green/60 via-accent-green/30 to-transparent blur-sm animate-pulse" />
           {/* <div className="absolute inset-0 bg-gradient-to-t from-accent-green/80 via-accent-green/40" /> */}
         </div>
       )}
@@ -88,11 +88,11 @@ export function HoloHelp() {
 
           {/* Glitch effect overlay */}
           <div className="absolute inset-0 opacity-10 pointer-events-none mix-blend-overlay">
-            <div className="h-full w-full animate-glitch bg-gradient-to-r from-transparent via-accent-green/50 to-transparent" />
+            <div className="h-full w-full animate-glitch bg-linear-to-r from-transparent via-accent-green/50 to-transparent" />
           </div>
 
           {/* Header */}
-          <div className="relative flex items-center justify-between px-4 py-3 border-b-2 border-accent-green/50 dark:border-accent-green bg-gradient-to-r from-neutral-100/90 to-neutral-50/90 dark:from-[#111]/90 dark:to-[#0a0a0a]/90">
+          <div className="relative flex items-center justify-between px-4 py-3 border-b-2 border-accent-green/50 dark:border-accent-green bg-linear-to-r from-neutral-100/90 to-neutral-50/90 dark:from-[#111]/90 dark:to-[#0a0a0a]/90">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-accent-green animate-pulse" />
               <span className="text-xs font-mono font-bold text-neutral-900 dark:text-[#e0e0e0] tracking-wider">
@@ -101,7 +101,7 @@ export function HoloHelp() {
             </div>
             <button
               onClick={() => setOpen(false)}
-              className="text-neutral-600 dark:text-[#bbb] hover:text-neutral-900 dark:hover:text-accent-green transition-colors hover:rotate-90 transition-transform duration-300"
+              className="text-neutral-600 dark:text-[#bbb] hover:text-neutral-900 dark:hover:text-accent-green transition-all hover:rotate-90 duration-300"
               aria-label="Close holographic help"
             >
               <FontAwesomeIcon icon={faXmark} className="text-sm" />
