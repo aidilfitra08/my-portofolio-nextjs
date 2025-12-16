@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState, useRef, useEffect } from "react";
@@ -11,12 +10,16 @@ import {
   faUserCog,
   faMicrophone,
   faMicrophoneSlash,
+  faTerminal,
+  faArrowLeft,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import ReactMarkdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
+import Link from "next/link";
 
 // Add this to your global CSS or import it
-import "highlight.js/styles/github-dark.css"; // You can choose different themes
+import "highlight.js/styles/github-dark.css";
 
 // Add this interface for speech recognition
 interface SpeechRecognitionEvent extends Event {
@@ -132,7 +135,6 @@ export default function SimpleAIAgentPage() {
         recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
           console.error("Speech recognition error:", event.error);
           setIsListening(false);
-          // You can add user feedback here if needed
         };
       }
     }
@@ -178,17 +180,14 @@ export default function SimpleAIAgentPage() {
     const lowerMessage = message.toLowerCase();
     const extracted: Partial<PersonalInfo> = {};
 
-    // Extract name patterns - More specific patterns to avoid false positives
     const namePatterns = [
       /(?:my name is|call me|i'm called|name's|name is)\s+([a-zA-Z]+)/i,
-      // Only match "I'm" or "I am" when followed by a single word that looks like a name
       /(?:^|\s)(?:i'm|i am)\s+([A-Z][a-z]+)(?:\s|$|[.!?])/i,
     ];
 
     for (const pattern of namePatterns) {
       const match = message.match(pattern);
       if (match && match[1]) {
-        // Additional validation: avoid common job titles, roles, or descriptive words
         const excludedWords = [
           "developer",
           "engineer",
@@ -235,7 +234,6 @@ export default function SimpleAIAgentPage() {
       }
     }
 
-    // Extract job/profession patterns - Updated to be more specific
     const jobPatterns = [
       /(?:i work as|my job is|i work in|profession is|i do|my role is)\s+([^.!?]+)/i,
       /(?:i'm a|i am a)\s+(software engineer|web developer|mobile developer|frontend developer|backend developer|fullstack developer|developer|designer|teacher|student|manager|doctor|nurse|lawyer|artist|writer|programmer|analyst|consultant|freelancer|entrepreneur|engineer)/i,
@@ -249,10 +247,8 @@ export default function SimpleAIAgentPage() {
       }
     }
 
-    // Extract location patterns
     const locationPatterns = [
       /(?:i live in|i'm from|i'm located in|based in|from)\s+([^.!?]+)/i,
-      /(?:in|from)\s+(new york|london|tokyo|paris|berlin|sydney|toronto|singapore|mumbai|dubai|jakarta|madrid|rome|amsterdam|bangkok|seoul|taipei|hong kong|vancouver|montreal|chicago|san francisco|los angeles|boston|seattle|miami|austin|denver|atlanta|phoenix|dallas|houston|orlando|philadelphia|detroit|columbus|charlotte|nashville|memphis|kansas city|denver|portland|las vegas|sacramento|san diego|milwaukee|minneapolis|cleveland|pittsburgh|baltimore|richmond|buffalo|louisville|oklahoma city|albuquerque|tucson|fresno|omaha|jacksonville|tampa|new orleans|cincinnati|indianapolis|st louis|madison|spokane|boise|salt lake city|reno|anchorage|honolulu|puerto rico)/i,
     ];
 
     for (const pattern of locationPatterns) {
@@ -263,7 +259,6 @@ export default function SimpleAIAgentPage() {
       }
     }
 
-    // Extract interests patterns
     const interestPatterns = [
       /(?:i like|i love|i enjoy|interested in|passion for|hobby is|hobbies are|i'm into)\s+([^.!?]+)/i,
     ];
@@ -280,7 +275,6 @@ export default function SimpleAIAgentPage() {
       }
     }
 
-    // Store any other personal details - More selective
     if (
       (lowerMessage.includes("i have") &&
         !lowerMessage.includes("i have a question")) ||
@@ -327,7 +321,6 @@ export default function SimpleAIAgentPage() {
       timestamp: new Date(),
     };
 
-    // Extract personal information from the message
     const extractedInfo = extractPersonalInfo(userMessage.text);
     if (Object.keys(extractedInfo).length > 0) {
       setPersonalInfo((prev) => ({
@@ -355,7 +348,6 @@ export default function SimpleAIAgentPage() {
         },
         body: JSON.stringify({
           message: fullMessage,
-          // Include recent messages for context
           history: messages.slice(-3).map((msg) => ({
             role: msg.sender === "user" ? "user" : "assistant",
             content: msg.text,
@@ -414,7 +406,7 @@ export default function SimpleAIAgentPage() {
       if (isInline) {
         return (
           <code
-            className="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded-sm text-sm font-mono text-red-600 dark:text-red-400"
+            className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded-sm text-sm font-mono text-[#ff6b6b] dark:text-[#ff6b6b]"
             {...props}
           >
             {children}
@@ -430,7 +422,7 @@ export default function SimpleAIAgentPage() {
     },
     pre: ({ children, ...props }: any) => (
       <pre
-        className="bg-gray-900 dark:bg-gray-800 rounded-lg p-4 overflow-x-auto my-3 border border-gray-200 dark:border-gray-700"
+        className="bg-neutral-900 dark:bg-neutral-800 rounded-lg p-4 overflow-x-auto my-3 border-2 border-neutral-700 dark:border-accent-green"
         {...props}
       >
         {children}
@@ -438,24 +430,33 @@ export default function SimpleAIAgentPage() {
     ),
     blockquote: ({ children, ...props }: any) => (
       <blockquote
-        className="border-l-4 border-blue-500 pl-4 py-2 my-3 bg-blue-50 dark:bg-blue-900/20 italic"
+        className="border-l-4 border-accent-green pl-4 py-2 my-3 bg-neutral-50 dark:bg-accent-green/10 italic"
         {...props}
       >
         {children}
       </blockquote>
     ),
     h1: ({ children, ...props }: any) => (
-      <h1 className="text-xl font-bold mb-3 mt-4" {...props}>
+      <h1
+        className="text-xl font-bold mb-3 mt-4 text-neutral-900 dark:text-[#e0e0e0]"
+        {...props}
+      >
         {children}
       </h1>
     ),
     h2: ({ children, ...props }: any) => (
-      <h2 className="text-lg font-bold mb-2 mt-3" {...props}>
+      <h2
+        className="text-lg font-bold mb-2 mt-3 text-neutral-900 dark:text-[#e0e0e0]"
+        {...props}
+      >
         {children}
       </h2>
     ),
     h3: ({ children, ...props }: any) => (
-      <h3 className="text-base font-bold mb-2 mt-3" {...props}>
+      <h3
+        className="text-base font-bold mb-2 mt-3 text-neutral-900 dark:text-[#e0e0e0]"
+        {...props}
+      >
         {children}
       </h3>
     ),
@@ -477,7 +478,7 @@ export default function SimpleAIAgentPage() {
     table: ({ children, ...props }: any) => (
       <div className="overflow-x-auto my-3">
         <table
-          className="min-w-full border border-gray-200 dark:border-gray-700"
+          className="min-w-full border-2 border-neutral-300 dark:border-neutral-700"
           {...props}
         >
           {children}
@@ -486,7 +487,7 @@ export default function SimpleAIAgentPage() {
     ),
     th: ({ children, ...props }: any) => (
       <th
-        className="border border-gray-200 dark:border-gray-700 px-3 py-2 bg-gray-100 dark:bg-gray-800 font-semibold text-left"
+        className="border border-neutral-300 dark:border-neutral-700 px-3 py-2 bg-neutral-100 dark:bg-neutral-800 font-semibold text-left"
         {...props}
       >
         {children}
@@ -494,7 +495,7 @@ export default function SimpleAIAgentPage() {
     ),
     td: ({ children, ...props }: any) => (
       <td
-        className="border border-gray-200 dark:border-gray-700 px-3 py-2"
+        className="border border-neutral-300 dark:border-neutral-700 px-3 py-2"
         {...props}
       >
         {children}
@@ -503,7 +504,7 @@ export default function SimpleAIAgentPage() {
     a: ({ children, href, ...props }: any) => (
       <a
         href={href}
-        className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200 underline"
+        className="text-accent-green dark:text-accent-green hover:text-[#00ff41] dark:hover:text-[#00ff41] underline"
         target="_blank"
         rel="noopener noreferrer"
         {...props}
@@ -519,92 +520,167 @@ export default function SimpleAIAgentPage() {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 flex flex-col">
+    <div className="min-h-screen bg-[#f5f5f0] dark:bg-[#0a0a0a] flex flex-col relative">
+      {/* Scanlines effect */}
+      <div className="scanlines pointer-events-none" />
+
+      {/* Retro grid background */}
+      <div className="absolute inset-0 opacity-5">
+        <div
+          className="h-full w-full"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(0, 255, 65, 0.3) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(0, 255, 65, 0.3) 1px, transparent 1px)
+            `,
+            backgroundSize: "50px 50px",
+          }}
+        />
+      </div>
+
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 shadow-xs border-b border-gray-200 dark:border-gray-700 p-4">
-        <div className="max-w-4xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-linear-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-              <FontAwesomeIcon icon={faRobot} className="text-white text-lg" />
-            </div>
+      <div className="bg-white dark:bg-[#1a1a1a] border-b-2 border-neutral-300 dark:border-accent-green p-4 relative z-10">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex items-center justify-between flex-wrap gap-4 mb-4">
+            {/* Back button */}
+            <Link
+              href="/playground"
+              className="group inline-flex items-center gap-2 px-3 py-2 border-2 border-neutral-900 dark:border-accent-green bg-white dark:bg-[#1a1a1a] font-mono text-sm transition-all hover:translate-x-1 hover:-translate-y-1 relative"
+            >
+              <div className="absolute inset-0 border-2 border-neutral-900 dark:border-accent-green translate-x-1 translate-y-1 -z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <FontAwesomeIcon
+                icon={faArrowLeft}
+                className="text-neutral-900 dark:text-accent-green"
+              />
+              <span className="text-neutral-900 dark:text-[#e0e0e0] font-bold">
+                BACK
+              </span>
+            </Link>
+
+            {/* Personal Info Toggle */}
+            <button
+              onClick={() => setShowPersonalInfo(!showPersonalInfo)}
+              className="group inline-flex items-center gap-2 px-3 py-2 border-2 border-neutral-900 dark:border-accent-green bg-white dark:bg-[#1a1a1a] font-mono text-sm transition-all hover:translate-x-1 hover:-translate-y-1 relative"
+            >
+              <div className="absolute inset-0 border-2 border-neutral-900 dark:border-accent-green translate-x-1 translate-y-1 -z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <FontAwesomeIcon
+                icon={faUserCog}
+                className="text-neutral-900 dark:text-accent-green"
+              />
+              <span className="text-neutral-900 dark:text-[#e0e0e0] font-bold hidden sm:inline">
+                {Object.keys(personalInfo).length > 0 ? "PROFILE" : "NO_DATA"}
+              </span>
+            </button>
+          </div>
+
+          {/* Title Section */}
+          <div className="flex items-center gap-3 mb-2">
+            <FontAwesomeIcon
+              icon={faTerminal}
+              className="text-2xl text-neutral-900 dark:text-accent-green terminal-glow"
+            />
             <div>
-              <h1 className="text-xl font-bold text-gray-900 dark:text-white">
-                AI Assistant {personalInfo.name && `- Hi ${personalInfo.name}!`}
+              <h1 className="text-2xl md:text-3xl font-mono font-bold text-neutral-900 dark:text-[#e0e0e0]">
+                [AI_ASSISTANT]
+                {personalInfo.name && (
+                  <span className="text-accent-green dark:text-accent-green ml-2">
+                    // {personalInfo.name}
+                  </span>
+                )}
               </h1>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                Powered by AidilDev Backend • Personal conversation mode
-                {speechSupported && " • Voice input enabled"}
+              <p className="text-xs font-mono text-neutral-600 dark:text-[#999] mt-1">
+                <span className="text-[#ffb000]">$</span> ./chat --mode=personal
+                {speechSupported && " --voice=enabled"}
               </p>
             </div>
           </div>
 
-          {/* Personal Info Toggle */}
-          <button
-            onClick={() => setShowPersonalInfo(!showPersonalInfo)}
-            className="flex items-center gap-2 px-3 py-2 text-sm bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors"
-          >
-            <FontAwesomeIcon icon={faUserCog} />
-            <span className="hidden sm:inline">
-              {Object.keys(personalInfo).length > 0 ? "Profile" : "No profile"}
-            </span>
-          </button>
-        </div>
-
-        {/* Personal Info Panel */}
-        {showPersonalInfo && (
-          <div className="max-w-4xl mx-auto mt-4 p-4 bg-blue-50 dark:bg-blue-900/30 rounded-lg border border-blue-200 dark:border-blue-700">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-lg font-semibold text-blue-900 dark:text-blue-100">
-                Personal Information
-              </h3>
-              <button
-                onClick={clearPersonalInfo}
-                className="text-xs text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-200 underline"
-              >
-                Clear All
-              </button>
-            </div>
-            {Object.keys(personalInfo).length > 0 ? (
-              <div className="space-y-2 text-sm">
-                {personalInfo.name && (
-                  <p>
-                    <span className="font-medium">Name:</span>{" "}
-                    {personalInfo.name}
-                  </p>
-                )}
-                {personalInfo.job && (
-                  <p>
-                    <span className="font-medium">Job:</span> {personalInfo.job}
-                  </p>
-                )}
-                {personalInfo.location && (
-                  <p>
-                    <span className="font-medium">Location:</span>{" "}
-                    {personalInfo.location}
-                  </p>
-                )}
-                {personalInfo.interests &&
-                  personalInfo.interests.length > 0 && (
-                    <p>
-                      <span className="font-medium">Interests:</span>{" "}
-                      {personalInfo.interests.join(", ")}
+          {/* Personal Info Panel */}
+          {showPersonalInfo && (
+            <div className="mt-4 vintage-card bg-white dark:bg-[#1a1a1a] border-2 border-neutral-900 dark:border-accent-green p-4 relative">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-base font-mono font-bold text-neutral-900 dark:text-accent-green">
+                  [USER_PROFILE]
+                </h3>
+                <button
+                  onClick={clearPersonalInfo}
+                  className="inline-flex items-center gap-1 px-2 py-1 border border-[#ff6b6b] bg-white dark:bg-[#1a1a1a] text-[#ff6b6b] font-mono text-xs hover:bg-[#ff6b6b] hover:text-white transition-all"
+                >
+                  <FontAwesomeIcon icon={faTrash} />
+                  CLEAR
+                </button>
+              </div>
+              {Object.keys(personalInfo).length > 0 ? (
+                <div className="space-y-2 text-sm font-mono">
+                  {personalInfo.name && (
+                    <p className="text-neutral-700 dark:text-[#c0c0c0]">
+                      <span className="text-neutral-900 dark:text-accent-green">
+                        ►
+                      </span>{" "}
+                      Name:{" "}
+                      <span className="text-neutral-900 dark:text-[#e0e0e0]">
+                        {personalInfo.name}
+                      </span>
                     </p>
                   )}
-              </div>
-            ) : (
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Tell me about yourself in our conversation, and I&apos;ll
-                remember the details to make our chat more personal!
-              </p>
-            )}
-          </div>
-        )}
+                  {personalInfo.job && (
+                    <p className="text-neutral-700 dark:text-[#c0c0c0]">
+                      <span className="text-neutral-900 dark:text-accent-green">
+                        ►
+                      </span>{" "}
+                      Job:{" "}
+                      <span className="text-neutral-900 dark:text-[#e0e0e0]">
+                        {personalInfo.job}
+                      </span>
+                    </p>
+                  )}
+                  {personalInfo.location && (
+                    <p className="text-neutral-700 dark:text-[#c0c0c0]">
+                      <span className="text-neutral-900 dark:text-accent-green">
+                        ►
+                      </span>{" "}
+                      Location:{" "}
+                      <span className="text-neutral-900 dark:text-[#e0e0e0]">
+                        {personalInfo.location}
+                      </span>
+                    </p>
+                  )}
+                  {personalInfo.interests &&
+                    personalInfo.interests.length > 0 && (
+                      <p className="text-neutral-700 dark:text-[#c0c0c0]">
+                        <span className="text-neutral-900 dark:text-accent-green">
+                          ►
+                        </span>{" "}
+                        Interests:{" "}
+                        <span className="text-neutral-900 dark:text-[#e0e0e0]">
+                          {personalInfo.interests.join(", ")}
+                        </span>
+                      </p>
+                    )}
+                </div>
+              ) : (
+                <p className="text-sm font-mono text-neutral-600 dark:text-[#999]">
+                  <span className="text-neutral-900 dark:text-accent-green">
+                    ►
+                  </span>{" "}
+                  No data stored. Tell me about yourself!
+                </p>
+              )}
+
+              {/* Corner decorations */}
+              <div className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-neutral-900 dark:border-accent-green" />
+              <div className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-neutral-900 dark:border-accent-green" />
+              <div className="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-neutral-900 dark:border-accent-green" />
+              <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-neutral-900 dark:border-accent-green" />
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Chat Messages */}
-      <div className="flex-1 overflow-hidden">
+      <div className="flex-1 overflow-hidden relative z-10">
         <div className="max-w-4xl mx-auto h-full flex flex-col p-4">
-          <div className="flex-1 overflow-y-auto space-y-4 scrollbar-hide">
+          <div className="flex-1 overflow-y-auto space-y-4 scrollbar-thin scrollbar-thumb-neutral-300 dark:scrollbar-thumb-neutral-700">
             {messages.map((message) => (
               <div
                 key={message.id}
@@ -614,28 +690,32 @@ export default function SimpleAIAgentPage() {
               >
                 {/* Avatar */}
                 <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
+                  className={`w-8 h-8 border-2 flex items-center justify-center shrink-0 ${
                     message.sender === "user"
-                      ? "bg-linear-to-br from-green-400 to-blue-500"
-                      : "bg-linear-to-br from-purple-400 to-pink-500"
+                      ? "border-neutral-900 dark:border-[#ffb000] bg-neutral-100 dark:bg-[#ffb000]/20"
+                      : "border-neutral-900 dark:border-accent-green bg-neutral-100 dark:bg-accent-green/20"
                   }`}
                 >
                   <FontAwesomeIcon
                     icon={message.sender === "user" ? faUser : faRobot}
-                    className="text-white text-sm"
+                    className={
+                      message.sender === "user"
+                        ? "text-neutral-900 dark:text-[#ffb000] text-sm"
+                        : "text-neutral-900 dark:text-accent-green text-sm"
+                    }
                   />
                 </div>
 
                 {/* Message Bubble */}
                 <div
-                  className={`max-w-xs sm:max-w-md lg:max-w-lg xl:max-w-xl p-3 rounded-lg shadow-xs ${
+                  className={`max-w-xs sm:max-w-md lg:max-w-lg xl:max-w-xl vintage-card relative ${
                     message.sender === "user"
-                      ? "bg-blue-500 text-white rounded-br-none"
-                      : "bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-bl-none border border-gray-200 dark:border-gray-600"
+                      ? "bg-neutral-100 dark:bg-[#1a1a1a] border-2 border-neutral-900 dark:border-[#ffb000] p-3"
+                      : "bg-white dark:bg-[#1a1a1a] border-2 border-neutral-300 dark:border-accent-green p-3"
                   }`}
                 >
                   {message.sender === "ai" ? (
-                    <div className="text-sm leading-relaxed prose prose-sm max-w-none prose-invert">
+                    <div className="text-sm leading-relaxed font-mono prose prose-sm max-w-none text-neutral-900 dark:text-[#c0c0c0]">
                       <ReactMarkdown
                         components={markdownComponents}
                         rehypePlugins={[rehypeHighlight]}
@@ -644,22 +724,27 @@ export default function SimpleAIAgentPage() {
                       </ReactMarkdown>
                     </div>
                   ) : (
-                    <p className="text-sm leading-relaxed whitespace-pre-wrap">
+                    <p className="text-sm leading-relaxed whitespace-pre-wrap font-mono text-neutral-900 dark:text-[#e0e0e0]">
                       {message.text}
                     </p>
                   )}
-                  <p
-                    className={`text-xs mt-2 ${
-                      message.sender === "user"
-                        ? "text-blue-100"
-                        : "text-gray-500 dark:text-gray-400"
-                    }`}
-                  >
+                  <p className="text-xs mt-2 text-neutral-500 dark:text-[#666] font-mono">
+                    [
                     {message.timestamp.toLocaleTimeString([], {
                       hour: "2-digit",
                       minute: "2-digit",
                     })}
+                    ]
                   </p>
+
+                  {/* Small corner decoration */}
+                  <div
+                    className={`absolute w-2 h-2 ${
+                      message.sender === "user"
+                        ? "-top-0.5 -right-0.5 border-t-2 border-r-2 border-neutral-900 dark:border-[#ffb000]"
+                        : "-top-0.5 -left-0.5 border-t-2 border-l-2 border-neutral-300 dark:border-accent-green"
+                    }`}
+                  />
                 </div>
               </div>
             ))}
@@ -667,22 +752,23 @@ export default function SimpleAIAgentPage() {
             {/* Loading Indicator */}
             {isLoading && (
               <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-linear-to-br from-purple-400 to-pink-500 flex items-center justify-center">
+                <div className="w-8 h-8 border-2 border-neutral-900 dark:border-accent-green bg-neutral-100 dark:bg-accent-green/20 flex items-center justify-center">
                   <FontAwesomeIcon
                     icon={faRobot}
-                    className="text-white text-sm"
+                    className="text-neutral-900 dark:text-accent-green text-sm"
                   />
                 </div>
-                <div className="bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 p-3 rounded-lg rounded-bl-none shadow-xs">
-                  <div className="flex items-center gap-2">
+                <div className="vintage-card bg-white dark:bg-[#1a1a1a] border-2 border-neutral-300 dark:border-accent-green p-3 relative">
+                  <div className="flex items-center gap-2 font-mono text-sm">
                     <FontAwesomeIcon
                       icon={faSpinner}
-                      className="text-gray-500 dark:text-gray-400 animate-spin"
+                      className="text-neutral-900 dark:text-accent-green animate-spin"
                     />
-                    <span className="text-sm text-gray-500 dark:text-gray-400">
-                      AI is thinking...
+                    <span className="text-neutral-700 dark:text-[#c0c0c0]">
+                      Processing...
                     </span>
                   </div>
+                  <div className="absolute -top-0.5 -left-0.5 w-2 h-2 border-t-2 border-l-2 border-neutral-300 dark:border-accent-green" />
                 </div>
               </div>
             )}
@@ -691,14 +777,14 @@ export default function SimpleAIAgentPage() {
           </div>
 
           {/* Input Area */}
-          <div className="mt-4 bg-white dark:bg-gray-800 rounded-lg shadow-xs border border-gray-200 dark:border-gray-700 p-4">
-            <div className="flex gap-3">
+          <div className="mt-4 vintage-card bg-white dark:bg-[#1a1a1a] border-2 border-neutral-900 dark:border-accent-green p-4 relative">
+            <div className="flex gap-2">
               <textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Type your message here or use voice input... (Tell me about yourself for a more personal conversation!)"
-                className="flex-1 resize-none bg-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-hidden min-h-[60px] max-h-32"
+                placeholder="Type_message_here..."
+                className="flex-1 resize-none bg-transparent text-neutral-900 dark:text-[#e0e0e0] placeholder-neutral-500 dark:placeholder-[#666] focus:outline-none min-h-[60px] max-h-32 font-mono text-sm"
                 rows={1}
                 disabled={isLoading}
               />
@@ -708,20 +794,15 @@ export default function SimpleAIAgentPage() {
                 <button
                   onClick={toggleListening}
                   disabled={isLoading}
-                  className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-200 ${
+                  className={`w-10 h-10 border-2 flex items-center justify-center transition-all ${
                     isListening
-                      ? "bg-red-500 hover:bg-red-600 text-white animate-pulse shadow-lg"
-                      : "bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-400"
+                      ? "border-[#ff6b6b] bg-[#ff6b6b] text-white animate-pulse"
+                      : "border-neutral-300 dark:border-neutral-700 bg-neutral-100 dark:bg-[#0a0a0a] text-neutral-900 dark:text-[#c0c0c0] hover:border-neutral-900 dark:hover:border-accent-green"
                   } ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
-                  title={
-                    isListening
-                      ? "Stop recording (Click to stop)"
-                      : "Start voice input (Click to speak)"
-                  }
+                  title={isListening ? "Stop recording" : "Start voice input"}
                 >
                   <FontAwesomeIcon
                     icon={isListening ? faMicrophoneSlash : faMicrophone}
-                    className={isListening ? "animate-pulse" : ""}
                   />
                 </button>
               )}
@@ -729,7 +810,7 @@ export default function SimpleAIAgentPage() {
               <button
                 onClick={sendMessage}
                 disabled={!input.trim() || isLoading}
-                className="w-10 h-10 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white rounded-lg flex items-center justify-center transition-colors"
+                className="w-10 h-10 border-2 border-neutral-900 dark:border-accent-green bg-neutral-900 dark:bg-accent-green text-white dark:text-[#0a0a0a] hover:bg-neutral-800 dark:hover:bg-[#00ff41] disabled:bg-neutral-300 dark:disabled:bg-neutral-700 disabled:border-neutral-300 dark:disabled:border-neutral-700 disabled:cursor-not-allowed flex items-center justify-center transition-all"
               >
                 <FontAwesomeIcon
                   icon={isLoading ? faSpinner : faPaperPlane}
@@ -738,37 +819,35 @@ export default function SimpleAIAgentPage() {
               </button>
             </div>
 
-            {/* Enhanced Helper Text */}
-            <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-              Press{" "}
-              <kbd className="px-1 py-0.5 bg-gray-100 dark:bg-gray-700 rounded-sm text-xs">
+            {/* Helper Text */}
+            <div className="mt-2 text-xs text-neutral-600 dark:text-[#999] font-mono">
+              <kbd className="px-1 py-0.5 bg-neutral-200 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 text-xs">
                 Enter
               </kbd>{" "}
-              to send,{" "}
-              <kbd className="px-1 py-0.5 bg-gray-100 dark:bg-gray-700 rounded-sm text-xs">
+              to send •{" "}
+              <kbd className="px-1 py-0.5 bg-neutral-200 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 text-xs">
                 Shift+Enter
               </kbd>{" "}
               for new line
               {speechSupported && (
                 <>
                   {" "}
-                  • Click{" "}
-                  <FontAwesomeIcon icon={faMicrophone} className="mx-1" />
-                  for voice input
+                  • <FontAwesomeIcon icon={faMicrophone} className="mx-1" />
+                  for voice
                   {isListening && (
-                    <span className="ml-2 text-red-500 font-medium animate-pulse">
-                      🔴 Listening...
+                    <span className="ml-2 text-[#ff6b6b] font-bold animate-pulse">
+                      🔴 LISTENING
                     </span>
                   )}
                 </>
               )}
-              {!speechSupported && (
-                <span className="text-amber-600 dark:text-amber-400">
-                  • Voice input not supported in this browser
-                </span>
-              )}{" "}
-              • Personal info saved for this session
             </div>
+
+            {/* Corner decorations */}
+            <div className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-neutral-900 dark:border-accent-green" />
+            <div className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-neutral-900 dark:border-accent-green" />
+            <div className="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-neutral-900 dark:border-accent-green" />
+            <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-neutral-900 dark:border-accent-green" />
           </div>
         </div>
       </div>

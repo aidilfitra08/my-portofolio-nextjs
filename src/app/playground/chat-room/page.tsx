@@ -1,6 +1,19 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faTerminal,
+  faArrowLeft,
+  faCircle,
+  faPaperPlane,
+  faDice,
+  faSignal,
+  faArrowRightFromBracket,
+  faGamepad,
+  faComment,
+} from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
 
 export default function Page() {
   const [ws, setWs] = useState<WebSocket | null>(null);
@@ -18,10 +31,30 @@ export default function Page() {
 
   // Predefined rooms
   const availableRooms = [
-    { id: 1, name: "General", description: "General discussion" },
-    { id: 2, name: "Tech Talk", description: "Technology discussions" },
-    { id: 3, name: "Random", description: "Random conversations" },
-    { id: 4, name: "Gaming", description: "Gaming discussions" },
+    {
+      id: 1,
+      name: "General",
+      description: "General discussion",
+      icon: <FontAwesomeIcon icon={faComment} />,
+    },
+    {
+      id: 2,
+      name: "Tech Talk",
+      description: "Technology discussions",
+      icon: <FontAwesomeIcon icon={faTerminal} />,
+    },
+    {
+      id: 3,
+      name: "Random",
+      description: "Random conversations",
+      icon: <FontAwesomeIcon icon={faDice} />,
+    },
+    {
+      id: 4,
+      name: "Gaming",
+      description: "Gaming discussions",
+      icon: <FontAwesomeIcon icon={faGamepad} />,
+    },
   ];
 
   // Auto scroll to bottom of messages
@@ -50,7 +83,6 @@ export default function Page() {
     setConnectionError("");
 
     const wsUrl = `${process.env.NEXT_PUBLIC_WEB_SOCKET_URL}/${selectedRoom}`;
-    // console.log("Attempting to connect to:", wsUrl);
 
     try {
       const websocket = new WebSocket(wsUrl);
@@ -62,16 +94,15 @@ export default function Page() {
           const errorMsg =
             "Connection timeout - WebSocket server is not responding";
           setConnectionError(errorMsg);
-          alert(
-            `❌ Connection Failed\n\n${errorMsg}\n\nPlease check if the WebSocket server is running at:\n${wsUrl}`
-          );
-          setMessages((prev) => [...prev, `❌ ${errorMsg}`]);
+          // alert(
+          //   `❌ Connection Failed\n\n${errorMsg}\n\nPlease check if the WebSocket server is running at:\n${wsUrl}`
+          // );
+          setMessages((prev) => [...prev, `${errorMsg}`]);
         }
       }, 10000); // 10 second timeout
 
       websocket.onopen = () => {
         clearTimeout(connectionTimeout);
-        // console.log("Connected to WebSocket server");
         setIsConnected(true);
         setConnectionError("");
         setMessages((prev) => [...prev, "🟢 Connected to WebSocket server"]);
@@ -92,7 +123,6 @@ export default function Page() {
       };
 
       websocket.onmessage = (event) => {
-        // console.log("Received message:", event.data);
         try {
           const data = JSON.parse(event.data);
 
@@ -137,7 +167,6 @@ export default function Page() {
 
       websocket.onclose = (event) => {
         clearTimeout(connectionTimeout);
-        // console.log("WebSocket connection closed:", event.code, event.reason);
         setIsConnected(false);
 
         let closeReason = "";
@@ -174,11 +203,11 @@ export default function Page() {
         if (event.code !== 1000 && isConnected) {
           const errorMsg = `Connection lost unexpectedly!\n\nCode: ${event.code}\nReason: ${closeReason}`;
           setConnectionError(errorMsg);
-          alert(
-            `❌ Connection Lost\n\n${errorMsg}\n\n${
-              shouldReconnect ? "Will attempt to reconnect..." : ""
-            }`
-          );
+          // alert(
+          //   `❌ Connection Lost\n\n${errorMsg}\n\n${
+          //     shouldReconnect ? "Will attempt to reconnect..." : ""
+          //   }`
+          // );
         }
 
         // Only auto-reconnect if we should and we're still in the room
@@ -200,9 +229,6 @@ export default function Page() {
         const errorMsg = "Server is offline";
         setConnectionError(errorMsg);
         setMessages((prev) => [...prev, `❌ ${errorMsg}`]);
-
-        // Show alert for connection errors
-        // alert(`❌ Server is offline`);
       };
 
       setWs(websocket);
@@ -210,9 +236,9 @@ export default function Page() {
     } catch (error) {
       const errorMsg = `Failed to create WebSocket connection: ${error}`;
       setConnectionError(errorMsg);
-      alert(
-        `❌ WebSocket Creation Failed\n\n${errorMsg}\n\nPlease check the WebSocket URL configuration.`
-      );
+      // alert(
+      //   `❌ WebSocket Creation Failed\n\n${errorMsg}\n\nPlease check the WebSocket URL configuration.`
+      // );
       setMessages((prev) => [...prev, `❌ ${errorMsg}`]);
     }
   };
@@ -220,7 +246,7 @@ export default function Page() {
   useEffect(() => {
     // Cleanup on unmount
     return () => {
-      setShouldReconnect(false); // Disable reconnection
+      setShouldReconnect(false);
       if (reconnectTimeoutRef.current) {
         clearTimeout(reconnectTimeoutRef.current);
       }
@@ -232,17 +258,16 @@ export default function Page() {
 
   const joinRoom = () => {
     if (selectedRoom && userName.trim()) {
-      setShouldReconnect(true); // Enable reconnection
-      setMessages([]); // Clear previous messages
-      setConnectionError(""); // Clear previous errors
+      setShouldReconnect(true);
+      setMessages([]);
+      setConnectionError("");
       connectWebSocket();
     }
   };
 
   const leaveRoom = () => {
-    setShouldReconnect(false); // Disable auto-reconnection
+    setShouldReconnect(false);
 
-    // Clear reconnection timeout
     if (reconnectTimeoutRef.current) {
       clearTimeout(reconnectTimeoutRef.current);
     }
@@ -258,12 +283,10 @@ export default function Page() {
       setMessages((prev) => [...prev, "👋 You left the room"]);
     }
 
-    // Close connection
     if (wsRef.current) {
       wsRef.current.close();
     }
 
-    // Reset state
     setIsInRoom(false);
     setIsConnected(false);
     setWs(null);
@@ -305,7 +328,6 @@ export default function Page() {
         timestamp: new Date().toISOString(),
       };
       ws.send(JSON.stringify(pingMessage));
-      // Remove local ping message - wait for server response
     }
   };
 
@@ -330,7 +352,6 @@ export default function Page() {
     }
   };
 
-  // Generate a random user name if empty
   const generateRandomUser = () => {
     const adjectives = ["Cool", "Smart", "Fast", "Bright", "Lucky"];
     const nouns = ["User", "Player", "Coder", "Gamer", "Dev"];
@@ -343,119 +364,191 @@ export default function Page() {
   // If not in a room, show room selection
   if (!isInRoom) {
     return (
-      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-4">
-        <div className="max-w-md mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-          <h1 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white text-center">
-            Join Chat Room
-          </h1>
+      <div className="min-h-screen bg-[#f5f5f0] dark:bg-[#0a0a0a] p-4 relative">
+        {/* Scanlines effect */}
+        <div className="scanlines pointer-events-none" />
 
-          {/* Connection Error Alert */}
-          {connectionError && (
-            <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-700 rounded-lg">
-              <div className="flex items-center">
-                <span className="text-red-500 mr-2">❌</span>
-                <div className="flex-1">
-                  <p className="text-sm text-red-800 dark:text-red-200 font-medium">
-                    Connection Failed
-                  </p>
-                  <p className="text-xs text-red-600 dark:text-red-300 mt-1">
-                    {connectionError}
-                  </p>
-                </div>
+        {/* Retro grid background */}
+        <div className="absolute inset-0 opacity-5">
+          <div
+            className="h-full w-full"
+            style={{
+              backgroundImage: `
+                linear-gradient(rgba(0, 255, 65, 0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 65, 0.3) 1px, transparent 1px)
+              `,
+              backgroundSize: "50px 50px",
+            }}
+          />
+        </div>
+
+        <div className="max-w-2xl mx-auto relative">
+          {/* Back button */}
+          <Link
+            href="/playground"
+            className="group inline-flex items-center gap-2 mb-6 px-3 py-2 border-2 border-neutral-900 dark:border-accent-green bg-white dark:bg-[#1a1a1a] font-mono text-sm transition-all hover:translate-x-1 hover:-translate-y-1 relative"
+          >
+            <div className="absolute inset-0 border-2 border-neutral-900 dark:border-accent-green translate-x-1 translate-y-1 -z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <FontAwesomeIcon
+              icon={faArrowLeft}
+              className="text-neutral-900 dark:text-accent-green group-hover:animate-pulse"
+            />
+            <span className="text-neutral-900 dark:text-[#e0e0e0] font-bold tracking-wide">
+              BACK
+            </span>
+          </Link>
+
+          <div className="vintage-card bg-white dark:bg-[#1a1a1a] border-2 border-neutral-900 dark:border-accent-green p-6 md:p-8 relative">
+            {/* Terminal header */}
+            <div className="flex items-center gap-3 mb-6 border-b-2 border-neutral-300 dark:border-accent-green pb-4">
+              <FontAwesomeIcon
+                icon={faTerminal}
+                className="text-2xl text-neutral-900 dark:text-accent-green terminal-glow"
+              />
+              <div>
+                <h1 className="text-2xl md:text-3xl font-mono font-bold text-neutral-900 dark:text-[#e0e0e0]">
+                  [CHAT_ROOM_LOBBY]
+                </h1>
+                <p className="text-xs font-mono text-neutral-600 dark:text-[#999] mt-1">
+                  <span className="text-[#ffb000]">$</span> ./connect --room
+                </p>
               </div>
             </div>
-          )}
 
-          {/* User Name Input */}
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Your Name
-            </label>
-            <div className="flex gap-2">
-              <input
-                type="text"
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-                placeholder="Enter your name..."
-                className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-              />
-              <button
-                onClick={generateRandomUser}
-                className="px-3 py-2 text-sm bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-500 transition-colors"
-                title="Generate random name"
-              >
-                🎲
-              </button>
-            </div>
-          </div>
-
-          {/* Room Selection */}
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Select a Room
-            </label>
-            <div className="space-y-2">
-              {availableRooms.map((room) => (
-                <div
-                  key={room.id}
-                  className={`p-3 border rounded-lg cursor-pointer transition-colors ${
-                    selectedRoom === room.id
-                      ? "border-blue-500 bg-blue-50 dark:bg-blue-900/30"
-                      : "border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
-                  }`}
-                  onClick={() => setSelectedRoom(room.id)}
-                >
-                  <div className="flex items-center">
-                    <input
-                      type="radio"
-                      name="room"
-                      value={room.id}
-                      checked={selectedRoom === room.id}
-                      onChange={() => setSelectedRoom(room.id)}
-                      className="mr-3"
-                    />
-                    <div>
-                      <h3 className="font-medium text-gray-900 dark:text-white">
-                        {room.name}
-                      </h3>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
-                        {room.description}
-                      </p>
-                    </div>
+            {/* Connection Error Alert */}
+            {connectionError && (
+              <div className="mb-6 p-4 border-2 border-[#ff6b6b] bg-red-50 dark:bg-[#ff6b6b]/10 vintage-card">
+                <div className="flex items-center gap-3">
+                  <FontAwesomeIcon
+                    icon={faCircle}
+                    className="text-[#ff6b6b] animate-pulse"
+                  />
+                  <div className="flex-1">
+                    <p className="text-sm font-mono font-bold text-[#ff6b6b] mb-1">
+                      [CONNECTION_ERROR]
+                    </p>
+                    <p className="text-xs font-mono text-neutral-700 dark:text-[#c0c0c0]">
+                      {connectionError}
+                    </p>
                   </div>
                 </div>
-              ))}
+              </div>
+            )}
+
+            {/* User Name Input */}
+            <div className="mb-6">
+              <label className="block text-sm font-mono font-bold text-neutral-900 dark:text-accent-green mb-3">
+                <span className="text-neutral-500 dark:text-[#999]">►</span>{" "}
+                USERNAME:
+              </label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                  placeholder="Enter_your_name..."
+                  className="flex-1 px-4 py-3 border-2 border-neutral-300 dark:border-neutral-700 bg-white dark:bg-[#0a0a0a] text-neutral-900 dark:text-[#e0e0e0] font-mono focus:outline-none focus:border-neutral-900 dark:focus:border-accent-green transition-colors"
+                />
+                <button
+                  onClick={generateRandomUser}
+                  className="px-4 py-3 border-2 border-neutral-300 dark:border-neutral-700 bg-neutral-100 dark:bg-[#1a1a1a] hover:bg-neutral-200 dark:hover:bg-[#2a2a2a] transition-colors"
+                  title="Generate random name"
+                >
+                  <FontAwesomeIcon
+                    icon={faDice}
+                    className="text-neutral-900 dark:text-accent-green"
+                  />
+                </button>
+              </div>
             </div>
+
+            {/* Room Selection */}
+            <div className="mb-6">
+              <label className="block text-sm font-mono font-bold text-neutral-900 dark:text-accent-green mb-3">
+                <span className="text-neutral-500 dark:text-[#999]">►</span>{" "}
+                SELECT_ROOM:
+              </label>
+              <div className="space-y-3">
+                {availableRooms.map((room) => (
+                  <div
+                    key={room.id}
+                    className={`group relative p-4 border-2 cursor-pointer transition-all font-mono ${
+                      selectedRoom === room.id
+                        ? "border-neutral-900 dark:border-accent-green bg-neutral-50 dark:bg-[#1a1a1a] translate-x-1 -translate-y-1"
+                        : "border-neutral-300 dark:border-neutral-700 hover:border-neutral-900 dark:hover:border-accent-green"
+                    }`}
+                    onClick={() => setSelectedRoom(room.id)}
+                  >
+                    {/* Shadow effect */}
+                    {selectedRoom === room.id && (
+                      <div className="absolute inset-0 border-2 border-neutral-900 dark:border-accent-green translate-x-1 translate-y-1 -z-10" />
+                    )}
+
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="radio"
+                        name="room"
+                        value={room.id}
+                        checked={selectedRoom === room.id}
+                        onChange={() => setSelectedRoom(room.id)}
+                        className="w-4 h-4 accent-neutral-900 dark:accent-accent-green"
+                      />
+                      <span className="text-2xl">{room.icon}</span>
+                      <div className="flex-1">
+                        <h3 className="font-bold text-neutral-900 dark:text-[#e0e0e0] mb-1">
+                          {String(room.id).padStart(2, "0")}. [
+                          {room.name.toUpperCase()}]
+                        </h3>
+                        <p className="text-xs text-neutral-600 dark:text-[#999]">
+                          {room.description}
+                        </p>
+                      </div>
+                      {selectedRoom === room.id && (
+                        <span className="text-neutral-900 dark:text-accent-green font-bold">
+                          ✓
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Join Button */}
+            <button
+              onClick={joinRoom}
+              disabled={!selectedRoom || !userName.trim()}
+              className="w-full px-4 py-3 border-2 border-neutral-900 dark:border-accent-green bg-neutral-900 dark:bg-accent-green text-white dark:text-[#0a0a0a] font-mono font-bold hover:bg-neutral-800 dark:hover:bg-[#00ff41] disabled:bg-neutral-300 dark:disabled:bg-neutral-700 disabled:border-neutral-300 dark:disabled:border-neutral-700 disabled:text-neutral-500 dark:disabled:text-neutral-500 disabled:cursor-not-allowed transition-all uppercase tracking-wider cursor-pointer"
+            >
+              {selectedRoom && userName.trim()
+                ? "► CONNECT_TO_ROOM"
+                : "► ENTER_CREDENTIALS"}
+            </button>
+
+            {/* Selected Info */}
+            {selectedRoom && userName && (
+              <div className="mt-4 p-3 border-l-4 border-neutral-900 dark:border-accent-green bg-neutral-50 dark:bg-[#1a1a1a]">
+                <p className="text-xs font-mono text-neutral-700 dark:text-[#c0c0c0]">
+                  <span className="text-neutral-900 dark:text-accent-green font-bold">
+                    [READY]
+                  </span>{" "}
+                  <strong className="text-neutral-900 dark:text-[#e0e0e0]">
+                    {userName}
+                  </strong>{" "}
+                  →{" "}
+                  <strong className="text-neutral-900 dark:text-[#e0e0e0]">
+                    {availableRooms.find((r) => r.id === selectedRoom)?.name}
+                  </strong>
+                </p>
+              </div>
+            )}
+
+            {/* Corner decorations */}
+            <div className="absolute -top-2 -left-2 w-6 h-6 border-t-2 border-l-2 border-neutral-900 dark:border-accent-green" />
+            <div className="absolute -top-2 -right-2 w-6 h-6 border-t-2 border-r-2 border-neutral-900 dark:border-accent-green" />
+            <div className="absolute -bottom-2 -left-2 w-6 h-6 border-b-2 border-l-2 border-neutral-900 dark:border-accent-green" />
+            <div className="absolute -bottom-2 -right-2 w-6 h-6 border-b-2 border-r-2 border-neutral-900 dark:border-accent-green" />
           </div>
-
-          {/* Join Button */}
-          <button
-            onClick={joinRoom}
-            disabled={!selectedRoom || !userName.trim()}
-            className="w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors font-medium"
-          >
-            Join Room
-          </button>
-
-          {/* Selected Info */}
-          {selectedRoom && userName && (
-            <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
-              <p className="text-sm text-blue-800 dark:text-blue-200">
-                <strong>{userName}</strong> will join{" "}
-                <strong>
-                  {availableRooms.find((r) => r.id === selectedRoom)?.name}
-                </strong>
-              </p>
-            </div>
-          )}
-
-          {/* WebSocket URL Info */}
-          {/* <div className="mt-4 text-xs text-gray-500 dark:text-gray-400">
-            <p>
-              WebSocket Server:{" "}
-              {process.env.NEXT_PUBLIC_WEB_SOCKET_URL || "Not configured"}
-            </p>
-          </div> */}
         </div>
       </div>
     );
@@ -463,130 +556,182 @@ export default function Page() {
 
   // Chat interface when in a room
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-4">
-      <div className="max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-        {/* Header with room info */}
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-              {availableRooms.find((r) => r.id === selectedRoom)?.name}
-            </h1>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              Connected as: <strong>{userName}</strong>
-            </p>
-          </div>
-          <button
-            onClick={leaveRoom}
-            className="px-3 py-1 text-sm bg-red-100 text-red-800 rounded-sm hover:bg-red-200 transition-colors"
-          >
-            Leave Room
-          </button>
-        </div>
+    <div className="min-h-screen bg-[#f5f5f0] dark:bg-[#0a0a0a] p-4 relative">
+      {/* Scanlines effect */}
+      <div className="scanlines pointer-events-none" />
 
-        {/* Connection Error Banner */}
-        {connectionError && (
-          <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-700 rounded-lg">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <span className="text-red-500 mr-2">❌</span>
+      {/* Retro grid background */}
+      <div className="absolute inset-0 opacity-5">
+        <div
+          className="h-full w-full"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(0, 255, 65, 0.3) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(0, 255, 65, 0.3) 1px, transparent 1px)
+            `,
+            backgroundSize: "50px 50px",
+          }}
+        />
+      </div>
+
+      <div className="max-w-4xl mx-auto relative">
+        <div className="vintage-card bg-white dark:bg-[#1a1a1a] border-2 border-neutral-900 dark:border-accent-green relative">
+          {/* Header with room info */}
+          <div className="border-b-2 border-neutral-300 dark:border-accent-green p-4 md:p-6">
+            <div className="flex items-center justify-between flex-wrap gap-4">
+              <div className="flex items-center gap-3">
+                <FontAwesomeIcon
+                  icon={faTerminal}
+                  className="text-xl text-neutral-900 dark:text-accent-green terminal-glow"
+                />
                 <div>
-                  <p className="text-sm text-red-800 dark:text-red-200 font-medium">
-                    Connection Error
-                  </p>
-                  <p className="text-xs text-red-600 dark:text-red-300">
-                    {connectionError}
+                  <h1 className="text-xl md:text-2xl font-mono font-bold text-neutral-900 dark:text-[#e0e0e0]">
+                    [
+                    {availableRooms
+                      .find((r) => r.id === selectedRoom)
+                      ?.name.toUpperCase()}
+                    ]
+                  </h1>
+                  <p className="text-xs font-mono text-neutral-600 dark:text-[#999]">
+                    <span className="text-[#ffb000]">$</span> user:{" "}
+                    <strong className="text-neutral-900 dark:text-[#e0e0e0]">
+                      {userName}
+                    </strong>
                   </p>
                 </div>
               </div>
               <button
-                onClick={retryConnection}
-                className="px-3 py-1 text-xs bg-red-100 dark:bg-red-800 text-red-800 dark:text-red-200 rounded-sm hover:bg-red-200 dark:hover:bg-red-700 transition-colors"
+                onClick={leaveRoom}
+                className="group inline-flex items-center gap-2 px-3 py-2 border-2 border-[#ff6b6b] bg-white dark:bg-[#1a1a1a] hover:bg-[#ff6b6b] hover:text-white transition-all font-mono text-xs"
               >
-                Retry
+                <FontAwesomeIcon
+                  icon={faArrowRightFromBracket}
+                  className="text-[#ff6b6b] group-hover:text-white"
+                />
+                <span className="text-[#ff6b6b] group-hover:text-white font-bold">
+                  DISCONNECT
+                </span>
               </button>
             </div>
           </div>
-        )}
 
-        {/* Connection Status */}
-        <div className="mb-4 flex items-center gap-4 flex-wrap">
-          <span
-            className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
-              isConnected
-                ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-                : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
-            }`}
-          >
-            {isConnected ? "🟢 Connected" : "🔴 Disconnected"}
-          </span>
-          <span className="text-sm text-gray-600 dark:text-gray-400">
-            Status: {getConnectionStatus()}
-          </span>
-          <button
-            onClick={sendPing}
-            disabled={!isConnected}
-            className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-sm hover:bg-blue-200 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Ping
-          </button>
-        </div>
-
-        {/* Messages Display */}
-        <div className="mb-4 h-64 overflow-y-auto bg-gray-50 dark:bg-gray-700 rounded-lg p-4 scrollbar-hide">
-          {messages.length === 0 ? (
-            <p className="text-gray-500 dark:text-gray-400 italic">
-              No messages yet... Start the conversation!
-            </p>
-          ) : (
-            <div className="space-y-2">
-              {messages.map((message, index) => (
-                <div
-                  key={index}
-                  className="text-sm text-gray-800 dark:text-gray-200 wrap-break-word"
-                >
-                  <span className="text-gray-500 text-xs">
-                    [{new Date().toLocaleTimeString()}]
-                  </span>{" "}
-                  {message}
+          {/* Connection Error Banner */}
+          {connectionError && (
+            <div className="m-4 p-4 border-2 border-[#ff6b6b] bg-red-50 dark:bg-[#ff6b6b]/10 vintage-card">
+              <div className="flex items-center justify-between gap-4 flex-wrap">
+                <div className="flex items-center gap-3">
+                  <FontAwesomeIcon
+                    icon={faCircle}
+                    className="text-[#ff6b6b] animate-pulse"
+                  />
+                  <div>
+                    <p className="text-sm font-mono font-bold text-[#ff6b6b] mb-1">
+                      [CONNECTION_ERROR]
+                    </p>
+                    <p className="text-xs font-mono text-neutral-700 dark:text-[#c0c0c0]">
+                      {connectionError}
+                    </p>
+                  </div>
                 </div>
-              ))}
-              <div ref={messagesEndRef} />
+                <button
+                  onClick={retryConnection}
+                  className="px-3 py-2 border-2 border-[#ff6b6b] bg-white dark:bg-[#1a1a1a] hover:bg-[#ff6b6b] hover:text-white transition-all font-mono text-xs text-[#ff6b6b] font-bold"
+                >
+                  RETRY
+                </button>
+              </div>
             </div>
           )}
-        </div>
 
-        {/* Input Area */}
-        <div className="flex gap-2">
-          <input
-            type="text"
-            value={inputMessage}
-            onChange={(e) => setInputMessage(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder={`Message as ${userName}...`}
-            className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-            disabled={!isConnected}
-          />
-          <button
-            onClick={sendMessage}
-            disabled={!isConnected || !inputMessage.trim()}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
-          >
-            Send
-          </button>
-        </div>
+          {/* Connection Status Bar */}
+          <div className="border-b-2 border-neutral-300 dark:border-neutral-700 p-4 bg-neutral-50 dark:bg-[#0a0a0a]">
+            <div className="flex items-center gap-4 flex-wrap text-xs font-mono">
+              <div className="flex items-center gap-2">
+                <FontAwesomeIcon
+                  icon={faCircle}
+                  className={`text-xs ${
+                    isConnected
+                      ? "text-accent-green animate-pulse"
+                      : "text-[#ff6b6b]"
+                  }`}
+                />
+                <span className="text-neutral-700 dark:text-[#c0c0c0]">
+                  {isConnected ? "CONNECTED" : "DISCONNECTED"}
+                </span>
+              </div>
+              <div className="text-neutral-600 dark:text-[#999]">
+                <FontAwesomeIcon icon={faSignal} className="mr-2" />
+                {getConnectionStatus()}
+              </div>
+              <button
+                onClick={sendPing}
+                disabled={!isConnected}
+                className="px-2 py-1 border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-[#1a1a1a] hover:bg-neutral-100 dark:hover:bg-[#2a2a2a] disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-neutral-900 dark:text-[#e0e0e0]"
+              >
+                🏓 PING
+              </button>
+            </div>
+          </div>
 
-        {/* Debug Info */}
-        {/* <div className="mt-4 text-xs text-gray-500 dark:text-gray-400 space-y-1">
-          <p>
-            WebSocket URL: {process.env.NEXT_PUBLIC_WEB_SOCKET_URL}/
-            {selectedRoom}
-          </p>
-          <p>Room: {selectedRoom}</p>
-          <p>User: {userName}</p>
-          <p>Total messages: {messages.length}</p>
-          <p>Ready State: {ws?.readyState ?? "Not initialized"}</p>
-          <p>Auto-reconnect: {shouldReconnect ? "Enabled" : "Disabled"}</p>
-        </div> */}
+          {/* Messages Display */}
+          <div className="h-96 overflow-y-auto bg-neutral-50 dark:bg-[#0a0a0a] p-4 md:p-6 font-mono text-sm border-b-2 border-neutral-300 dark:border-neutral-700 scrollbar-thin scrollbar-thumb-neutral-300 dark:scrollbar-thumb-neutral-700">
+            {messages.length === 0 ? (
+              <div className="h-full flex items-center justify-center text-center">
+                <p className="text-neutral-500 dark:text-[#666] italic">
+                  <span className="text-neutral-900 dark:text-accent-green">
+                    ►
+                  </span>{" "}
+                  No messages yet... Start the conversation!
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {messages.map((message, index) => (
+                  <div
+                    key={index}
+                    className="text-neutral-700 dark:text-[#c0c0c0] wrap-break-words"
+                  >
+                    <span className="text-neutral-500 dark:text-[#666] text-xs mr-2">
+                      [{new Date().toLocaleTimeString()}]
+                    </span>
+                    <span className="text-neutral-900 dark:text-[#e0e0e0]">
+                      {message}
+                    </span>
+                  </div>
+                ))}
+                <div ref={messagesEndRef} />
+              </div>
+            )}
+          </div>
+
+          {/* Input Area */}
+          <div className="p-4 md:p-6 bg-white dark:bg-[#1a1a1a]">
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={inputMessage}
+                onChange={(e) => setInputMessage(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder={`Message_as_${userName}...`}
+                className="flex-1 px-4 py-3 border-2 border-neutral-300 dark:border-neutral-700 bg-white dark:bg-[#0a0a0a] text-neutral-900 dark:text-[#e0e0e0] font-mono focus:outline-none focus:border-neutral-900 dark:focus:border-accent-green disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                disabled={!isConnected}
+              />
+              <button
+                onClick={sendMessage}
+                disabled={!isConnected || !inputMessage.trim()}
+                className="px-6 py-3 border-2 border-neutral-900 dark:border-accent-green bg-neutral-900 dark:bg-accent-green text-white dark:text-[#0a0a0a] font-mono font-bold hover:bg-neutral-800 dark:hover:bg-[#00ff41] disabled:bg-neutral-300 dark:disabled:bg-neutral-700 disabled:border-neutral-300 dark:disabled:border-neutral-700 disabled:text-neutral-500 disabled:cursor-not-allowed transition-all"
+              >
+                <FontAwesomeIcon icon={faPaperPlane} />
+              </button>
+            </div>
+          </div>
+
+          {/* Corner decorations */}
+          <div className="absolute -top-2 -left-2 w-6 h-6 border-t-2 border-l-2 border-neutral-900 dark:border-accent-green pointer-events-none" />
+          <div className="absolute -top-2 -right-2 w-6 h-6 border-t-2 border-r-2 border-neutral-900 dark:border-accent-green pointer-events-none" />
+          <div className="absolute -bottom-2 -left-2 w-6 h-6 border-b-2 border-l-2 border-neutral-900 dark:border-accent-green pointer-events-none" />
+          <div className="absolute -bottom-2 -right-2 w-6 h-6 border-b-2 border-r-2 border-neutral-900 dark:border-accent-green pointer-events-none" />
+        </div>
       </div>
     </div>
   );
