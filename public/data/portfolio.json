@@ -1,0 +1,143 @@
+{
+  "header": {
+    "greeting": "Hello,",
+    "name": "Aidil",
+    "title": "Computer Science Graduate",
+    "description": "I'm a Computer Science graduate with experience in backend, web, and mobile development. Skilled in technologies like Laravel, Flutter, Node.js, React, Next.js, Golang, MySQL, and MongoDB.",
+    "location": "Indonesia"
+  },
+  "skills": [
+    {
+      "category": "Backend",
+      "items": [
+        "Node.js",
+        "Golang",
+        "CodeIgniter",
+        "Express.js",
+        "Java",
+        "Laravel"
+      ],
+      "color": "text-accent-green",
+      "bgColor": "bg-accent-green",
+      "icon": "faServer"
+    },
+    {
+      "category": "Frontend",
+      "items": [
+        "React.js",
+        "Next.js",
+        "Flutter",
+        "TypeScript"
+      ],
+      "color": "text-[#00d9ff]",
+      "bgColor": "bg-[#00d9ff]",
+      "icon": "faCode"
+    },
+    {
+      "category": "Database",
+      "items": [
+        "MySQL",
+        "MongoDB",
+        "PostgreSQL",
+        "Redis"
+      ],
+      "color": "text-[#ffb000]",
+      "bgColor": "bg-[#ffb000]",
+      "icon": "faDatabase"
+    },
+    {
+      "category": "Tools",
+      "items": [
+        "Git",
+        "Docker",
+        "AWS",
+        "Vercel"
+      ],
+      "color": "text-[#ff6b6b]",
+      "bgColor": "bg-[#ff6b6b]",
+      "icon": "faTools"
+    },
+    {
+      "category": "Others",
+      "items": [
+        "RabbitMQ"
+      ],
+      "color": "text-[#bd93f9]",
+      "bgColor": "bg-[#bd93f9]",
+      "icon": "faCubes"
+    }
+  ],
+  "education": {
+    "university": "Padjadjaran University",
+    "degree": "Bachelor of Computer Science",
+    "gpa": "3.60/4.00",
+    "startDate": "August 2019",
+    "endDate": "August 2024",
+    "location": "Indonesia"
+  },
+  "experience": [
+    {
+      "title": "Back End Developer Intern",
+      "company": "Vocasia",
+      "location": "Indonesia",
+      "startDate": "Feb 2022",
+      "endDate": "July 2022",
+      "responsibilities": [
+        "Developed and integrated 15 new APIs for Vocasia's website and mobile applications using CodeIgniter 4 and MySQL",
+        "Resolved frontend API fetching issues for both React.js (web) and Flutter (mobile) applications",
+        "Debugged and fixed existing APIs, ensuring seamless functionality across platforms",
+        "Collaborated with the frontend team to ensure smooth integration between backend and frontend systems"
+      ]
+    },
+    {
+      "title": "New Position",
+      "company": "Company Name",
+      "location": "Location",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "responsibilities": []
+    }
+  ],
+  "projects": [
+    {
+      "name": "DigimaLearn (Learning Management System)",
+      "tech": "React.js, Javascript, PosgreSQL, Express.js, AWS, Alibaba Cloud",
+      "description": "Final year project about Learning Management System for digital marketing training. This project aims to develop digital marketing for Universitas Padjadjaran students.",
+      "github": "https://github.com/aidilfitra08/lms-front-end",
+      "live": "http://digimalearn.online",
+      "image": "/lms.png"
+    },
+    {
+      "name": "Vitour",
+      "tech": "React.js, Express.js, PostgreSQL, Vercel",
+      "description": "Virtual tour web application that allows users to explore tourist destinations virtually. The user can navigate 360-degree views of various locations, providing an immersive experience from the comfort of their homes. Also includes features such as destination information, user reviews, booking options for real-life visits, and merchandise marketplace.",
+      "github": "https://github.com/aidilfitra08/Vitour-web-main",
+      "live": "https://vitour-web-main.vercel.app/",
+      "image": "/project/vitour.png"
+    },
+    {
+      "name": "API Gateway Service",
+      "tech": "Golang, PostgreSQL, Redis, Docker, RabbitMQ",
+      "description": "High-performance API gateway with rate limiting and authentication",
+      "github": "#",
+      "live": "#",
+      "image": ""
+    },
+    {
+      "name": "Order Management Backend Service",
+      "tech": "Golang, PostgreSQL, RabbitMQ, Redis, Docker, Gin",
+      "description": "Backend service for managing orders and customer data. Includes features such as order tracking, customer profiles, and reporting.",
+      "github": "https://github.com/aidilfitra08/client-order-backend",
+      "live": "#",
+      "image": ""
+    },
+    {
+      "name": "RSVP Form",
+      "tech": "Next.js, TypeScript, Vercel, Tailwind CSS, Google Spreadsheets API",
+      "description": "A simple and elegant RSVP form for events, built with Next.js and TypeScript. It features a responsive design using Tailwind CSS and stores responses in Google Spreadsheets via the Google Sheets API.",
+      "github": "https://github.com/aidilfitra08/rsvp-form",
+      "live": "https://rsvp-form-orpin.vercel.app",
+      "image": "/project/rsvp.png"
+    }
+  ]
+}
