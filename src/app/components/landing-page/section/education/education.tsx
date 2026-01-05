@@ -4,8 +4,19 @@ import {
   faTrophy,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { loadPortfolioData } from "@/lib/portfolio";
 
-export default function Education() {
+export default async function Education() {
+  const data = await loadPortfolioData();
+  const education = data?.education || {
+    university: "Padjadjaran University",
+    degree: "Bachelor of Computer Science",
+    gpa: "3.60/4.00",
+    startDate: "August 2019",
+    endDate: "August 2024",
+    location: "Indonesia",
+  };
+
   return (
     <section className="py-4 px-4">
       <div className="w-full">
@@ -25,7 +36,7 @@ export default function Education() {
           {/* University Name */}
           <h3 className="text-xl md:text-2xl font-bold text-[#00d9ff] mb-3 flex items-center gap-2">
             <span className="text-[#ff6b6b]">[</span>
-            Padjadjaran University
+            {education.university}
             <span className="text-[#ff6b6b]">]</span>
           </h3>
 
@@ -33,17 +44,19 @@ export default function Education() {
           <div className="flex items-start gap-2 mb-3">
             <FontAwesomeIcon icon={faTrophy} className="text-[#ffb000] mt-1" />
             <p className="text-base md:text-lg text-[#2a2a2a] dark:text-accent-green font-semibold">
-              Bachelor of Computer Science
-              <span className="ml-3 text-[#ffb000]">GPA: 3.60/4.00</span>
+              {education.degree}
+              <span className="ml-3 text-[#ffb000]">GPA: {education.gpa}</span>
             </p>
           </div>
 
           {/* Date */}
           <div className="flex items-center gap-2 text-sm md:text-base text-[#2a2a2a] dark:text-[#a0a0a0]">
             <FontAwesomeIcon icon={faCalendarDays} className="text-[#ff6b6b]" />
-            <span>August 2019 - August 2024</span>
+            <span>
+              {education.startDate} - {education.endDate}
+            </span>
             <span className="ml-2 text-accent-green">●</span>
-            <span>Indonesia</span>
+            <span>{education.location}</span>
           </div>
         </div>
       </div>

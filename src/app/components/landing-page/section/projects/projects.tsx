@@ -7,53 +7,20 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
+import { loadPortfolioData } from "@/lib/portfolio";
 
-export default function Projects() {
-  const projects = [
-    {
-      name: "DigimaLearn (Learning Management System)",
-      tech: "React.js, Javascript, PosgreSQL, Express.js, AWS, Alibaba Cloud",
-      description:
-        "Final year project about Learning Management System for digital marketing training. This project aims to develop digital marketing for Universitas Padjadjaran students.",
-      github: "https://github.com/aidilfitra08/lms-front-end",
-      live: "http://digimalearn.online",
-      image: "/lms.png",
-    },
-    {
-      name: "Vitour",
-      tech: "React.js, Express.js, PostgreSQL, Vercel",
-      description:
-        "Virtual tour web application that allows users to explore tourist destinations virtually. The user can navigate 360-degree views of various locations, providing an immersive experience from the comfort of their homes. Also includes features such as destination information, user reviews, booking options for real-life visits, and merchandise marketplace.",
-      github: "https://github.com/aidilfitra08/Vitour-web-main",
-      live: "https://vitour-web-main.vercel.app/",
-      image: "/project/vitour.png",
-    },
-    {
-      name: "API Gateway Service",
-      tech: "Golang, PostgreSQL, Redis, Docker, RabbitMQ",
-      description:
-        "High-performance API gateway with rate limiting and authentication",
-      github: "#",
-      live: "#",
-    },
-    {
-      name: "Order Management Backend Service",
-      tech: "Golang, PostgreSQL, RabbitMQ, Redis, Docker, Gin",
-      description:
-        "Backend service for managing orders and customer data. Includes features such as order tracking, customer profiles, and reporting.",
-      github: "https://github.com/aidilfitra08/client-order-backend",
-      live: "#",
-    },
-    {
-      name: "RSVP Form",
-      tech: "Next.js, TypeScript, Vercel, Tailwind CSS, Google Spreadsheets API",
-      description:
-        "A simple and elegant RSVP form for events, built with Next.js and TypeScript. It features a responsive design using Tailwind CSS and stores responses in Google Spreadsheets via the Google Sheets API.",
-      github: "https://github.com/aidilfitra08/rsvp-form",
-      live: "https://rsvp-form-orpin.vercel.app",
-      image: "/project/rsvp.png",
-    },
-  ];
+interface Project {
+  name: string;
+  tech: string;
+  description: string;
+  github: string;
+  live: string;
+  image: string;
+}
+
+export default async function Projects() {
+  const data = await loadPortfolioData();
+  const projects: Project[] = data?.projects || [];
 
   return (
     <section className="py-8 md:py-12 px-4" id="projects">

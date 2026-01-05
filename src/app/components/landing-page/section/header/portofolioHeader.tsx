@@ -7,11 +7,28 @@ import {
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
 
-export default function PortofolioHeader() {
+interface HeaderData {
+  greeting: string;
+  name: string;
+  title: string;
+  description: string;
+  location: string;
+}
+
+export default function PortofolioHeader({ data }: { data: any }) {
   const [typedText, setTypedText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showCursor, setShowCursor] = useState(true);
-  const fullText = "Computer Science Graduate";
+
+  const headerData: HeaderData = data?.header || {
+    greeting: "Hello,",
+    name: "Aidil",
+    title: "Computer Science Graduate",
+    description:
+      "I'm a Computer Science graduate with experience in backend, web, and mobile development. Skilled in technologies like Laravel, Flutter, Node.js, React, Next.js, Golang, MySQL, and MongoDB.",
+    location: "Indonesia",
+  };
+  const fullText = headerData.title;
 
   useEffect(() => {
     if (currentIndex < fullText.length) {
@@ -66,14 +83,14 @@ export default function PortofolioHeader() {
             <div className="space-y-3">
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight">
                 <span className="block text-[#1a1a1a] dark:text-[#e0e0e0]">
-                  Hello,
+                  {headerData?.greeting || "Hello,"}
                 </span>
                 <span className="block mt-2">
                   <span className="text-[#1a1a1a] dark:text-[#e0e0e0]">
                     I am{" "}
                   </span>
                   <span className="text-accent-green dark:text-accent-green terminal-glow">
-                    Aidil
+                    {headerData?.name || "Aidil"}
                   </span>
                 </span>
               </h1>
@@ -96,20 +113,8 @@ export default function PortofolioHeader() {
             <div className="vintage-card dark:bg-[#1a1a1a] border-l-4 border-accent-green p-6 rounded-r-lg shadow-lg">
               <p className="text-base md:text-lg leading-relaxed text-[#2a2a2a] dark:text-[#c0c0c0]">
                 <span className="text-accent-green font-bold">&gt;&gt;</span>{" "}
-                I&apos;m a Computer Science graduate with experience in{" "}
-                <span className="text-[#00d9ff] dark:text-[#00d9ff] font-semibold">
-                  backend
-                </span>
-                ,{" "}
-                <span className="text-[#00d9ff] dark:text-[#00d9ff] font-semibold">
-                  web
-                </span>
-                , and{" "}
-                <span className="text-[#00d9ff] dark:text-[#00d9ff] font-semibold">
-                  mobile development
-                </span>
-                . Skilled in technologies like Laravel, Flutter, Node.js, React,
-                Next.js, Golang, MySQL, and MongoDB.
+                {headerData?.description ||
+                  "I'm a Computer Science graduate with experience in backend, web, and mobile development. Skilled in technologies like Laravel, Flutter, Node.js, React, Next.js, Golang, MySQL, and MongoDB."}
               </p>
             </div>
 
@@ -119,7 +124,7 @@ export default function PortofolioHeader() {
                 icon={faLocationDot}
                 className="text-[#ff6b6b]"
               />
-              <span>Indonesia</span>
+              <span>{headerData?.location || "Indonesia"}</span>
             </div>
           </div>
 

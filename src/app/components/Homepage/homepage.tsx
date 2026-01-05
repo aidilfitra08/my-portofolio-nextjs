@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 import React from "react";
 import PortofolioHeader from "../landing-page/section/header/portofolioHeader";
 import Education from "../landing-page/section/education/education";
@@ -9,8 +9,10 @@ import BlogPage from "../blog/blog";
 import Skill from "../landing-page/section/skill/skill";
 import Navbar from "../navbar/navbar";
 import Footer from "../footer/footer";
+import { loadPortfolioData } from "@/lib/portfolio";
 
-const Homepage = () => {
+const Homepage = async () => {
+  const data = await loadPortfolioData();
   return (
     <>
       <Navbar />
@@ -24,7 +26,7 @@ const Homepage = () => {
         <div className="relative z-10 pt-16 md:pt-20">
           {/* Header Section - Full width hero */}
           <div className="w-full">
-            <PortofolioHeader />
+            <PortofolioHeader data={data} />
           </div>
 
           {/* Main content grid - utilize full space */}

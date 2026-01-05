@@ -4,8 +4,29 @@ import {
   faCalendarDays,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { loadPortfolioData } from "@/lib/portfolio";
 
-export default function Experience() {
+interface Experience {
+  title: string;
+  company: string;
+  location: string;
+  startDate: string;
+  endDate: string;
+  responsibilities: string[];
+}
+
+export default async function Experience() {
+  const data = await loadPortfolioData();
+  const experiences: Experience[] = data?.experience || [];
+  const exp = experiences[0] || {
+    title: "Back End Developer Intern",
+    company: "Vocasia",
+    location: "Indonesia",
+    startDate: "Feb 2022",
+    endDate: "July 2022",
+    responsibilities: [],
+  };
+
   return (
     <section className="py-6 px-4">
       <div className="w-full">
@@ -26,14 +47,16 @@ export default function Experience() {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-4">
             <h3 className="text-xl md:text-2xl font-bold text-[#00d9ff] flex items-center gap-2">
               <span className="text-[#ff6b6b]">&gt;&gt;</span>
-              Back End Developer Intern
+              {exp.title}
             </h3>
             <div className="flex items-center gap-2 text-sm text-[#2a2a2a] dark:text-[#a0a0a0]">
               <FontAwesomeIcon
                 icon={faCalendarDays}
                 className="text-[#ff6b6b]"
               />
-              <span>Feb 2022 - July 2022</span>
+              <span>
+                {exp.startDate} - {exp.endDate}
+              </span>
             </div>
           </div>
 
@@ -41,50 +64,23 @@ export default function Experience() {
           <div className="flex items-center gap-2 mb-4 pb-4 border-b border-[#2a2a2a] dark:border-[#404040] border-opacity-20">
             <FontAwesomeIcon icon={faBuilding} className="text-accent-green" />
             <span className="text-base md:text-lg font-semibold text-[#2a2a2a] dark:text-accent-green">
-              Vocasia - Indonesia
+              {exp.company} - {exp.location}
             </span>
           </div>
 
           {/* Responsibilities */}
           <ul className="space-y-3 text-sm md:text-base text-[#2a2a2a] dark:text-[#c0c0c0]">
-            <li className="flex items-start gap-3 hover:translate-x-2 transition-transform duration-200">
-              <span className="text-[#ff6b6b] font-bold mt-1 shrink-0">►</span>
-              <span>
-                Developed and integrated{" "}
-                <span className="text-accent-green dark:text-accent-green  font-semibold">
-                  15 new APIs
-                </span>{" "}
-                for Vocasia&apos;s website and mobile applications using{" "}
-                <span className="text-[#00d9ff] font-semibold">
-                  CodeIgniter 4
-                </span>{" "}
-                and <span className="text-[#00d9ff] font-semibold">MySQL</span>
-              </span>
-            </li>
-            <li className="flex items-start gap-3 hover:translate-x-2 transition-transform duration-200">
-              <span className="text-[#ff6b6b] font-bold mt-1 shrink-0">►</span>
-              <span>
-                Resolved frontend API fetching issues for both{" "}
-                <span className="text-[#00d9ff] font-semibold">React.js</span>{" "}
-                (web) and{" "}
-                <span className="text-[#00d9ff] font-semibold">Flutter</span>{" "}
-                (mobile) applications
-              </span>
-            </li>
-            <li className="flex items-start gap-3 hover:translate-x-2 transition-transform duration-200">
-              <span className="text-[#ff6b6b] font-bold mt-1 shrink-0">►</span>
-              <span>
-                Debugged and fixed existing APIs, ensuring seamless
-                functionality across platforms
-              </span>
-            </li>
-            <li className="flex items-start gap-3 hover:translate-x-2 transition-transform duration-200">
-              <span className="text-[#ff6b6b] font-bold mt-1 shrink-0">►</span>
-              <span>
-                Collaborated with the frontend team to ensure smooth integration
-                between backend and frontend systems
-              </span>
-            </li>
+            {exp.responsibilities.map((responsibility, index) => (
+              <li
+                key={index}
+                className="flex items-start gap-3 hover:translate-x-2 transition-transform duration-200"
+              >
+                <span className="text-[#ff6b6b] font-bold mt-1 shrink-0">
+                  ►
+                </span>
+                <span>{responsibility}</span>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
