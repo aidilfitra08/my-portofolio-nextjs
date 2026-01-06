@@ -1,28 +1,46 @@
-// Simple authentication utility
-// Uses localStorage for session management and environment variables for credentials
+// Production-ready authentication utility
+// Uses environment variables to switch between dev and production modes
 
-export const ADMIN_USERNAME = process.env.NEXT_PUBLIC_ADMIN_USERNAME || "admin";
-export const ADMIN_PASSWORD_HASH =
-  process.env.NEXT_PUBLIC_ADMIN_PASSWORD_HASH || "hashed_password";
+const isDevelopment = process.env.NODE_ENV === "development";
 
-// Simple hash function for password verification
-// In production, use bcrypt or similar
-export const hashPassword = (password: string): string => {
-  let hash = 0;
-  for (let i = 0; i < password.length; i++) {
-    const char = password.charCodeAt(i);
-    hash = (hash << 5) - hash + char;
-    hash = hash & hash; // Convert to 32bit integer
-  }
-  return Math.abs(hash).toString(16);
-};
+// Development credentials (simple)
+const DEV_USERNAME = "admin";
+const DEV_PASSWORD = "password";
 
-export const verifyCredentials = (
+// Production credentials (from environment variables)
+const PROD_USERNAME = process.env.ADMIN_USERNAME;
+const PROD_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH;
+
+/**
+ * Verify credentials based on environment
+ * In development: simple username/password check
+ * In production: bcrypt hash verification via API route
+ */
+export const verifyCredentials = async (
   username: string,
   password: string
-): boolean => {
-  const passwordHash = hashPassword(password);
-  return username === ADMIN_USERNAME && passwordHash === ADMIN_PASSWORD_HASH;
+): Promise<boolean> => {
+  if (isDevelopment) {
+    // Development mode: simple check
+    return username === DEV_USERNAME && password === DEV_PASSWORD;
+  } else {
+    // Production mode: verify via API route with bcrypt
+    try {
+      const response = await fetch("/api/admin/verify-credentials", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await response.json();
+      return data.valid === true;
+    } catch (error) {
+      console.error("Credential verification error:", error);
+      return false;
+    }
+  }
 };
 
 export const setAuthToken = (token: string) => {
@@ -46,4 +64,9 @@ export const clearAuthToken = () => {
 
 export const isAuthenticated = (): boolean => {
   return getAuthToken() !== null;
+};
+
+// Helper to get current environment
+export const getAuthMode = (): "development" | "production" => {
+  return isDevelopment ? "development" : "production";
 };

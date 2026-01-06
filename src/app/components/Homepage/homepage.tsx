@@ -13,6 +13,8 @@ import { loadPortfolioData } from "@/lib/portfolio";
 
 const Homepage = async () => {
   const data = await loadPortfolioData();
+  const projects = data?.projects || [];
+
   return (
     <>
       <Navbar />
@@ -41,7 +43,7 @@ const Homepage = async () => {
             </div>
 
             {/* Projects Section - Full width with grid */}
-            <Projects />
+            <Projects projects={projects} />
 
             {/* Blog Section */}
             <BlogPage />

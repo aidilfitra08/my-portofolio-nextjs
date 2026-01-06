@@ -38,6 +38,7 @@ export default function AdminDashboard() {
     "idle"
   );
   const [saveMessage, setSaveMessage] = useState("");
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -106,6 +107,20 @@ export default function AdminDashboard() {
     }));
   };
 
+  const listenScrollEvent = (e: Event) => {
+    const window = e.currentTarget as Window;
+    if (window.scrollY > 10) {
+      setIsScrolled(true);
+    } else {
+      setIsScrolled(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", listenScrollEvent);
+    return () => window.removeEventListener("scroll", listenScrollEvent);
+  }, []);
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-[#f5f1e8] dark:bg-[#0d0d0d] flex items-center justify-center font-mono">
@@ -132,7 +147,11 @@ export default function AdminDashboard() {
 
       <div className="relative z-10">
         {/* Header Bar */}
-        <div className=" border-b-2 border-accent-green shadow-lg sticky top-0 z-50">
+        <div
+          className={` border-b-2 border-accent-green shadow-lg sticky top-0 z-50 ${
+            isScrolled ? "bg-[#f5f1e8] dark:bg-[#0d0d0d]" : "bg-transparent"
+          } transition-all duration-100`}
+        >
           <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <FontAwesomeIcon
@@ -150,8 +169,8 @@ export default function AdminDashboard() {
                 <div
                   className={`flex items-center gap-2 text-sm px-3 py-1 rounded ${
                     saveStatus === "success"
-                      ? "bg-accent-green bg-opacity-20 text-accent-green"
-                      : "bg-[#ff6b6b] bg-opacity-20 text-[#ff6b6b]"
+                      ? "bg-accent-green bg-opacity-20 text-gray-900"
+                      : "bg-[#ff6b6b] bg-opacity-20 text-white"
                   }`}
                 >
                   <FontAwesomeIcon
@@ -165,7 +184,7 @@ export default function AdminDashboard() {
               <button
                 onClick={handleSave}
                 disabled={isSaving}
-                className="flex items-center gap-2 px-4 py-2 text-accent-green font-bold rounded transition-all duration-200 disabled:opacity-50 border-2 border-accent-green hover:bg-accent-green hover:text-white"
+                className="flex items-center gap-2 px-4 py-2 text-accent-green font-bold rounded transition-all duration-200 disabled:opacity-50 border-2 border-accent-green hover:bg-accent-green hover:text-white hover:cursor-pointer"
               >
                 <FontAwesomeIcon
                   icon={isSaving ? faRefresh : faSave}
@@ -176,7 +195,7 @@ export default function AdminDashboard() {
 
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-2 px-4 py-2 text-[#ff6b6b] hover:bg-[#ff6b6b] border-2 border-[#ff6b6b] hover:bg-opacity-20 rounded transition-colors duration-200 hover:text-white"
+                className="flex items-center gap-2 px-4 py-2 text-[#ff6b6b] hover:bg-[#ff6b6b] border-2 border-[#ff6b6b] hover:bg-opacity-20 rounded transition-colors duration-200 hover:text-white hover:cursor-pointer"
               >
                 <FontAwesomeIcon icon={faSignOut} className="w-4 h-4" />
                 Logout

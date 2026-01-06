@@ -3,10 +3,13 @@
 /**
  * Password Hash Generator for Portfolio Admin Panel
  *
+ * Generates bcrypt hash for production use
+ *
  * Usage:
  *   node scripts/generate-password-hash.js "your-password"
  *
- * Then copy the hash to NEXT_PUBLIC_ADMIN_PASSWORD_HASH in .env.local
+ * Then add to your .env.production:
+ *   ADMIN_PASSWORD_HASH=<generated-hash>
  */
 
 const password = process.argv[2];
@@ -17,26 +20,43 @@ if (!password) {
   process.exit(1);
 }
 
-if (password.length < 6) {
-  console.warn("⚠️  Warning: Password is very short (less than 6 characters)");
+if (password.length < 8) {
+  console.warn(
+    "⚠️  Warning: Password should be at least 8 characters for security"
+  );
 }
 
-// Use the same hash function as auth.ts
-function hashPassword(pwd) {
-  let hash = 0;
-  for (let i = 0; i < pwd.length; i++) {
-    const char = pwd.charCodeAt(i);
-    hash = (hash << 5) - hash + char;
-    hash = hash & hash; // Convert to 32bit integer
+async function generateHash() {
+  try {
+    // Try to use bcryptjs if available
+    const bcrypt = require("bcryptjs");
+    const saltRounds = 10;
+    const hash = await bcrypt.hash(password, saltRounds);
+
+    console.log("\n✅ Bcrypt Password Hash Generated Successfully!\n");
+    console.log(
+      "Password:",
+      "*".repeat(password.length),
+      "(hidden for security)"
+    );
+    console.log("Hash:    ", hash);
+    console.log("\nAdd these to your .env.production:");
+    console.log(`ADMIN_USERNAME=admin`);
+    console.log(`ADMIN_PASSWORD_HASH=${hash}`);
+    console.log("\n⚠️  IMPORTANT: Never commit .env.production to git!");
+    console.log("Add .env.production to .gitignore\n");
+  } catch (error) {
+    if (error.code === "MODULE_NOT_FOUND") {
+      console.error("\n❌ Error: bcryptjs is not installed");
+      console.log("\nTo install bcryptjs, run:");
+      console.log("  npm install bcryptjs");
+      console.log("\nThen run this script again.\n");
+      process.exit(1);
+    } else {
+      console.error("Error generating hash:", error);
+      process.exit(1);
+    }
   }
-  return Math.abs(hash).toString(16);
 }
 
-const hash = hashPassword(password);
-
-console.log("\n✅ Password Hash Generated Successfully!\n");
-console.log("Password:", password);
-console.log("Hash:    ", hash);
-console.log("\nAdd this to your .env.local:");
-console.log(`NEXT_PUBLIC_ADMIN_PASSWORD_HASH=${hash}`);
-console.log("\n");
+generateHash();

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { setAuthToken, hashPassword } from "@/lib/auth";
+import { setAuthToken, verifyCredentials, getAuthMode } from "@/lib/auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock, faUser, faTerminal } from "@fortawesome/free-solid-svg-icons";
 
@@ -33,18 +33,10 @@ export default function LoginPage() {
     setError("");
 
     try {
-      // Simple verification - in production, send to backend
-      const adminUsername = process.env.NEXT_PUBLIC_ADMIN_USERNAME || "admin";
-      const adminPasswordHash =
-        process.env.NEXT_PUBLIC_ADMIN_PASSWORD_HASH ||
-        "5d41402abc4b2a76b9719d911017c592";
+      // Verify credentials based on environment
+      const isValid = await verifyCredentials(username, password);
 
-      const passwordHash = hashPassword(password);
-      console.log("Computed Hash:", passwordHash);
-      const passwordAdmin = "password";
-
-      // Verify credentials
-      if (username === adminUsername && password === passwordAdmin) {
+      if (isValid) {
         // Set auth token
         const token = btoa(`${username}:${Date.now()}`);
         setAuthToken(token);
@@ -94,6 +86,18 @@ export default function LoginPage() {
               <span className="text-[#ffb000]">$</span> {typedText}
               <span className="animate-pulse">▊</span>
             </div>
+            {/* Environment Badge
+            <div className="mt-3">
+              <span
+                className={`inline-block px-3 py-1 rounded-full text-xs font-bold ${
+                  getAuthMode() === "development"
+                    ? "bg-[#ffb000] bg-opacity-20 text-[#ffb000]"
+                    : "bg-accent-green bg-opacity-20 text-accent-green"
+                }`}
+              >
+                {getAuthMode() === "development" ? "DEV MODE" : "PRODUCTION"}
+              </span>
+            </div> */}
           </div>
 
           {/* Terminal header */}
@@ -111,7 +115,7 @@ export default function LoginPage() {
           <form onSubmit={handleLogin} className="space-y-6">
             {/* Username Input */}
             <div>
-              <label className="block text-sm text-accent-green mb-2 flex items-center gap-2">
+              <label className="text-sm text-accent-green mb-2 flex items-center gap-2">
                 <FontAwesomeIcon icon={faUser} className="w-4 h-4" />
                 Username
               </label>
@@ -127,7 +131,7 @@ export default function LoginPage() {
 
             {/* Password Input */}
             <div>
-              <label className="block text-sm text-accent-green mb-2 flex items-center gap-2">
+              <label className="text-sm text-accent-green mb-2 flex items-center gap-2">
                 <FontAwesomeIcon icon={faLock} className="w-4 h-4" />
                 Password
               </label>
@@ -175,10 +179,13 @@ export default function LoginPage() {
             <p className="text-xs text-[#a0a0a0]">
               <span className="text-accent-green">»</span> Secure admin access
             </p>
-            <p className="text-xs text-[#a0a0a0] mt-2">
-              Default credentials: <span className="text-[#ffb000]">admin</span>{" "}
-              /<span className="text-[#ffb000]"> password</span>
-            </p>
+            {getAuthMode() === "development" && (
+              <p className="text-xs text-[#a0a0a0] mt-2">
+                Default credentials:{" "}
+                <span className="text-[#ffb000]">admin</span> /
+                <span className="text-[#ffb000]"> password</span>
+              </p>
+            )}
           </div>
         </div>
 
