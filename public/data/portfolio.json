@@ -105,7 +105,8 @@
       "description": "Final year project about Learning Management System for digital marketing training. This project aims to develop digital marketing for Universitas Padjadjaran students.",
       "github": "https://github.com/aidilfitra08/lms-front-end",
       "live": "http://digimalearn.online",
-      "image": "/lms.png"
+      "image": "/lms.png",
+      "images": []
     },
     {
       "name": "Vitour",
@@ -138,6 +139,18 @@
       "github": "https://github.com/aidilfitra08/rsvp-form",
       "live": "https://rsvp-form-orpin.vercel.app",
       "image": "/project/rsvp.png"
+    },
+    {
+      "name": "New Project",
+      "tech": "Technology Stack",
+      "description": "Project description",
+      "github": "#",
+      "live": "#",
+      "image": "/project/1767678591915-Background_ASI_New.jpg",
+      "images": [
+        "/project/1767678591915-Background_ASI_New.jpg",
+        "/project/1767678591943-Background_Peepl_New.jpg"
+      ]
     }
   ]
 }
