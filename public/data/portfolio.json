@@ -147,11 +147,8 @@
       "description": "Project description",
       "github": "#",
       "live": "#",
-      "image": "/project/1767678591915-Background_ASI_New.jpg",
-      "images": [
-        "/project/1767678591915-Background_ASI_New.jpg",
-        "/project/1767678591943-Background_Peepl_New.jpg"
-      ],
+      "image": "",
+      "images": [],
       "visible": true
     }
   ]
