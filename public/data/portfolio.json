@@ -122,7 +122,8 @@
       "description": "High-performance API gateway with rate limiting and authentication",
       "github": "#",
       "live": "#",
-      "image": ""
+      "image": "",
+      "visible": true
     },
     {
       "name": "Order Management Backend Service",
@@ -150,7 +151,8 @@
       "images": [
         "/project/1767678591915-Background_ASI_New.jpg",
         "/project/1767678591943-Background_Peepl_New.jpg"
-      ]
+      ],
+      "visible": false
     }
   ]
 }
