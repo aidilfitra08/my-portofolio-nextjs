@@ -45,20 +45,20 @@ export const verifyCredentials = async (
 
 export const setAuthToken = (token: string) => {
   if (typeof window !== "undefined") {
-    localStorage.setItem("admin_token", token);
+    sessionStorage.setItem("admin_token", token);
   }
 };
 
 export const getAuthToken = (): string | null => {
   if (typeof window !== "undefined") {
-    return localStorage.getItem("admin_token");
+    return sessionStorage.getItem("admin_token");
   }
   return null;
 };
 
 export const clearAuthToken = () => {
   if (typeof window !== "undefined") {
-    localStorage.removeItem("admin_token");
+    sessionStorage.removeItem("admin_token");
   }
 };
 
