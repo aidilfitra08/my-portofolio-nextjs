@@ -2,8 +2,8 @@
   "header": {
     "greeting": "Hello,",
     "name": "Aidil",
-    "title": "Software Engineer — Backend, Automation & AI Integration",
-    "description": "Computer Science graduate with hands-on experience building scalable backend systems and modern web applications. Strong focus on backend development, microservices, and automation, with experience using Laravel, Next.js, React, RabbitMQ, and cloud-based workflows. Comfortable working across web and mobile platforms.",
+    "title": "Software Engineer",
+    "description": "Software Engineer focused on building scalable backend systems, event-driven workflows, and modern web applications.",
     "location": "Indonesia"
   },
   "skills": [
@@ -167,7 +167,7 @@
       "live": "#",
       "image": "",
       "images": [],
-      "visible": false
+      "visible": true
     }
   ]
 }
