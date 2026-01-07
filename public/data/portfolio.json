@@ -2,8 +2,8 @@
   "header": {
     "greeting": "Hello,",
     "name": "Aidil",
-    "title": "Computer Science Graduate",
-    "description": "I'm a Computer Science graduate with experience in backend, web, and mobile development. Skilled in technologies like Laravel, Flutter, Node.js, React, Next.js, Golang, MySQL, and MongoDB.",
+    "title": "Software Engineer — Backend, Automation & AI Integration",
+    "description": "Computer Science graduate with hands-on experience building scalable backend systems and modern web applications. Strong focus on backend development, microservices, and automation, with experience using Laravel, Next.js, React, RabbitMQ, and cloud-based workflows. Comfortable working across web and mobile platforms.",
     "location": "Indonesia"
   },
   "skills": [
@@ -15,7 +15,8 @@
         "CodeIgniter",
         "Express.js",
         "Java",
-        "Laravel"
+        "Laravel",
+        "Python (FastAPI)"
       ],
       "color": "text-accent-green",
       "bgColor": "bg-accent-green",
@@ -39,7 +40,8 @@
         "MySQL",
         "MongoDB",
         "PostgreSQL",
-        "Redis"
+        "Redis",
+        "Vector Database: Qdrant"
       ],
       "color": "text-[#ffb000]",
       "bgColor": "bg-[#ffb000]",
@@ -51,7 +53,8 @@
         "Git",
         "Docker",
         "AWS",
-        "Vercel"
+        "Vercel",
+        "n8n"
       ],
       "color": "text-[#ff6b6b]",
       "bgColor": "bg-[#ff6b6b]",
@@ -60,7 +63,10 @@
     {
       "category": "Others",
       "items": [
-        "RabbitMQ"
+        "RabbitMQ",
+        "Microservices",
+        "Security: JWT, OAuth, API security basics",
+        "LLMs API"
       ],
       "color": "text-[#bd93f9]",
       "bgColor": "bg-[#bd93f9]",
@@ -90,12 +96,22 @@
       ]
     },
     {
-      "title": "triple",
-      "company": "Company Name",
-      "location": "Location",
-      "startDate": "Start Date",
-      "endDate": "End Date",
-      "responsibilities": []
+      "title": "Fullstack Developer",
+      "company": "Peepl",
+      "location": "Jakarta, Indonesia",
+      "startDate": "June 2025",
+      "endDate": "present",
+      "responsibilities": [
+        "Redesigned and developed the second version of the internal collaboration management platform using Next.js, improving performance, responsive design, and user experience.",
+        "Restructured the back-end by decoupling a Laravel monolith into a standalone REST API server, increasing scalability and maintainability.",
+        "Maintained and extended the assessor and admin system in Laravel, delivering 2 new features and integrating them seamlessly with existing modules.",
+        "Optimized system performance by implementing Redis, RabbitMQ, and Laravel Jobs for background task processing.",
+        "Designed and maintained a microservice architecture between the main application and automated report generator for reliable data flow.",
+        "Developed and maintained the client request portal, building the backend in Go with PostgreSQL and RabbitMQ as the message broker to synchronize requests across internal systems.",
+        "Built an AI assistant to help users retrieve candidate reports graded by assessors through natural language queries.",
+        "Containerized applications and services with Docker to streamline development, testing, and deployment workflows.",
+        "Led and mentored two Full-Stack Developer interns in building a fully responsive notification and assessment management application for assessors. Oversaw feature planning, architecture decisions, code reviews, and delivery of production-ready components."
+      ]
     }
   ],
   "projects": [
@@ -106,7 +122,9 @@
       "github": "https://github.com/aidilfitra08/lms-front-end",
       "live": "http://digimalearn.online",
       "image": "/lms.png",
-      "images": []
+      "images": [
+        "/lms.png"
+      ]
     },
     {
       "name": "Vitour",
@@ -142,9 +160,9 @@
       "image": "/project/rsvp.png"
     },
     {
-      "name": "New Project",
-      "tech": "Technology Stack",
-      "description": "Project description",
+      "name": "Streamline",
+      "tech": "Laravel, Next.js, RabbitMQ, Event-Driven Architecture, Microservices, Stateless API",
+      "description": "Internal assessment platform for managing assessor workflows, automated grading, and report generation. Built using Laravel, Next.js, and RabbitMQ with a microservice-oriented architecture. (NDA-protected project at Peepl)",
       "github": "#",
       "live": "#",
       "image": "",
