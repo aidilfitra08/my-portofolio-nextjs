@@ -4,7 +4,8 @@
     "name": "Aidil",
     "title": "Computer Science Graduate",
     "description": "I'm a Computer Science graduate with experience in backend, web, and mobile development. Skilled in technologies like Laravel, Flutter, Node.js, React, Next.js, Golang, MySQL, and MongoDB.",
-    "location": "Indonesia"
+    "location": "Indonesia",
+    "cvUrl": "/data/cv.pdf"
   },
   "skills": [
     {
