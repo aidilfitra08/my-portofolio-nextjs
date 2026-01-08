@@ -2,6 +2,7 @@
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faUser } from "@fortawesome/free-solid-svg-icons";
+import CVUpload from "./CVUpload";
 
 interface EditHeaderProps {
   data: {
@@ -10,6 +11,7 @@ interface EditHeaderProps {
     title: string;
     description: string;
     location: string;
+    cvUrl?: string;
   };
   onChange: (data: any) => void;
 }
@@ -21,7 +23,6 @@ export default function EditHeader({ data, onChange }: EditHeaderProps) {
       [field]: value,
     });
   };
-
   return (
     <div>
       <div className="flex items-center gap-3 mb-6">
@@ -85,16 +86,19 @@ export default function EditHeader({ data, onChange }: EditHeaderProps) {
           />
         </div>
 
-        {/* Location */}
+        {/* CV Upload */}
         <div>
-          <label className="block text-sm font-bold text-[#ff6b6b] mb-2">
-            Location
+          <label className="block text-sm font-bold text-accent-green mb-2">
+            CV (PDF)
           </label>
-          <input
-            type="text"
-            value={data.location}
-            onChange={(e) => handleChange("location", e.target.value)}
-            className="w-full px-4 py-2 bg-[#f5f1e8] dark:bg-[#0a0a0a] border-2 border-[#ff6b6b] border-opacity-30 text-[#2a2a2a] dark:text-[#e0e0e0] rounded font-mono text-sm focus:outline-none focus:border-[#ff6b6b] focus:shadow-lg focus:shadow-[#ff6b6b]/30 transition-all duration-200"
+          <CVUpload
+            currentUrl={data.cvUrl}
+            onUploaded={(url) =>
+              onChange({
+                ...data,
+                cvUrl: url,
+              })
+            }
           />
         </div>
 
@@ -111,6 +115,14 @@ export default function EditHeader({ data, onChange }: EditHeaderProps) {
             </span>
             <br />
             <span className="text-[#ffb000]">{data.title}</span>
+            {data.cvUrl && (
+              <>
+                <br />
+                <span className="text-xs text-accent-green">
+                  CV: {data.cvUrl}
+                </span>
+              </>
+            )}
           </p>
         </div>
       </div>

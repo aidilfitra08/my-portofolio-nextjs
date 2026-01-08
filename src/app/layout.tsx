@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
+import "simplebar-react/dist/simplebar.min.css";
 // import DynamicFavicon from "./components/DynamicFavicon";
 
 import { config } from "@fortawesome/fontawesome-svg-core";

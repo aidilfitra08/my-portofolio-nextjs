@@ -22,11 +22,13 @@
     "dayjs": "^1.11.19",
     "next": "16.0.10",
     "papaparse": "^5.5.3",
+    "pdfjs-dist": "^5.4.530",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-markdown": "^10.1.0",
     "rehype-highlight": "^7.0.2",
     "rss-parser": "^3.13.0",
+    "simplebar-react": "^3.2.6",
     "three": "^0.182.0",
     "yaml": "^2.8.2"
   },
