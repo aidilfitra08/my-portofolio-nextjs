@@ -335,6 +335,8 @@ export default function SimpleAIAgentPage() {
     setInput("");
     setIsLoading(true);
 
+    const aiMessageId = (Date.now() + 1).toString();
+
     try {
       const personalContext = createPersonalContext();
       const fullMessage = personalContext
@@ -359,20 +361,102 @@ export default function SimpleAIAgentPage() {
         throw new Error("Failed to get AI response");
       }
 
-      const data = await response.json();
+      // Check if response is a stream (Server-Sent Events)
+      const contentType = response.headers.get("content-type");
+      const isStream = contentType?.includes("text/event-stream");
 
-      const aiMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        text: data.response || "Sorry, I couldn't process your request.",
-        sender: "ai",
-        timestamp: new Date(),
-      };
+      if (isStream && response.body) {
+        // Handle Server-Sent Events (SSE) streaming
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let aiResponseText = "";
+        let aiMessage: Message | null = null;
 
-      setMessages((prev) => [...prev, aiMessage]);
+        try {
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            const chunk = decoder.decode(value, { stream: true });
+            const lines = chunk.split("\n");
+
+            for (const line of lines) {
+              if (line.startsWith("data: ")) {
+                const data = line.slice(6).trim();
+                if (data === "[DONE]") {
+                  // Stream completed
+                  continue;
+                }
+
+                try {
+                  const parsed = JSON.parse(data);
+                  const token = parsed.token || parsed.content || "";
+                  aiResponseText += token;
+
+                  // Create or update the AI message
+                  if (!aiMessage) {
+                    aiMessage = {
+                      id: aiMessageId,
+                      text: aiResponseText,
+                      sender: "ai",
+                      timestamp: new Date(),
+                    };
+                    setMessages((prev) => [...prev, aiMessage!]);
+                  } else {
+                    // Update the last message (AI response) with new text
+                    setMessages((prev) => {
+                      const updated = [...prev];
+                      const lastIndex = updated.length - 1;
+                      if (
+                        lastIndex >= 0 &&
+                        updated[lastIndex].id === aiMessageId
+                      ) {
+                        updated[lastIndex] = {
+                          ...updated[lastIndex],
+                          text: aiResponseText,
+                        };
+                      }
+                      return updated;
+                    });
+                  }
+                } catch (parseError) {
+                  // Skip invalid JSON lines
+                  continue;
+                }
+              }
+            }
+          }
+        } finally {
+          reader.releaseLock();
+        }
+
+        // Ensure we have at least an empty response
+        if (!aiMessage) {
+          const aiMessage: Message = {
+            id: aiMessageId,
+            text: aiResponseText || "Sorry, I couldn't process your request.",
+            sender: "ai",
+            timestamp: new Date(),
+          };
+          setMessages((prev) => [...prev, aiMessage]);
+        }
+      } else {
+        // Handle regular JSON response (fallback)
+        const data = await response.json();
+
+        const aiMessage: Message = {
+          id: aiMessageId,
+          text: data.response || "Sorry, I couldn't process your request.",
+          sender: "ai",
+          timestamp: new Date(),
+        };
+
+        setMessages((prev) => [...prev, aiMessage]);
+      }
     } catch (error) {
       console.error("Error:", error);
       const errorMessage: Message = {
-        id: (Date.now() + 1).toString(),
+        id: aiMessageId,
         text: "Sorry, I'm having trouble connecting to the AI service. Please try again later.",
         sender: "ai",
         timestamp: new Date(),
