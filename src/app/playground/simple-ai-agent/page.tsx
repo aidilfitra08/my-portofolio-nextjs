@@ -13,6 +13,7 @@ import {
   faTerminal,
   faArrowLeft,
   faTrash,
+  faSignOut,
 } from "@fortawesome/free-solid-svg-icons";
 import ReactMarkdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
@@ -20,6 +21,7 @@ import Link from "next/link";
 
 // Add this to your global CSS or import it
 import "highlight.js/styles/github-dark.css";
+import AuthGate from "../../../components/AuthGate";
 
 // Add this interface for speech recognition
 interface SpeechRecognitionEvent extends Event {
@@ -474,6 +476,13 @@ export default function SimpleAIAgentPage() {
     }
   };
 
+  const handleLogout = () => {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("user_auth_token");
+      window.location.reload();
+    }
+  };
+
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -604,152 +613,350 @@ export default function SimpleAIAgentPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f5f5f0] dark:bg-[#0a0a0a] flex flex-col relative">
-      {/* Scanlines effect */}
-      <div className="scanlines pointer-events-none" />
+    <AuthGate>
+      <div className="min-h-screen bg-[#f5f5f0] dark:bg-[#0a0a0a] flex flex-col relative">
+        {/* Scanlines effect */}
+        <div className="scanlines pointer-events-none" />
 
-      {/* Retro grid background */}
-      <div className="absolute inset-0 opacity-5">
-        <div
-          className="h-full w-full"
-          style={{
-            backgroundImage: `
+        {/* Retro grid background */}
+        <div className="absolute inset-0 opacity-5">
+          <div
+            className="h-full w-full"
+            style={{
+              backgroundImage: `
               linear-gradient(rgba(0, 255, 65, 0.3) 1px, transparent 1px),
               linear-gradient(90deg, rgba(0, 255, 65, 0.3) 1px, transparent 1px)
             `,
-            backgroundSize: "50px 50px",
-          }}
-        />
-      </div>
+              backgroundSize: "50px 50px",
+            }}
+          />
+        </div>
 
-      {/* Header */}
-      <div className="bg-white dark:bg-[#1a1a1a] border-b-2 border-neutral-300 dark:border-accent-green p-4 relative z-10">
-        <div className="max-w-4xl mx-auto">
-          <div className="flex items-center justify-between flex-wrap gap-4 mb-4">
-            {/* Back button */}
-            <Link
-              href="/playground"
-              className="group inline-flex items-center gap-2 px-3 py-2 border-2 border-neutral-900 dark:border-accent-green bg-white dark:bg-[#1a1a1a] font-mono text-sm transition-all hover:translate-x-1 hover:-translate-y-1 relative"
-            >
-              <div className="absolute inset-0 border-2 border-neutral-900 dark:border-accent-green translate-x-1 translate-y-1 -z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
-              <FontAwesomeIcon
-                icon={faArrowLeft}
-                className="text-neutral-900 dark:text-accent-green"
-              />
-              <span className="text-neutral-900 dark:text-[#e0e0e0] font-bold">
-                BACK
-              </span>
-            </Link>
+        {/* Header */}
+        <div className="bg-white dark:bg-[#1a1a1a] border-b-2 border-neutral-300 dark:border-accent-green p-4 relative z-10">
+          <div className="max-w-4xl mx-auto">
+            <div className="flex items-center justify-between flex-wrap gap-4 mb-4">
+              {/* Back button */}
+              <Link
+                href="/playground"
+                className="group inline-flex items-center gap-2 px-3 py-2 border-2 border-neutral-900 dark:border-accent-green bg-white dark:bg-[#1a1a1a] font-mono text-sm transition-all hover:translate-x-1 hover:-translate-y-1 relative"
+              >
+                <div className="absolute inset-0 border-2 border-neutral-900 dark:border-accent-green translate-x-1 translate-y-1 -z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <FontAwesomeIcon
+                  icon={faArrowLeft}
+                  className="text-neutral-900 dark:text-accent-green"
+                />
+                <span className="text-neutral-900 dark:text-[#e0e0e0] font-bold">
+                  BACK
+                </span>
+              </Link>
 
-            {/* Personal Info Toggle */}
-            <button
-              onClick={() => setShowPersonalInfo(!showPersonalInfo)}
-              className="group inline-flex items-center gap-2 px-3 py-2 border-2 border-neutral-900 dark:border-accent-green bg-white dark:bg-[#1a1a1a] font-mono text-sm transition-all hover:translate-x-1 hover:-translate-y-1 relative"
-            >
-              <div className="absolute inset-0 border-2 border-neutral-900 dark:border-accent-green translate-x-1 translate-y-1 -z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
-              <FontAwesomeIcon
-                icon={faUserCog}
-                className="text-neutral-900 dark:text-accent-green"
-              />
-              <span className="text-neutral-900 dark:text-[#e0e0e0] font-bold hidden sm:inline">
-                {Object.keys(personalInfo).length > 0 ? "PROFILE" : "NO_DATA"}
-              </span>
-            </button>
-          </div>
-
-          {/* Title Section */}
-          <div className="flex items-center gap-3 mb-2">
-            <FontAwesomeIcon
-              icon={faTerminal}
-              className="text-2xl text-neutral-900 dark:text-accent-green terminal-glow"
-            />
-            <div>
-              <h1 className="text-2xl md:text-3xl font-mono font-bold text-neutral-900 dark:text-[#e0e0e0]">
-                [AI_ASSISTANT]
-                {personalInfo.name && (
-                  <span className="text-accent-green dark:text-accent-green ml-2">
-                    // {personalInfo.name}
-                  </span>
-                )}
-              </h1>
-              <p className="text-xs font-mono text-neutral-600 dark:text-[#999] mt-1">
-                <span className="text-[#ffb000]">$</span> ./chat --mode=personal
-                {speechSupported && " --voice=enabled"}
-              </p>
-            </div>
-          </div>
-
-          {/* Personal Info Panel */}
-          {showPersonalInfo && (
-            <div className="mt-4 vintage-card bg-white dark:bg-[#1a1a1a] border-2 border-neutral-900 dark:border-accent-green p-4 relative">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-base font-mono font-bold text-neutral-900 dark:text-accent-green">
-                  [USER_PROFILE]
-                </h3>
+              <div className="flex items-center gap-3">
+                {/* Personal Info Toggle */}
                 <button
-                  onClick={clearPersonalInfo}
-                  className="inline-flex items-center gap-1 px-2 py-1 border border-[#ff6b6b] bg-white dark:bg-[#1a1a1a] text-[#ff6b6b] font-mono text-xs hover:bg-[#ff6b6b] hover:text-white transition-all"
+                  onClick={() => setShowPersonalInfo(!showPersonalInfo)}
+                  className="group inline-flex items-center gap-2 px-3 py-2 border-2 border-neutral-900 dark:border-accent-green bg-white dark:bg-[#1a1a1a] font-mono text-sm transition-all hover:translate-x-1 hover:-translate-y-1 relative"
                 >
-                  <FontAwesomeIcon icon={faTrash} />
-                  CLEAR
+                  <div className="absolute inset-0 border-2 border-neutral-900 dark:border-accent-green translate-x-1 translate-y-1 -z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <FontAwesomeIcon
+                    icon={faUserCog}
+                    className="text-neutral-900 dark:text-accent-green"
+                  />
+                  <span className="text-neutral-900 dark:text-[#e0e0e0] font-bold hidden sm:inline">
+                    {Object.keys(personalInfo).length > 0
+                      ? "PROFILE"
+                      : "NO_DATA"}
+                  </span>
+                </button>
+
+                {/* Logout Button */}
+                <button
+                  onClick={handleLogout}
+                  className="group inline-flex items-center gap-2 px-3 py-2 border-2 border-neutral-900 dark:border-[#ff6b6b] bg-white dark:bg-[#1a1a1a] font-mono text-sm transition-all hover:translate-x-1 hover:-translate-y-1 relative"
+                  title="Logout"
+                >
+                  <div className="absolute inset-0 border-2 border-neutral-900 dark:border-[#ff6b6b] translate-x-1 translate-y-1 -z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <FontAwesomeIcon
+                    icon={faSignOut}
+                    className="text-neutral-900 dark:text-[#ff6b6b]"
+                  />
+                  <span className="text-neutral-900 dark:text-[#ff6b6b] font-bold hidden sm:inline">
+                    LOGOUT
+                  </span>
                 </button>
               </div>
-              {Object.keys(personalInfo).length > 0 ? (
-                <div className="space-y-2 text-sm font-mono">
+            </div>
+
+            {/* Title Section */}
+            <div className="flex items-center gap-3 mb-2">
+              <FontAwesomeIcon
+                icon={faTerminal}
+                className="text-2xl text-neutral-900 dark:text-accent-green terminal-glow"
+              />
+              <div>
+                <h1 className="text-2xl md:text-3xl font-mono font-bold text-neutral-900 dark:text-[#e0e0e0]">
+                  [AI_ASSISTANT]
                   {personalInfo.name && (
-                    <p className="text-neutral-700 dark:text-[#c0c0c0]">
-                      <span className="text-neutral-900 dark:text-accent-green">
-                        ►
-                      </span>{" "}
-                      Name:{" "}
-                      <span className="text-neutral-900 dark:text-[#e0e0e0]">
-                        {personalInfo.name}
-                      </span>
-                    </p>
+                    <span className="text-accent-green dark:text-accent-green ml-2">
+                      // {personalInfo.name}
+                    </span>
                   )}
-                  {personalInfo.job && (
-                    <p className="text-neutral-700 dark:text-[#c0c0c0]">
-                      <span className="text-neutral-900 dark:text-accent-green">
-                        ►
-                      </span>{" "}
-                      Job:{" "}
-                      <span className="text-neutral-900 dark:text-[#e0e0e0]">
-                        {personalInfo.job}
-                      </span>
-                    </p>
-                  )}
-                  {personalInfo.location && (
-                    <p className="text-neutral-700 dark:text-[#c0c0c0]">
-                      <span className="text-neutral-900 dark:text-accent-green">
-                        ►
-                      </span>{" "}
-                      Location:{" "}
-                      <span className="text-neutral-900 dark:text-[#e0e0e0]">
-                        {personalInfo.location}
-                      </span>
-                    </p>
-                  )}
-                  {personalInfo.interests &&
-                    personalInfo.interests.length > 0 && (
+                </h1>
+                <p className="text-xs font-mono text-neutral-600 dark:text-[#999] mt-1">
+                  <span className="text-[#ffb000]">$</span> ./chat
+                  --mode=personal
+                  {speechSupported && " --voice=enabled"}
+                </p>
+              </div>
+            </div>
+
+            {/* Personal Info Panel */}
+            {showPersonalInfo && (
+              <div className="mt-4 vintage-card bg-white dark:bg-[#1a1a1a] border-2 border-neutral-900 dark:border-accent-green p-4 relative">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-base font-mono font-bold text-neutral-900 dark:text-accent-green">
+                    [USER_PROFILE]
+                  </h3>
+                  <button
+                    onClick={clearPersonalInfo}
+                    className="inline-flex items-center gap-1 px-2 py-1 border border-[#ff6b6b] bg-white dark:bg-[#1a1a1a] text-[#ff6b6b] font-mono text-xs hover:bg-[#ff6b6b] hover:text-white transition-all"
+                  >
+                    <FontAwesomeIcon icon={faTrash} />
+                    CLEAR
+                  </button>
+                </div>
+                {Object.keys(personalInfo).length > 0 ? (
+                  <div className="space-y-2 text-sm font-mono">
+                    {personalInfo.name && (
                       <p className="text-neutral-700 dark:text-[#c0c0c0]">
                         <span className="text-neutral-900 dark:text-accent-green">
                           ►
                         </span>{" "}
-                        Interests:{" "}
+                        Name:{" "}
                         <span className="text-neutral-900 dark:text-[#e0e0e0]">
-                          {personalInfo.interests.join(", ")}
+                          {personalInfo.name}
                         </span>
                       </p>
                     )}
+                    {personalInfo.job && (
+                      <p className="text-neutral-700 dark:text-[#c0c0c0]">
+                        <span className="text-neutral-900 dark:text-accent-green">
+                          ►
+                        </span>{" "}
+                        Job:{" "}
+                        <span className="text-neutral-900 dark:text-[#e0e0e0]">
+                          {personalInfo.job}
+                        </span>
+                      </p>
+                    )}
+                    {personalInfo.location && (
+                      <p className="text-neutral-700 dark:text-[#c0c0c0]">
+                        <span className="text-neutral-900 dark:text-accent-green">
+                          ►
+                        </span>{" "}
+                        Location:{" "}
+                        <span className="text-neutral-900 dark:text-[#e0e0e0]">
+                          {personalInfo.location}
+                        </span>
+                      </p>
+                    )}
+                    {personalInfo.interests &&
+                      personalInfo.interests.length > 0 && (
+                        <p className="text-neutral-700 dark:text-[#c0c0c0]">
+                          <span className="text-neutral-900 dark:text-accent-green">
+                            ►
+                          </span>{" "}
+                          Interests:{" "}
+                          <span className="text-neutral-900 dark:text-[#e0e0e0]">
+                            {personalInfo.interests.join(", ")}
+                          </span>
+                        </p>
+                      )}
+                  </div>
+                ) : (
+                  <p className="text-sm font-mono text-neutral-600 dark:text-[#999]">
+                    <span className="text-neutral-900 dark:text-accent-green">
+                      ►
+                    </span>{" "}
+                    No data stored. Tell me about yourself!
+                  </p>
+                )}
+
+                {/* Corner decorations */}
+                <div className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-neutral-900 dark:border-accent-green" />
+                <div className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-neutral-900 dark:border-accent-green" />
+                <div className="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-neutral-900 dark:border-accent-green" />
+                <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-neutral-900 dark:border-accent-green" />
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Chat Messages */}
+        <div className="flex-1 overflow-hidden relative z-10">
+          <div className="max-w-4xl mx-auto h-full flex flex-col p-4">
+            <div className="flex-1 overflow-y-auto space-y-4 scrollbar-thin scrollbar-thumb-neutral-300 dark:scrollbar-thumb-neutral-700">
+              {messages.map((message) => (
+                <div
+                  key={message.id}
+                  className={`flex items-start gap-3 ${
+                    message.sender === "user" ? "flex-row-reverse" : "flex-row"
+                  }`}
+                >
+                  {/* Avatar */}
+                  <div
+                    className={`w-8 h-8 border-2 flex items-center justify-center shrink-0 ${
+                      message.sender === "user"
+                        ? "border-neutral-900 dark:border-[#ffb000] bg-neutral-100 dark:bg-[#ffb000]/20"
+                        : "border-neutral-900 dark:border-accent-green bg-neutral-100 dark:bg-accent-green/20"
+                    }`}
+                  >
+                    <FontAwesomeIcon
+                      icon={message.sender === "user" ? faUser : faRobot}
+                      className={
+                        message.sender === "user"
+                          ? "text-neutral-900 dark:text-[#ffb000] text-sm"
+                          : "text-neutral-900 dark:text-accent-green text-sm"
+                      }
+                    />
+                  </div>
+
+                  {/* Message Bubble */}
+                  <div
+                    className={`max-w-xs sm:max-w-md lg:max-w-lg xl:max-w-xl vintage-card relative ${
+                      message.sender === "user"
+                        ? "bg-neutral-100 dark:bg-[#1a1a1a] border-2 border-neutral-900 dark:border-[#ffb000] p-3"
+                        : "bg-white dark:bg-[#1a1a1a] border-2 border-neutral-300 dark:border-accent-green p-3"
+                    }`}
+                  >
+                    {message.sender === "ai" ? (
+                      <div className="text-sm leading-relaxed font-mono prose prose-sm max-w-none text-neutral-900 dark:text-[#c0c0c0]">
+                        <ReactMarkdown
+                          components={markdownComponents}
+                          rehypePlugins={[rehypeHighlight]}
+                        >
+                          {message.text}
+                        </ReactMarkdown>
+                      </div>
+                    ) : (
+                      <p className="text-sm leading-relaxed whitespace-pre-wrap font-mono text-neutral-900 dark:text-[#e0e0e0]">
+                        {message.text}
+                      </p>
+                    )}
+                    <p className="text-xs mt-2 text-neutral-500 dark:text-[#666] font-mono">
+                      [
+                      {message.timestamp.toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                      ]
+                    </p>
+
+                    {/* Small corner decoration */}
+                    <div
+                      className={`absolute w-2 h-2 ${
+                        message.sender === "user"
+                          ? "-top-0.5 -right-0.5 border-t-2 border-r-2 border-neutral-900 dark:border-[#ffb000]"
+                          : "-top-0.5 -left-0.5 border-t-2 border-l-2 border-neutral-300 dark:border-accent-green"
+                      }`}
+                    />
+                  </div>
                 </div>
-              ) : (
-                <p className="text-sm font-mono text-neutral-600 dark:text-[#999]">
-                  <span className="text-neutral-900 dark:text-accent-green">
-                    ►
-                  </span>{" "}
-                  No data stored. Tell me about yourself!
-                </p>
+              ))}
+
+              {/* Loading Indicator */}
+              {isLoading && (
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 border-2 border-neutral-900 dark:border-accent-green bg-neutral-100 dark:bg-accent-green/20 flex items-center justify-center">
+                    <FontAwesomeIcon
+                      icon={faRobot}
+                      className="text-neutral-900 dark:text-accent-green text-sm"
+                    />
+                  </div>
+                  <div className="vintage-card bg-white dark:bg-[#1a1a1a] border-2 border-neutral-300 dark:border-accent-green p-3 relative">
+                    <div className="flex items-center gap-2 font-mono text-sm">
+                      <FontAwesomeIcon
+                        icon={faSpinner}
+                        className="text-neutral-900 dark:text-accent-green animate-spin"
+                      />
+                      <span className="text-neutral-700 dark:text-[#c0c0c0]">
+                        Processing...
+                      </span>
+                    </div>
+                    <div className="absolute -top-0.5 -left-0.5 w-2 h-2 border-t-2 border-l-2 border-neutral-300 dark:border-accent-green" />
+                  </div>
+                </div>
               )}
+
+              <div ref={messagesEndRef} />
+            </div>
+
+            {/* Input Area */}
+            <div className="mt-4 vintage-card bg-white dark:bg-[#1a1a1a] border-2 border-neutral-900 dark:border-accent-green p-4 relative">
+              <div className="flex gap-2">
+                <textarea
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  placeholder="Type_message_here..."
+                  className="flex-1 resize-none bg-transparent text-neutral-900 dark:text-[#e0e0e0] placeholder-neutral-500 dark:placeholder-[#666] focus:outline-none min-h-[60px] max-h-32 font-mono text-sm"
+                  rows={1}
+                  disabled={isLoading}
+                />
+
+                {/* Voice Input Button */}
+                {speechSupported && (
+                  <button
+                    onClick={toggleListening}
+                    disabled={isLoading}
+                    className={`w-10 h-10 border-2 flex items-center justify-center transition-all ${
+                      isListening
+                        ? "border-[#ff6b6b] bg-[#ff6b6b] text-white animate-pulse"
+                        : "border-neutral-300 dark:border-neutral-700 bg-neutral-100 dark:bg-[#0a0a0a] text-neutral-900 dark:text-[#c0c0c0] hover:border-neutral-900 dark:hover:border-accent-green"
+                    } ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+                    title={isListening ? "Stop recording" : "Start voice input"}
+                  >
+                    <FontAwesomeIcon
+                      icon={isListening ? faMicrophoneSlash : faMicrophone}
+                    />
+                  </button>
+                )}
+
+                <button
+                  onClick={sendMessage}
+                  disabled={!input.trim() || isLoading}
+                  className="w-10 h-10 border-2 border-neutral-900 dark:border-accent-green bg-neutral-900 dark:bg-accent-green text-white dark:text-[#0a0a0a] hover:bg-neutral-800 dark:hover:bg-[#00ff41] disabled:bg-neutral-300 dark:disabled:bg-neutral-700 disabled:border-neutral-300 dark:disabled:border-neutral-700 disabled:cursor-not-allowed flex items-center justify-center transition-all"
+                >
+                  <FontAwesomeIcon
+                    icon={isLoading ? faSpinner : faPaperPlane}
+                    className={isLoading ? "animate-spin" : ""}
+                  />
+                </button>
+              </div>
+
+              {/* Helper Text */}
+              <div className="mt-2 text-xs text-neutral-600 dark:text-[#999] font-mono">
+                <kbd className="px-1 py-0.5 bg-neutral-200 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 text-xs">
+                  Enter
+                </kbd>{" "}
+                to send •{" "}
+                <kbd className="px-1 py-0.5 bg-neutral-200 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 text-xs">
+                  Shift+Enter
+                </kbd>{" "}
+                for new line
+                {speechSupported && (
+                  <>
+                    {" "}
+                    • <FontAwesomeIcon icon={faMicrophone} className="mx-1" />
+                    for voice
+                    {isListening && (
+                      <span className="ml-2 text-[#ff6b6b] font-bold animate-pulse">
+                        🔴 LISTENING
+                      </span>
+                    )}
+                  </>
+                )}
+              </div>
 
               {/* Corner decorations */}
               <div className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-neutral-900 dark:border-accent-green" />
@@ -757,184 +964,9 @@ export default function SimpleAIAgentPage() {
               <div className="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-neutral-900 dark:border-accent-green" />
               <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-neutral-900 dark:border-accent-green" />
             </div>
-          )}
-        </div>
-      </div>
-
-      {/* Chat Messages */}
-      <div className="flex-1 overflow-hidden relative z-10">
-        <div className="max-w-4xl mx-auto h-full flex flex-col p-4">
-          <div className="flex-1 overflow-y-auto space-y-4 scrollbar-thin scrollbar-thumb-neutral-300 dark:scrollbar-thumb-neutral-700">
-            {messages.map((message) => (
-              <div
-                key={message.id}
-                className={`flex items-start gap-3 ${
-                  message.sender === "user" ? "flex-row-reverse" : "flex-row"
-                }`}
-              >
-                {/* Avatar */}
-                <div
-                  className={`w-8 h-8 border-2 flex items-center justify-center shrink-0 ${
-                    message.sender === "user"
-                      ? "border-neutral-900 dark:border-[#ffb000] bg-neutral-100 dark:bg-[#ffb000]/20"
-                      : "border-neutral-900 dark:border-accent-green bg-neutral-100 dark:bg-accent-green/20"
-                  }`}
-                >
-                  <FontAwesomeIcon
-                    icon={message.sender === "user" ? faUser : faRobot}
-                    className={
-                      message.sender === "user"
-                        ? "text-neutral-900 dark:text-[#ffb000] text-sm"
-                        : "text-neutral-900 dark:text-accent-green text-sm"
-                    }
-                  />
-                </div>
-
-                {/* Message Bubble */}
-                <div
-                  className={`max-w-xs sm:max-w-md lg:max-w-lg xl:max-w-xl vintage-card relative ${
-                    message.sender === "user"
-                      ? "bg-neutral-100 dark:bg-[#1a1a1a] border-2 border-neutral-900 dark:border-[#ffb000] p-3"
-                      : "bg-white dark:bg-[#1a1a1a] border-2 border-neutral-300 dark:border-accent-green p-3"
-                  }`}
-                >
-                  {message.sender === "ai" ? (
-                    <div className="text-sm leading-relaxed font-mono prose prose-sm max-w-none text-neutral-900 dark:text-[#c0c0c0]">
-                      <ReactMarkdown
-                        components={markdownComponents}
-                        rehypePlugins={[rehypeHighlight]}
-                      >
-                        {message.text}
-                      </ReactMarkdown>
-                    </div>
-                  ) : (
-                    <p className="text-sm leading-relaxed whitespace-pre-wrap font-mono text-neutral-900 dark:text-[#e0e0e0]">
-                      {message.text}
-                    </p>
-                  )}
-                  <p className="text-xs mt-2 text-neutral-500 dark:text-[#666] font-mono">
-                    [
-                    {message.timestamp.toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                    ]
-                  </p>
-
-                  {/* Small corner decoration */}
-                  <div
-                    className={`absolute w-2 h-2 ${
-                      message.sender === "user"
-                        ? "-top-0.5 -right-0.5 border-t-2 border-r-2 border-neutral-900 dark:border-[#ffb000]"
-                        : "-top-0.5 -left-0.5 border-t-2 border-l-2 border-neutral-300 dark:border-accent-green"
-                    }`}
-                  />
-                </div>
-              </div>
-            ))}
-
-            {/* Loading Indicator */}
-            {isLoading && (
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 border-2 border-neutral-900 dark:border-accent-green bg-neutral-100 dark:bg-accent-green/20 flex items-center justify-center">
-                  <FontAwesomeIcon
-                    icon={faRobot}
-                    className="text-neutral-900 dark:text-accent-green text-sm"
-                  />
-                </div>
-                <div className="vintage-card bg-white dark:bg-[#1a1a1a] border-2 border-neutral-300 dark:border-accent-green p-3 relative">
-                  <div className="flex items-center gap-2 font-mono text-sm">
-                    <FontAwesomeIcon
-                      icon={faSpinner}
-                      className="text-neutral-900 dark:text-accent-green animate-spin"
-                    />
-                    <span className="text-neutral-700 dark:text-[#c0c0c0]">
-                      Processing...
-                    </span>
-                  </div>
-                  <div className="absolute -top-0.5 -left-0.5 w-2 h-2 border-t-2 border-l-2 border-neutral-300 dark:border-accent-green" />
-                </div>
-              </div>
-            )}
-
-            <div ref={messagesEndRef} />
-          </div>
-
-          {/* Input Area */}
-          <div className="mt-4 vintage-card bg-white dark:bg-[#1a1a1a] border-2 border-neutral-900 dark:border-accent-green p-4 relative">
-            <div className="flex gap-2">
-              <textarea
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder="Type_message_here..."
-                className="flex-1 resize-none bg-transparent text-neutral-900 dark:text-[#e0e0e0] placeholder-neutral-500 dark:placeholder-[#666] focus:outline-none min-h-[60px] max-h-32 font-mono text-sm"
-                rows={1}
-                disabled={isLoading}
-              />
-
-              {/* Voice Input Button */}
-              {speechSupported && (
-                <button
-                  onClick={toggleListening}
-                  disabled={isLoading}
-                  className={`w-10 h-10 border-2 flex items-center justify-center transition-all ${
-                    isListening
-                      ? "border-[#ff6b6b] bg-[#ff6b6b] text-white animate-pulse"
-                      : "border-neutral-300 dark:border-neutral-700 bg-neutral-100 dark:bg-[#0a0a0a] text-neutral-900 dark:text-[#c0c0c0] hover:border-neutral-900 dark:hover:border-accent-green"
-                  } ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
-                  title={isListening ? "Stop recording" : "Start voice input"}
-                >
-                  <FontAwesomeIcon
-                    icon={isListening ? faMicrophoneSlash : faMicrophone}
-                  />
-                </button>
-              )}
-
-              <button
-                onClick={sendMessage}
-                disabled={!input.trim() || isLoading}
-                className="w-10 h-10 border-2 border-neutral-900 dark:border-accent-green bg-neutral-900 dark:bg-accent-green text-white dark:text-[#0a0a0a] hover:bg-neutral-800 dark:hover:bg-[#00ff41] disabled:bg-neutral-300 dark:disabled:bg-neutral-700 disabled:border-neutral-300 dark:disabled:border-neutral-700 disabled:cursor-not-allowed flex items-center justify-center transition-all"
-              >
-                <FontAwesomeIcon
-                  icon={isLoading ? faSpinner : faPaperPlane}
-                  className={isLoading ? "animate-spin" : ""}
-                />
-              </button>
-            </div>
-
-            {/* Helper Text */}
-            <div className="mt-2 text-xs text-neutral-600 dark:text-[#999] font-mono">
-              <kbd className="px-1 py-0.5 bg-neutral-200 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 text-xs">
-                Enter
-              </kbd>{" "}
-              to send •{" "}
-              <kbd className="px-1 py-0.5 bg-neutral-200 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 text-xs">
-                Shift+Enter
-              </kbd>{" "}
-              for new line
-              {speechSupported && (
-                <>
-                  {" "}
-                  • <FontAwesomeIcon icon={faMicrophone} className="mx-1" />
-                  for voice
-                  {isListening && (
-                    <span className="ml-2 text-[#ff6b6b] font-bold animate-pulse">
-                      🔴 LISTENING
-                    </span>
-                  )}
-                </>
-              )}
-            </div>
-
-            {/* Corner decorations */}
-            <div className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-neutral-900 dark:border-accent-green" />
-            <div className="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-neutral-900 dark:border-accent-green" />
-            <div className="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-neutral-900 dark:border-accent-green" />
-            <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-neutral-900 dark:border-accent-green" />
           </div>
         </div>
       </div>
-    </div>
+    </AuthGate>
   );
 }
