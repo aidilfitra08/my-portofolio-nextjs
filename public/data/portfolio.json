@@ -87,20 +87,17 @@
     },
     {
       "title": "Fullstack Developer",
-      "company": "Peepl",
+      "company": "Peepl (PT. ASI Asia Pacific)",
       "location": "Jakarta, Indonesia",
       "startDate": "June 2025",
       "endDate": "present",
       "responsibilities": [
-        "Redesigned and developed the second version of the internal collaboration management platform using Next.js, improving performance, responsive design, and user experience.",
-        "Restructured the back-end by decoupling a Laravel monolith into a standalone REST API server, increasing scalability and maintainability.",
-        "Maintained and extended the assessor and admin system in Laravel, delivering 2 new features and integrating them seamlessly with existing modules.",
-        "Optimized system performance by implementing Redis, RabbitMQ, and Laravel Jobs for background task processing.",
-        "Designed and maintained a microservice architecture between the main application and automated report generator for reliable data flow.",
-        "Developed and maintained the client request portal, building the backend in Go with PostgreSQL and RabbitMQ as the message broker to synchronize requests across internal systems.",
-        "Built an AI assistant to help users retrieve candidate reports graded by assessors through natural language queries.",
-        "Containerized applications and services with Docker to streamline development, testing, and deployment workflows.",
-        "Led and mentored two Full-Stack Developer interns in building a fully responsive notification and assessment management application for assessors. Oversaw feature planning, architecture decisions, code reviews, and delivery of production-ready components."
+        "Led the redesign and delivery of v2 internal collaboration platform (Next.js) used by multiple internal teams, improving performance, responsiveness, and usability.",
+        "Decoupled a Laravel monolith into a standalone REST API, enabling independent scaling, clearer service boundaries, and easier future feature expansion.",
+        "Architected and optimized backend systems using Laravel, Go, Redis, RabbitMQ, and PostgreSQL, supporting asynchronous processing and cross-system data synchronization.",
+        "Designed and maintained microservice-based integrations, including an automated report generation service to reduce manual operational workflows.",
+        "Built an AI-powered assistant that allows internal users to retrieve assessor-graded candidate reports using natural language queries.",
+        "Mentored 2 Full-Stack Developer interns, leading architecture decisions, code reviews, and production delivery."
       ]
     }
   ],

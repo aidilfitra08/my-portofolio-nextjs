@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import {
   useState,
   useRef,
@@ -9,9 +10,17 @@ import {
   ChangeEvent,
   JSX,
 } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faArrowLeft,
+  faSquare,
+  faCopy,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function CharacterInput(): JSX.Element {
   const [values, setValues] = useState<string[]>(Array(6).fill(""));
+  const [copied, setCopied] = useState<boolean>(false);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const numInputs: number = 6;
 
@@ -95,76 +104,145 @@ export default function CharacterInput(): JSX.Element {
   };
 
   return (
-    <div className="min-h-screen dark:bg-neutral-800 bg-gray-50 flex items-center justify-center p-4 dark:text-gray-950">
-      <div className="bg-white dark:bg-neutral-700 rounded-lg shadow-lg p-8 max-w-md w-full">
-        <div className="text-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2">
-            Character Input
-          </h1>
-          <p className="text-gray-600 text-sm dark:text-gray-100">
-            Enter one character per box. Use backspace to go back, or paste text
-            from clipboard.
-          </p>
-        </div>
+    <div className="min-h-screen bg-[#f5f1e8] dark:bg-[#0d0d0d] text-[#2a2a2a] dark:text-[#e0e0e0] font-mono relative overflow-hidden p-6">
+      {/* Vintage scanline effect overlay */}
+      <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.03]">
+        <div className="absolute inset-0 bg-linear-to-b from-transparent via-black to-transparent animate-pulse"></div>
+      </div>
 
-        <div className="flex justify-center space-x-2 mb-6">
-          {values.map((value: string, index: number) => (
-            <input
-              key={index}
-              ref={(el) => {
-                inputRefs.current[index] = el;
-              }}
-              type="text"
-              value={value}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                handleInputChange(index, e.target.value)
-              }
-              onKeyDown={(e: KeyboardEvent<HTMLInputElement>) =>
-                handleKeyDown(index, e)
-              }
-              onPaste={handlePaste}
-              onClick={() => handleClick(index)}
-              className="w-10 h-10 sm:w-12 sm:h-12 text-center text-lg font-semibold border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-hidden transition-colors"
-              maxLength={1}
-            />
-          ))}
-        </div>
+      <div className="max-w-2xl mx-auto relative">
+        {/* Back button */}
+        <Link
+          href="/playground"
+          className="group inline-flex items-center gap-3 mb-8 px-4 py-2 border-2 border-neutral-900 dark:border-accent-green bg-white dark:bg-[#1a1a1a] text-sm transition-all hover:translate-x-1 hover:-translate-y-1 relative"
+        >
+          <div className="absolute inset-0 border-2 border-neutral-900 dark:border-accent-green translate-x-1 translate-y-1 -z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
+          <FontAwesomeIcon
+            icon={faArrowLeft}
+            className="text-neutral-900 dark:text-accent-green group-hover:animate-pulse"
+          />
+          <span className="text-neutral-900 dark:text-[#e0e0e0] font-bold tracking-wide">
+            <span className="text-neutral-500 dark:text-accent-green">[</span>
+            RETURN_PLAYGROUND
+            <span className="text-neutral-500 dark:text-accent-green">]</span>
+          </span>
+        </Link>
 
-        <div className="space-y-4">
-          <div className="text-center">
-            <p className="text-sm text-gray-600 dark:text-gray-100 mb-2">
-              Current Value:
-            </p>
-            <p className="text-lg font-mono bg-gray-100 px-4 py-2 rounded-sm border">
-              {getValue() || "Empty"}
+        {/* Header */}
+        <div className="mb-8 border-b-2 border-accent-green pb-4 flex items-center gap-3">
+          <FontAwesomeIcon
+            icon={faSquare}
+            className="text-2xl text-neutral-900 dark:text-accent-green"
+          />
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">
+              [CHARACTER_INPUT]
+            </h1>
+            <p className="text-sm text-neutral-600 dark:text-[#999] mt-1">
+              <span className="text-[#ffb000]">$</span> input_handler --boxes=6
             </p>
           </div>
-
-          <div className="flex justify-center space-x-4">
-            <button
-              onClick={clearAll}
-              className="px-4 py-2 bg-red-500 text-white rounded-sm hover:bg-red-600 transition-colors"
-            >
-              Clear All
-            </button>
-            <button
-              onClick={() => navigator.clipboard.writeText(getValue())}
-              className="px-4 py-2 bg-green-500 text-white rounded-sm hover:bg-green-600 transition-colors"
-              disabled={!getValue()}
-            >
-              Copy Value
-            </button>
-          </div>
         </div>
 
-        <div className="mt-6 text-xs text-gray-500 dark:text-gray-100 text-center">
-          <p>Tips:</p>
-          <ul className="mt-2 space-y-1">
-            <li>• Type to auto-advance to next box</li>
-            <li>• Backspace to go back and clear</li>
-            <li>• Paste text to fill multiple boxes</li>
-            <li>• Click any box to focus it</li>
-          </ul>
+        {/* Main Card */}
+        <div className="relative">
+          {/* Shadow */}
+          <div className="absolute inset-0 border-2 border-neutral-900 dark:border-accent-green translate-x-2 translate-y-2 -z-10 opacity-70"></div>
+
+          <div className="border-2 border-accent-green bg-[#faf8f3] dark:bg-[#1a1a1a] p-6 md:p-8 rounded-lg shadow-2xl relative overflow-hidden">
+            {/* Corner accents */}
+            <div className="absolute -top-2 -left-2 w-6 h-6 border-t-2 border-l-2 border-accent-green"></div>
+            <div className="absolute -top-2 -right-2 w-6 h-6 border-t-2 border-r-2 border-accent-green"></div>
+            <div className="absolute -bottom-2 -left-2 w-6 h-6 border-b-2 border-l-2 border-accent-green"></div>
+            <div className="absolute -bottom-2 -right-2 w-6 h-6 border-b-2 border-r-2 border-accent-green"></div>
+
+            <div className="text-center mb-6">
+              <p className="text-sm text-neutral-600 dark:text-[#999]">
+                Enter one character per box. Use backspace to go back, or paste
+                text from clipboard.
+              </p>
+            </div>
+
+            <div className="flex justify-center gap-2 mb-6 flex-wrap">
+              {values.map((value: string, index: number) => (
+                <input
+                  key={index}
+                  ref={(el) => {
+                    inputRefs.current[index] = el;
+                  }}
+                  type="text"
+                  value={value}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    handleInputChange(index, e.target.value)
+                  }
+                  onKeyDown={(e: KeyboardEvent<HTMLInputElement>) =>
+                    handleKeyDown(index, e)
+                  }
+                  onPaste={handlePaste}
+                  onClick={() => handleClick(index)}
+                  className="w-12 h-12 sm:w-14 sm:h-14 text-center text-xl font-bold border-2 border-accent-green bg-white dark:bg-[#0a0a0a] text-neutral-900 dark:text-accent-green rounded focus:outline-none focus:ring-2 focus:ring-accent-green transition-all"
+                  maxLength={1}
+                />
+              ))}
+            </div>
+
+            <div className="space-y-5">
+              <div className="text-center">
+                <p className="text-sm text-neutral-600 dark:text-[#999] mb-2">
+                  <span className="text-accent-green">$</span> output_value:
+                </p>
+                <div className="border-2 border-accent-green bg-[#0a0a0a] text-accent-green rounded p-4 text-center">
+                  <p className="text-xl font-mono font-bold break-all">
+                    {getValue() || "[EMPTY]"}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row justify-center gap-3">
+                <button
+                  onClick={clearAll}
+                  className="flex-1 px-4 py-3 border-2 border-red-600 bg-red-600 text-white font-bold tracking-wide rounded hover:bg-transparent hover:text-red-600 transition-colors flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <FontAwesomeIcon icon={faTrash} />
+                  Clear All
+                </button>
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(getValue());
+                    setCopied(true);
+                    setTimeout(() => setCopied(false), 1600);
+                  }}
+                  className="flex-1 px-4 py-3 border-2 border-accent-green bg-accent-green text-white dark:text-[#0d0d0d] font-bold tracking-wide rounded hover:bg-transparent hover:text-accent-green transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                  disabled={!getValue()}
+                >
+                  <FontAwesomeIcon icon={faCopy} />
+                  {copied ? "Copied!" : "Copy Value"}
+                </button>
+              </div>
+            </div>
+
+            <div className="mt-6 text-xs text-neutral-600 dark:text-[#999] leading-relaxed bg-[#f1ede3] dark:bg-[#111] border border-neutral-300 dark:border-neutral-700 rounded p-4">
+              <p className="font-bold mb-2 text-accent-green">→ Tips:</p>
+              <ul className="space-y-1 pl-4">
+                <li>
+                  <span className="text-accent-green">▸</span> Type to
+                  auto-advance to next box
+                </li>
+                <li>
+                  <span className="text-accent-green">▸</span> Backspace to go
+                  back and clear
+                </li>
+                <li>
+                  <span className="text-accent-green">▸</span> Paste text to
+                  fill multiple boxes
+                </li>
+                <li>
+                  <span className="text-accent-green">▸</span> Click any box to
+                  focus it
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>

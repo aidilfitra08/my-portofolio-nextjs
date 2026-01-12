@@ -37,7 +37,7 @@ export default function BlogPage() {
                 href={article.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className=" border border-neutral-800 rounded-xl p-4 hover:shadow-lg hover:opacity-70 transition bg-neutral-700 grid grid-cols-12 gap-5"
+                className=" border-2 border-accent-green rounded-xl p-4 hover:shadow-lg hover:opacity-70 transition grid grid-cols-12 gap-5"
               >
                 {article.image && (
                   <div className=" col-span-5">

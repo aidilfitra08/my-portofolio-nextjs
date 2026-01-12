@@ -13,6 +13,7 @@ import {
   faArrowsRotate,
   faArrowLeft,
   faTerminal,
+  faLaptopCode,
 } from "@fortawesome/free-solid-svg-icons";
 import { HoloHelp } from "../components/HoloHelpComponent";
 
@@ -25,7 +26,7 @@ const playgroundLinks = [
     url: "/playground/trial-input-box",
     icon: faSquare,
   },
-  { name: "VSCode Clone", url: "/playground/vscode-clone", icon: faCode },
+  // { name: "VSCode Clone", url: "/playground/vscode-clone", icon: faCode },
   {
     name: "Simple Ai Agent",
     url: "/playground/simple-ai-agent",
@@ -42,6 +43,11 @@ const playgroundLinks = [
     name: "Format Converter",
     url: "/playground/format-converter",
     icon: faArrowsRotate,
+  },
+  {
+    name: "Code Test",
+    url: "/playground/code-test",
+    icon: faLaptopCode,
   },
 ];
 
@@ -78,7 +84,7 @@ export default function PlaygroundIndex() {
               icon={faTerminal}
               className="text-2xl text-neutral-900 dark:text-accent-green terminal-glow"
             />
-            <h1 className="text-4xl font-mono font-bold text-neutral-900 dark:text-[#e0e0e0] tracking-tight">
+            <h1 className="text-2xl md:text-4xl font-mono font-bold text-neutral-900 dark:text-[#e0e0e0] tracking-tight">
               [PLAYGROUND_INDEX]
             </h1>
           </div>

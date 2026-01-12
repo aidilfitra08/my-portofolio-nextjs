@@ -36,11 +36,10 @@ const Homepage = async () => {
             {/* Skills Section - Grid layout for better space usage */}
             <Skill />
 
-            {/* Two-column layout for Education & Experience on larger screens */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-              <Education />
-              <Experience />
-            </div>
+            {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8"> */}
+            <Experience />
+            <Education />
+            {/* </div> */}
 
             {/* Projects Section - Full width with grid */}
             <Projects projects={projects} />
