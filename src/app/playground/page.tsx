@@ -14,6 +14,7 @@ import {
   faArrowLeft,
   faTerminal,
   faLaptopCode,
+  faLock,
 } from "@fortawesome/free-solid-svg-icons";
 import { HoloHelp } from "../components/HoloHelpComponent";
 
@@ -48,6 +49,11 @@ const playgroundLinks = [
     name: "Code Test",
     url: "/playground/code-test",
     icon: faLaptopCode,
+  },
+  {
+    name: "Secret Generator",
+    url: "/playground/secret-generator",
+    icon: faLock,
   },
 ];
 

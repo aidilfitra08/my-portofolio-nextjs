@@ -184,7 +184,7 @@ body {
 }
 
 /* Retro terminal glow */
-.terminal-glow {
+.terminal-glow .dark {
   text-shadow: 0 0 5px rgba(0, 255, 65, 0.7), 0 0 10px rgba(0, 255, 65, 0.5),
     0 0 15px rgba(0, 255, 65, 0.3);
 }
