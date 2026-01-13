@@ -23,7 +23,7 @@ type MeResponse = {
 };
 
 const API_BASE =
-  process.env.NEXT_PUBLIC_AUTH_API_URL || "http://localhost:3002";
+  process.env.NEXT_PUBLIC_REST_API_URL || "http://localhost:3002";
 const TOKEN_KEY = "user_auth_token";
 
 export default function AuthGate({ children }: AuthGateProps) {

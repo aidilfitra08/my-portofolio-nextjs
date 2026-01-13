@@ -23,6 +23,9 @@ import Link from "next/link";
 import "highlight.js/styles/github-dark.css";
 import AuthGate from "../../../components/AuthGate";
 
+const AI_BASE = process.env.NEXT_PUBLIC_REST_API_URL || "http://localhost:3001";
+const TOKEN_KEY = "user_auth_token";
+
 // Add this interface for speech recognition
 interface SpeechRecognitionEvent extends Event {
   results: SpeechRecognitionResultList;
@@ -89,6 +92,10 @@ export default function SimpleAIAgentPage() {
   const [personalInfo, setPersonalInfo] = useState<PersonalInfo>({});
   const [showPersonalInfo, setShowPersonalInfo] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [token, setToken] = useState<string | null>(null);
+  const [autoRetrieve, setAutoRetrieve] = useState(true);
+  const [retrieveLimit, setRetrieveLimit] = useState(3);
+  const [useStreaming, setUseStreaming] = useState(true);
 
   // Speech recognition states
   const [isListening, setIsListening] = useState(false);
@@ -102,6 +109,13 @@ export default function SimpleAIAgentPage() {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const existing = localStorage.getItem(TOKEN_KEY);
+      setToken(existing);
+    }
+  }, []);
 
   // Initialize speech recognition
   useEffect(() => {
@@ -315,6 +329,10 @@ export default function SimpleAIAgentPage() {
 
   const sendMessage = async () => {
     if (!input.trim() || isLoading) return;
+    if (!token) {
+      alert("You must be authenticated to chat.");
+      return;
+    }
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -341,118 +359,164 @@ export default function SimpleAIAgentPage() {
 
     try {
       const personalContext = createPersonalContext();
-      const fullMessage = personalContext
-        ? `${personalContext}\n\nUser message: ${userMessage.text}`
-        : userMessage.text;
+      const contextArray = [
+        ...((personalInfo.personalDetails || []) as string[]),
+        ...(personalContext ? [personalContext] : []),
+      ];
 
-      const response = await fetch("/api/simple-ai-agent", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          message: fullMessage,
-          history: messages.slice(-3).map((msg) => ({
-            role: msg.sender === "user" ? "user" : "assistant",
-            content: msg.text,
-          })),
-        }),
-      });
+      const payload = {
+        message: userMessage.text,
+        context: contextArray,
+        auto_retrieve: autoRetrieve,
+        retrieve_limit: retrieveLimit,
+      };
 
-      if (!response.ok) {
-        throw new Error("Failed to get AI response");
-      }
+      if (useStreaming) {
+        const response = await fetch(`${AI_BASE}/ai/chat/stream`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(payload),
+        });
 
-      // Check if response is a stream (Server-Sent Events)
-      const contentType = response.headers.get("content-type");
-      const isStream = contentType?.includes("text/event-stream");
+        if (!response.ok) {
+          throw new Error(`Failed: ${response.status}`);
+        }
 
-      if (isStream && response.body) {
-        // Handle Server-Sent Events (SSE) streaming
-        const reader = response.body.getReader();
-        const decoder = new TextDecoder();
-        let aiResponseText = "";
-        let aiMessage: Message | null = null;
+        const contentType = response.headers.get("content-type");
+        console.log("📡 Stream response - Content-Type:", contentType);
+        console.log("📡 response.body exists:", !!response.body);
 
-        try {
-          while (true) {
-            const { done, value } = await reader.read();
-            if (done) break;
+        if (response.body) {
+          const reader = response.body.getReader();
+          const decoder = new TextDecoder();
+          let aiResponseText = "";
+          let aiMessage: Message | null = null;
+          let chunkCount = 0;
 
-            const chunk = decoder.decode(value, { stream: true });
-            const lines = chunk.split("\n");
+          try {
+            while (true) {
+              const { done, value } = await reader.read();
+              if (done) {
+                console.log("📡 Stream ended. Total chunks:", chunkCount);
+                break;
+              }
 
-            for (const line of lines) {
-              if (line.startsWith("data: ")) {
-                const data = line.slice(6).trim();
-                if (data === "[DONE]") {
-                  // Stream completed
-                  continue;
-                }
+              chunkCount++;
+              const chunk = decoder.decode(value, { stream: true });
+              console.log(`📡 Chunk ${chunkCount}:`, chunk);
+              const lines = chunk.split("\n");
 
-                try {
-                  const parsed = JSON.parse(data);
-                  const token = parsed.token || parsed.content || "";
-                  aiResponseText += token;
-
-                  // Create or update the AI message
-                  if (!aiMessage) {
-                    aiMessage = {
-                      id: aiMessageId,
-                      text: aiResponseText,
-                      sender: "ai",
-                      timestamp: new Date(),
-                    };
-                    setMessages((prev) => [...prev, aiMessage!]);
-                  } else {
-                    // Update the last message (AI response) with new text
-                    setMessages((prev) => {
-                      const updated = [...prev];
-                      const lastIndex = updated.length - 1;
-                      if (
-                        lastIndex >= 0 &&
-                        updated[lastIndex].id === aiMessageId
-                      ) {
-                        updated[lastIndex] = {
-                          ...updated[lastIndex],
-                          text: aiResponseText,
-                        };
-                      }
-                      return updated;
-                    });
+              for (const line of lines) {
+                if (line.startsWith("data: ")) {
+                  const data = line.slice(6).trim();
+                  if (data === "[DONE]") {
+                    console.log("📡 Received [DONE]");
+                    continue;
                   }
-                } catch (parseError) {
-                  // Skip invalid JSON lines
-                  continue;
+                  try {
+                    const parsed = JSON.parse(data);
+                    const tok =
+                      parsed.chunk || parsed.token || parsed.content || "";
+                    aiResponseText += tok;
+                    console.log("📡 Token:", tok);
+
+                    // Create or update message immediately on each chunk
+                    if (!aiMessage) {
+                      aiMessage = {
+                        id: aiMessageId,
+                        text: aiResponseText,
+                        sender: "ai",
+                        timestamp: new Date(),
+                      };
+                      setMessages((prev) => [...prev, aiMessage!]);
+                    } else {
+                      setMessages((prev) => {
+                        const updated = [...prev];
+                        const lastIndex = updated.length - 1;
+                        if (
+                          lastIndex >= 0 &&
+                          updated[lastIndex].id === aiMessageId
+                        ) {
+                          updated[lastIndex] = {
+                            ...updated[lastIndex],
+                            text: aiResponseText,
+                          };
+                        }
+                        return updated;
+                      });
+                    }
+                  } catch (e) {
+                    console.log("📡 Non-JSON data:", data);
+                    continue;
+                  }
                 }
               }
             }
+          } finally {
+            reader.releaseLock();
           }
-        } finally {
-          reader.releaseLock();
-        }
 
-        // Ensure we have at least an empty response
-        if (!aiMessage) {
-          const aiMessage: Message = {
-            id: aiMessageId,
-            text: aiResponseText || "Sorry, I couldn't process your request.",
-            sender: "ai",
-            timestamp: new Date(),
-          };
-          setMessages((prev) => [...prev, aiMessage]);
+          if (!aiMessage && aiResponseText) {
+            const aiMessage: Message = {
+              id: aiMessageId,
+              text: aiResponseText,
+              sender: "ai",
+              timestamp: new Date(),
+            };
+            setMessages((prev) => [...prev, aiMessage]);
+          } else if (!aiMessage) {
+            console.log(
+              "⚠️ No AI message created. Response text:",
+              aiResponseText
+            );
+            const aiMessage: Message = {
+              id: aiMessageId,
+              text: "Sorry, I couldn't process your request.",
+              sender: "ai",
+              timestamp: new Date(),
+            };
+            setMessages((prev) => [...prev, aiMessage]);
+          }
+        } else {
+          console.log("⚠️ No response.body - attempting fallback");
+          try {
+            const data = await response.json();
+            const aiMessage: Message = {
+              id: aiMessageId,
+              text:
+                data.response || data.message || "No response from AI server",
+              sender: "ai",
+              timestamp: new Date(),
+            };
+            setMessages((prev) => [...prev, aiMessage]);
+          } catch (e) {
+            console.error("⚠️ Fallback failed:", e);
+            throw new Error("Stream ended with no data");
+          }
         }
       } else {
-        // Handle regular JSON response (fallback)
+        // Non-streaming endpoint
+        const response = await fetch(`${AI_BASE}/ai/chat`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(payload),
+        });
         const data = await response.json();
-
+        if (!response.ok) {
+          throw new Error(data.error || `Failed: ${response.status}`);
+        }
         const aiMessage: Message = {
           id: aiMessageId,
-          text: data.response || "Sorry, I couldn't process your request.",
+          text: data.response || data.message || "No response from AI server",
           sender: "ai",
           timestamp: new Date(),
         };
-
         setMessages((prev) => [...prev, aiMessage]);
       }
     } catch (error) {
@@ -466,6 +530,21 @@ export default function SimpleAIAgentPage() {
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const clearHistory = async () => {
+    if (!token) return;
+    try {
+      const res = await fetch(`${AI_BASE}/ai/history`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        setMessages((prev) => prev.slice(0, 1));
+      }
+    } catch (e) {
+      console.error("Failed to clear history", e);
     }
   };
 
@@ -666,6 +745,22 @@ export default function SimpleAIAgentPage() {
                     {Object.keys(personalInfo).length > 0
                       ? "PROFILE"
                       : "NO_DATA"}
+                  </span>
+                </button>
+
+                {/* Clear History */}
+                <button
+                  onClick={clearHistory}
+                  className="group inline-flex items-center gap-2 px-3 py-2 border-2 border-neutral-900 dark:border-accent-green bg-white dark:bg-[#1a1a1a] font-mono text-sm transition-all hover:translate-x-1 hover:-translate-y-1 relative"
+                  title="Clear conversation history"
+                >
+                  <div className="absolute inset-0 border-2 border-neutral-900 dark:border-accent-green translate-x-1 translate-y-1 -z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <FontAwesomeIcon
+                    icon={faTrash}
+                    className="text-neutral-900 dark:text-accent-green"
+                  />
+                  <span className="text-neutral-900 dark:text-[#e0e0e0] font-bold hidden sm:inline">
+                    CLEAR
                   </span>
                 </button>
 
@@ -956,6 +1051,39 @@ export default function SimpleAIAgentPage() {
                     )}
                   </>
                 )}
+              </div>
+
+              {/* Chat Options */}
+              <div className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-2 items-center">
+                <label className="flex items-center gap-2 text-xs font-mono text-neutral-700 dark:text-[#999]">
+                  <input
+                    type="checkbox"
+                    checked={useStreaming}
+                    onChange={(e) => setUseStreaming(e.target.checked)}
+                  />
+                  STREAMING
+                </label>
+                <label className="flex items-center gap-2 text-xs font-mono text-neutral-700 dark:text-[#999]">
+                  <input
+                    type="checkbox"
+                    checked={autoRetrieve}
+                    onChange={(e) => setAutoRetrieve(e.target.checked)}
+                  />
+                  AUTO_RETRIEVE
+                </label>
+                <label className="flex items-center gap-2 text-xs font-mono text-neutral-700 dark:text-[#999]">
+                  LIMIT
+                  <input
+                    type="number"
+                    min={1}
+                    max={10}
+                    value={retrieveLimit}
+                    onChange={(e) =>
+                      setRetrieveLimit(parseInt(e.target.value) || 3)
+                    }
+                    className="w-16 px-2 py-1 rounded border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-[#0a0a0a] text-neutral-900 dark:text-[#e0e0e0] font-mono text-xs focus:outline-none"
+                  />
+                </label>
               </div>
 
               {/* Corner decorations */}
