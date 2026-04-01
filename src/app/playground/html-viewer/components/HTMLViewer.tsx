@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import TwoPanelResizable from "@/app/components/resizable/TwoPanelResizable";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowLeft,
@@ -25,8 +26,51 @@ export default function HTMLViewer() {
     }
   }, [htmlContent]);
 
+  const editorPanel = (
+    <section className="flex flex-col bg-white dark:bg-[#1a1a1a] border-2 border-neutral-900 dark:border-accent-green vintage-card overflow-hidden w-full lg:h-full">
+      <div className="flex items-center gap-2 px-4 py-3 border-b-2 border-neutral-300 dark:border-accent-green">
+        <FontAwesomeIcon
+          icon={faCode}
+          className="text-neutral-900 dark:text-accent-green"
+        />
+        <h2 className="text-sm font-mono font-bold text-neutral-900 dark:text-[#e0e0e0]">
+          [HTML_CODE]
+        </h2>
+      </div>
+      <textarea
+        value={htmlContent}
+        onChange={(e) => setHtmlContent(e.target.value)}
+        placeholder="Type or paste your HTML here..."
+        spellCheck={false}
+        className="flex-1 w-full px-4 py-3 bg-neutral-50 dark:bg-[#0a0a0a] text-neutral-900 dark:text-[#e0e0e0] font-mono text-sm resize-none focus:outline-none focus:border-neutral-900 dark:focus:border-accent-green"
+      />
+    </section>
+  );
+
+  const previewPanel = (
+    <section className="flex flex-col bg-white dark:bg-[#1a1a1a] border-2 border-neutral-900 dark:border-accent-green vintage-card overflow-hidden w-full lg:h-full">
+      <div className="flex items-center gap-2 px-4 py-3 border-b-2 border-neutral-300 dark:border-accent-green">
+        <FontAwesomeIcon
+          icon={faDisplay}
+          className="text-neutral-900 dark:text-accent-green"
+        />
+        <h2 className="text-sm font-mono font-bold text-neutral-900 dark:text-[#e0e0e0]">
+          [PREVIEW]
+        </h2>
+      </div>
+      <div className="flex-1 bg-white dark:bg-[#0a0a0a] overflow-auto">
+        <iframe
+          ref={iframeRef}
+          title="HTML Preview"
+          className="w-full h-full bg-white dark:bg-[#0a0a0a] border-0"
+          sandbox="allow-scripts allow-same-origin"
+        />
+      </div>
+    </section>
+  );
+
   return (
-    <div className="min-h-screen bg-[#f5f5f0] dark:bg-[#0a0a0a] flex flex-col relative">
+    <div className="h-full bg-[#f5f5f0] dark:bg-[#0a0a0a] flex flex-col relative">
       {/* Scanlines effect */}
       <div className="scanlines pointer-events-none" />
 
@@ -79,56 +123,30 @@ export default function HTMLViewer() {
       </header>
 
       {/* Main content */}
-      <main className="relative z-10 max-w-6xl mx-auto w-full flex-1 px-4 pb-6 pt-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 h-[calc(100vh-170px)]">
-          {/* Editor */}
-          <section className="flex flex-col bg-white dark:bg-[#1a1a1a] border-2 border-neutral-900 dark:border-accent-green vintage-card overflow-hidden">
-            <div className="flex items-center gap-2 px-4 py-3 border-b-2 border-neutral-300 dark:border-accent-green">
-              <FontAwesomeIcon
-                icon={faCode}
-                className="text-neutral-900 dark:text-accent-green"
-              />
-              <h2 className="text-sm font-mono font-bold text-neutral-900 dark:text-[#e0e0e0]">
-                [HTML_CODE]
-              </h2>
-            </div>
-            <textarea
-              value={htmlContent}
-              onChange={(e) => setHtmlContent(e.target.value)}
-              placeholder="Type or paste your HTML here..."
-              spellCheck={false}
-              className="flex-1 w-full px-4 py-3 bg-neutral-50 dark:bg-[#0a0a0a] text-neutral-900 dark:text-[#e0e0e0] font-mono text-sm resize-none focus:outline-none focus:border-neutral-900 dark:focus:border-accent-green"
-            />
-          </section>
+      <main className="relative z-10 mx-auto w-full flex-1 px-4 pb-6 pt-4">
+        <div className="flex lg:hidden flex-col gap-4 h-[calc(100vh-170px)]">
+          {editorPanel}
+          {previewPanel}
+        </div>
 
-          {/* Preview */}
-          <section className="flex flex-col bg-white dark:bg-[#1a1a1a] border-2 border-neutral-900 dark:border-accent-green vintage-card overflow-hidden">
-            <div className="flex items-center gap-2 px-4 py-3 border-b-2 border-neutral-300 dark:border-accent-green">
-              <FontAwesomeIcon
-                icon={faDisplay}
-                className="text-neutral-900 dark:text-accent-green"
-              />
-              <h2 className="text-sm font-mono font-bold text-neutral-900 dark:text-[#e0e0e0]">
-                [PREVIEW]
-              </h2>
-            </div>
-            <div className="flex-1 bg-white dark:bg-[#0a0a0a] overflow-auto">
-              <iframe
-                ref={iframeRef}
-                title="HTML Preview"
-                className="w-full h-full bg-white dark:bg-[#0a0a0a] border-0"
-                sandbox="allow-scripts allow-same-origin"
-              />
-            </div>
-          </section>
+        <div className="hidden lg:flex h-[calc(100vh-170px)]">
+          <TwoPanelResizable
+            className="h-full w-full"
+            handleClassName="w-6 items-center justify-center cursor-col-resize select-none touch-none flex"
+            defaultLeftSize={"50%"}
+            minLeftSize={"20%"}
+            minRightSize={"20%"}
+            left={editorPanel}
+            right={previewPanel}
+          />
         </div>
       </main>
 
       {/* Corner decorations */}
-      <div className="absolute -top-2 -left-2 w-8 h-8 border-t-2 border-l-2 border-neutral-900 dark:border-accent-green pointer-events-none" />
+      {/* <div className="absolute -top-2 -left-2 w-8 h-8 border-t-2 border-l-2 border-neutral-900 dark:border-accent-green pointer-events-none" />
       <div className="absolute -top-2 -right-2 w-8 h-8 border-t-2 border-r-2 border-neutral-900 dark:border-accent-green pointer-events-none" />
       <div className="absolute -bottom-2 -left-2 w-8 h-8 border-b-2 border-l-2 border-neutral-900 dark:border-accent-green pointer-events-none" />
-      <div className="absolute -bottom-2 -right-2 w-8 h-8 border-b-2 border-r-2 border-neutral-900 dark:border-accent-green pointer-events-none" />
+      <div className="absolute -bottom-2 -right-2 w-8 h-8 border-b-2 border-r-2 border-neutral-900 dark:border-accent-green pointer-events-none" /> */}
     </div>
   );
 }

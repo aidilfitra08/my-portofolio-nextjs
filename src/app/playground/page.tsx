@@ -13,6 +13,7 @@ import {
   faArrowsRotate,
   faArrowLeft,
   faTerminal,
+  faGift,
 } from "@fortawesome/free-solid-svg-icons";
 import { HoloHelp } from "../components/HoloHelpComponent";
 
@@ -42,6 +43,11 @@ const playgroundLinks = [
     name: "Format Converter",
     url: "/playground/format-converter",
     icon: faArrowsRotate,
+  },
+  {
+    name: "Easter Egg Hunt",
+    url: "/playground/easter-egg-game",
+    icon: faGift,
   },
 ];
 
