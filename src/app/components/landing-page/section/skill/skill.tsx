@@ -6,52 +6,27 @@ import {
   faTools,
   faCubes,
 } from "@fortawesome/free-solid-svg-icons";
+import { loadPortfolioData } from "@/lib/portfolio";
 
-export default function Skill() {
-  const skills = [
-    {
-      category: "Backend",
-      items: [
-        "Node.js",
-        "Golang",
-        "CodeIgniter",
-        "Express.js",
-        "Java",
-        "Laravel",
-      ],
-      color: "text-accent-green",
-      bgColor: "bg-accent-green",
-      icon: faServer,
-    },
-    {
-      category: "Frontend",
-      items: ["React.js", "Next.js", "Flutter", "TypeScript"],
-      color: "text-[#00d9ff]",
-      bgColor: "bg-[#00d9ff]",
-      icon: faCode,
-    },
-    {
-      category: "Database",
-      items: ["MySQL", "MongoDB", "PostgreSQL", "Redis"],
-      color: "text-[#ffb000]",
-      bgColor: "bg-[#ffb000]",
-      icon: faDatabase,
-    },
-    {
-      category: "Tools",
-      items: ["Git", "Docker", "AWS", "Vercel"],
-      color: "text-[#ff6b6b]",
-      bgColor: "bg-[#ff6b6b]",
-      icon: faTools,
-    },
-    {
-      category: "Others",
-      items: ["RabbitMQ"],
-      color: "text-[#bd93f9]",
-      bgColor: "bg-[#bd93f9]",
-      icon: faCubes,
-    },
-  ];
+const iconMap: Record<string, any> = {
+  faServer,
+  faCode,
+  faDatabase,
+  faTools,
+  faCubes,
+};
+
+interface SkillGroup {
+  category: string;
+  items: string[];
+  color: string;
+  bgColor: string;
+  icon: string;
+}
+
+export default async function Skill() {
+  const data = await loadPortfolioData();
+  const skills: SkillGroup[] = data?.skills || [];
 
   return (
     <section className="py-8 md:py-12 px-4" id="skill">
@@ -79,7 +54,7 @@ export default function Skill() {
                   className={`w-10 h-10 rounded-lg ${skillGroup.bgColor} bg-opacity-20 flex items-center justify-center`}
                 >
                   <FontAwesomeIcon
-                    icon={skillGroup.icon}
+                    icon={iconMap[skillGroup.icon] || faCode}
                     className={`${skillGroup.color} text-lg`}
                   />
                 </div>

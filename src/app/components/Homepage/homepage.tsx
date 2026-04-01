@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 import React from "react";
 import PortofolioHeader from "../landing-page/section/header/portofolioHeader";
 import Education from "../landing-page/section/education/education";
@@ -9,8 +9,12 @@ import BlogPage from "../blog/blog";
 import Skill from "../landing-page/section/skill/skill";
 import Navbar from "../navbar/navbar";
 import Footer from "../footer/footer";
+import { loadPortfolioData } from "@/lib/portfolio";
 
-const Homepage = () => {
+const Homepage = async () => {
+  const data = await loadPortfolioData();
+  const projects = data?.projects || [];
+
   return (
     <>
       <Navbar />
@@ -24,7 +28,7 @@ const Homepage = () => {
         <div className="relative z-10 pt-16 md:pt-20">
           {/* Header Section - Full width hero */}
           <div className="w-full">
-            <PortofolioHeader />
+            <PortofolioHeader data={data} />
           </div>
 
           {/* Main content grid - utilize full space */}
@@ -32,14 +36,13 @@ const Homepage = () => {
             {/* Skills Section - Grid layout for better space usage */}
             <Skill />
 
-            {/* Two-column layout for Education & Experience on larger screens */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-              <Education />
-              <Experience />
-            </div>
+            {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8"> */}
+            <Experience />
+            <Education />
+            {/* </div> */}
 
             {/* Projects Section - Full width with grid */}
-            <Projects />
+            <Projects projects={projects} />
 
             {/* Blog Section */}
             <BlogPage />

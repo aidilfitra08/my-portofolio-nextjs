@@ -16,6 +16,43 @@
   If we ever want to remove these styles, we need to add an explicit border
   color utility to any element that depends on these defaults.
 */
+/* SimpleBar theming */
+.simplebar-track.simplebar-vertical {
+  width: 10px;
+  background: rgba(0, 0, 0, 0.1);
+}
+.simplebar-track.simplebar-horizontal {
+  height: 10px;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.simplebar-scrollbar::before {
+  background: rgba(74, 74, 74, 0.5);
+  border-radius: 7px;
+}
+
+.simplebar-scrollbar:hover::before {
+  background: rgba(74, 74, 74, 0.7);
+}
+
+/* Dark mode scrollbar theming */
+@media (prefers-color-scheme: dark) {
+  .simplebar-track.simplebar-vertical,
+  .simplebar-track.simplebar-horizontal {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .simplebar-scrollbar::before {
+    background: rgba(0, 255, 65, 0.3);
+    box-shadow: 0 0 4px rgba(0, 255, 65, 0.2);
+  }
+
+  .simplebar-scrollbar:hover::before {
+    background: rgba(0, 255, 65, 0.5);
+    box-shadow: 0 0 6px rgba(0, 255, 65, 0.3);
+  }
+}
+
 @layer base {
   *,
   ::after,
@@ -147,7 +184,7 @@ body {
 }
 
 /* Retro terminal glow */
-.terminal-glow {
+.terminal-glow .dark {
   text-shadow: 0 0 5px rgba(0, 255, 65, 0.7), 0 0 10px rgba(0, 255, 65, 0.5),
     0 0 15px rgba(0, 255, 65, 0.3);
 }

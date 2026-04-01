@@ -196,7 +196,7 @@ export default function ClockPage() {
             {/* Fullscreen button */}
             <button
               onClick={toggleFullscreen}
-              className="group inline-flex items-center gap-2 px-3 py-2 border-2 border-neutral-900 dark:border-accent-green bg-white dark:bg-[#1a1a1a] font-mono text-xs md:text-sm transition-all hover:bg-neutral-900 dark:hover:bg-accent-green hover:text-white dark:hover:text-[#0a0a0a]"
+              className="group inline-flex items-center gap-2 px-3 py-2 border-2 border-neutral-900 dark:border-accent-green font-mono text-xs md:text-sm transition-all hover:bg-neutral-900 dark:hover:bg-accent-green hover:text-white dark:hover:text-[#0a0a0a] cursor-pointer"
               aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
             >
               <FontAwesomeIcon
