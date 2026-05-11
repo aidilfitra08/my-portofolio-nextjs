@@ -1,4 +1,14 @@
 {
+  "theme": {
+    "current": "neobrutalism",
+    "available": [
+      "vintage",
+      "neobrutalism"
+    ],
+    "enableThemeSwitcher": true,
+    "defaultTheme": "vintage",
+    "description": "Portfolio theme configuration"
+  },
   "header": {
     "greeting": "Hello,",
     "name": "Aidil",
@@ -25,7 +35,12 @@
     },
     {
       "category": "Frontend",
-      "items": ["React.js", "Next.js", "Flutter", "TypeScript"],
+      "items": [
+        "React.js",
+        "Next.js",
+        "Flutter",
+        "TypeScript"
+      ],
       "color": "text-[#00d9ff]",
       "bgColor": "bg-[#00d9ff]",
       "icon": "faCode"
@@ -45,7 +60,13 @@
     },
     {
       "category": "Tools",
-      "items": ["Git", "Docker", "AWS", "Vercel", "n8n"],
+      "items": [
+        "Git",
+        "Docker",
+        "AWS",
+        "Vercel",
+        "n8n"
+      ],
       "color": "text-[#ff6b6b]",
       "bgColor": "bg-[#ff6b6b]",
       "icon": "faTools"
@@ -109,7 +130,9 @@
       "github": "https://github.com/aidilfitra08/lms-front-end",
       "live": "http://digimalearn.online",
       "image": "/lms.png",
-      "images": ["/lms.png"]
+      "images": [
+        "/lms.png"
+      ]
     },
     {
       "name": "Vitour",
