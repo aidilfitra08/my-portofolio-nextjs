@@ -4,10 +4,14 @@ A modern, responsive portfolio website built with Next.js 14, TypeScript, and Ta
 
 ## 🌟 Features
 
-### 🎨 **Modern Design**
+### 🎨 **Modern Design with Multiple Themes**
 
 - **Responsive Layout** - Works perfectly on desktop, tablet, and mobile
-- **Dark/Light Mode** - Toggle between themes with smooth transitions
+- **Multiple Themes** - Switch between Vintage and Neobrutalism themes
+  - **Vintage Theme** - Classic retro aesthetic with vintage colors and CRT effects
+  - **Neobrutalism Theme** - Bold, raw aesthetic with high contrast and geometric shapes
+- **Dark/Light Mode** - Automatic detection with manual override
+- **Smooth Theme Switching** - Real-time theme changes with instant feedback
 - **Smooth Animations** - Page transitions and scroll effects
 - **Modern UI Components** - Clean, professional design
 
@@ -183,6 +187,50 @@ For full functionality, you'll need a backend server with:
 
 ## 🎨 Customization
 
+### **Theme System**
+
+The portfolio includes a powerful theme system for managing multiple design themes:
+
+#### **Available Themes**
+
+1. **Vintage Theme** - Classic retro aesthetic
+   - Vintage colors with CRT screen effects
+   - Paper-like cards with textures
+   - Terminal-style glow effects
+   - Default theme
+
+2. **Neobrutalism Theme** - Bold, raw design
+   - High contrast with thick borders
+   - Drop shadow effects for depth
+   - Bold, uppercase typography
+   - Geometric shapes
+
+#### **Switching Themes**
+
+- **Admin Panel**: Go to Dashboard → Theme tab → Select theme
+- **Code**: Use `ThemeSwitcher` component anywhere in your app
+- **Programmatically**: Import and use `useTheme()` hook
+
+#### **Adding New Themes**
+
+See `guide/THEME_SYSTEM.md` for detailed instructions on:
+- Creating theme configuration
+- Defining CSS variables
+- Adding theme-specific styles
+- Maintaining themes
+
+**Quick reference:**
+
+```typescript
+import { getTheme, applyThemeVariables } from "@/styles/themes";
+
+// Get theme information
+const theme = getTheme("neobrutalism");
+
+// Apply theme
+applyThemeVariables("neobrutalism", isDarkMode);
+```
+
 ### **Colors & Themes**
 
 Edit `tailwind.config.js` and `globals.css` to customize:
@@ -244,7 +292,44 @@ npm start
 4. Push to branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📄 License
+## � Documentation
+
+Comprehensive guides available in the `guide/` folder:
+
+### **Theme System Documentation**
+
+- **[THEME_SYSTEM.md](./guide/THEME_SYSTEM.md)** - Complete theme system guide
+  - Architecture and how themes work
+  - Adding new themes step-by-step
+  - CSS variable system
+  - Best practices
+  - Troubleshooting
+
+- **[NEOBRUTALISM_THEME.md](./guide/NEOBRUTALISM_THEME.md)** - Neobrutalism theme details
+  - Design principles and characteristics
+  - Component styling
+  - Accessibility considerations
+  - Customization examples
+  - Migration guide
+
+- **[THEME_QUICK_REF.md](./guide/THEME_QUICK_REF.md)** - Quick reference guide
+  - Common tasks and code snippets
+  - CSS variables reference
+  - Adding new theme checklist
+  - File locations
+
+### **Admin System Documentation**
+
+- **[ADMIN_SETUP.md](./guide/ADMIN_SETUP.md)** - Complete admin setup guide
+- **[ADMIN_VISUAL_GUIDE.md](./guide/ADMIN_VISUAL_GUIDE.md)** - UI walkthroughs
+- **[DOCS_INDEX.md](./guide/DOCS_INDEX.md)** - Complete documentation index
+
+### **Getting Started**
+
+- **[START_HERE.md](./guide/START_HERE.md)** - Overview and introduction
+- **[QUICK_START.md](./guide/QUICK_START.md)** - 5-minute setup guide
+
+## �📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 

@@ -138,6 +138,67 @@
 
 ---
 
+## 🎨 Theme System Documentation
+
+### **[THEME_SYSTEM.md](./THEME_SYSTEM.md)** - COMPREHENSIVE THEME GUIDE
+
+**What it is:** Complete theme system documentation  
+**Read time:** 20 minutes  
+**Contains:** Architecture, how to add themes, maintenance  
+**Covers:**
+
+- Theme system overview
+- Folder structure and organization
+- How themes work (runtime system)
+- Adding new themes (step-by-step)
+- CSS variables reference
+- Dark mode support
+- Best practices for theme development
+- Maintenance and troubleshooting
+- Migration guide from old styling
+
+**Best for:** Developers building or maintaining themes
+
+### **[NEOBRUTALISM_THEME.md](./NEOBRUTALISM_THEME.md)** - NEOBRUTALISM THEME DETAILS
+
+**What it is:** In-depth neobrutalism theme guide  
+**Read time:** 15 minutes  
+**Contains:** Design principles, implementation details, examples  
+**Covers:**
+
+- What is neobrutalism?
+- Visual characteristics (borders, typography, buttons, cards)
+- Color scheme (light & dark modes)
+- Component styling specifics
+- Animation principles
+- Utility classes
+- Best practices and do's/don'ts
+- Accessibility considerations
+- Performance optimization
+- Examples and customization
+
+**Best for:** Understanding and customizing the neobrutalism theme
+
+### **[THEME_QUICK_REF.md](./THEME_QUICK_REF.md)** - THEME QUICK REFERENCE
+
+**What it is:** Quick reference for theme development  
+**Read time:** 5 minutes  
+**Contains:** Common tasks, code snippets, checklists  
+**Covers:**
+
+- Quick start for users and developers
+- File locations
+- CSS variables reference
+- Common tasks with code examples
+- Adding new theme checklist
+- Troubleshooting quick fixes
+- Browser support
+- Security notes
+
+**Best for:** Quick lookup while working
+
+---
+
 ## 📂 Code Documentation
 
 ### **[src/app/admin/README.md](./src/app/admin/README.md)** - ADMIN MODULE GUIDE

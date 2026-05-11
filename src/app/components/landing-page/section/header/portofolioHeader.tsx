@@ -229,11 +229,11 @@ export default function PortofolioHeader({ data }: { data: any }) {
 
   return (
     <header
-      className="relative py-12 md:py-20 px-4 overflow-hidden"
+      className="relative py-12 md:py-20 px-4 overflow-hidden bg-[var(--background)] text-[var(--foreground)]"
       id="about-me"
     >
       {/* Retro grid background */}
-      <div className="absolute inset-0 opacity-5 dark:opacity-10">
+      <div className="absolute inset-0 opacity-5 dark:opacity-10 [data-theme=neobrutalism]:hidden">
         <div
           className="absolute inset-0"
           style={{

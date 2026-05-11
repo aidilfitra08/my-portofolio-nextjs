@@ -19,13 +19,14 @@ import EditSkills from "../components/EditSkills";
 import EditEducation from "../components/EditEducation";
 import EditExperience from "../components/EditExperience";
 import EditProjects from "../components/EditProjects";
+import ThemeSwitcher from "@/app/components/ThemeSwitcher";
 // import EditHeader from "@/app/admin/components/EditHeader";
 // import EditSkills from "@/app/admin/components/EditSkills";
 // import EditEducation from "@/app/admin/components/EditEducation";
 // import EditExperience from "@/app/admin/components/EditExperience";
 // import EditProjects from "@/app/admin/components/EditProjects";
 
-type TabType = "header" | "skills" | "education" | "experience" | "projects";
+type TabType = "header" | "skills" | "education" | "experience" | "projects" | "theme";
 
 export default function AdminDashboard() {
   const router = useRouter();
@@ -224,6 +225,7 @@ export default function AdminDashboard() {
                     { id: "education", label: "Education" },
                     { id: "experience", label: "Experience" },
                     { id: "projects", label: "Projects" },
+                    { id: "theme", label: "Theme" },
                   ].map((item) => (
                     <button
                       key={item.id}
@@ -278,6 +280,18 @@ export default function AdminDashboard() {
                     onChange={(updated) =>
                       handleDataChange("projects", updated)
                     }
+                  />
+                )}
+                {activeTab === "theme" && (
+                  <ThemeSwitcher
+                    currentTheme={data.theme?.current || "vintage"}
+                    onThemeChange={(newTheme) => {
+                      handleDataChange("theme", {
+                        ...data.theme,
+                        current: newTheme,
+                      });
+                    }}
+                    showLabel={false}
                   />
                 )}
               </div>

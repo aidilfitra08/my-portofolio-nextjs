@@ -18,7 +18,7 @@ const Homepage = async () => {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-[#f5f1e8] dark:bg-[#0d0d0d] text-[#2a2a2a] dark:text-[#e0e0e0] font-mono relative">
+      <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] font-mono relative transition-colors duration-300">
         {/* Vintage scanline effect overlay */}
         <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.03]">
           <div className="absolute inset-0 bg-linear-to-b from-transparent via-black to-transparent animate-pulse"></div>
@@ -52,9 +52,9 @@ const Homepage = async () => {
           </div>
         </div>
 
-        {/* Vintage corner decorations */}
-        <div className="fixed top-0 left-0 w-32 h-32 border-l-2 border-t-2 border-accent-green opacity-20 pointer-events-none"></div>
-        <div className="fixed bottom-0 right-0 w-32 h-32 border-r-2 border-b-2 border-accent-green opacity-20 pointer-events-none"></div>
+        {/* Vintage theme decorations */}
+        <div className="fixed top-0 left-0 w-32 h-32 border-l-2 border-t-2 border-accent-green opacity-20 pointer-events-none [data-theme=neobrutalism]:hidden"></div>
+        <div className="fixed bottom-0 right-0 w-32 h-32 border-r-2 border-b-2 border-accent-green opacity-20 pointer-events-none [data-theme=neobrutalism]:hidden"></div>
       </div>
       <Footer />
     </>

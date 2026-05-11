@@ -63,6 +63,7 @@
   }
 }
 
+/* Default Vintage Theme - Light Mode */
 :root {
   --background: #f5f1e8;
   --foreground: #2a2a2a;
@@ -72,6 +73,11 @@
   --paper-texture: #faf8f3;
   --ink-black: #1a1a1a;
   --terminal-green: #33ff33;
+  --border-color: #2a2a2a;
+  --border-width: 1px;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  /* Vintage specific */
+  --theme-type: vintage;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -80,6 +86,8 @@
     --foreground: #e0e0e0;
     --paper-texture: #1a1a1a;
     --vintage-green: #00ff41;
+    --border-color: #e0e0e0;
+    --shadow-color: rgba(255, 255, 255, 0.1);
   }
 }
 
@@ -87,6 +95,11 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: "Courier New", "Courier", monospace;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Vintage theme specific background pattern */
+body[data-theme="vintage"] {
   background-image: repeating-linear-gradient(
     0deg,
     transparent,
@@ -94,6 +107,11 @@ body {
     rgba(0, 0, 0, 0.03) 2px,
     rgba(0, 0, 0, 0.03) 4px
   );
+}
+
+/* Neobrutalism theme specific - minimal background */
+body[data-theme="neobrutalism"] {
+  background-image: none;
 }
 
 /* Typewriter effect */
@@ -364,5 +382,481 @@ body {
   }
   100% {
     transform: translateX(-100%);
+  }
+}
+
+/* ===================================
+   NEOBRUTALISM THEME STYLES
+   =================================== */
+
+/* Neobrutalism Base Styles */
+[data-theme="neobrutalism"] {
+  --background: #ffffff;
+  --foreground: #000000;
+  --vintage-green: #000000;
+  --vintage-amber: #f1c40f;
+  --vintage-cyan: #2c3e50;
+  --paper-texture: #f5f5f5;
+  --ink-black: #000000;
+  --terminal-green: #000000;
+  --border-color: #000000;
+  --border-width: 3px;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-theme="neobrutalism"] {
+    --background: #1a1a1a;
+    --foreground: #ffffff;
+    --vintage-green: #ffffff;
+    --vintage-amber: #f1c40f;
+    --vintage-cyan: #ecf0f1;
+    --paper-texture: #0d0d0d;
+    --ink-black: #ffffff;
+    --terminal-green: #ffffff;
+    --border-color: #ffffff;
+    --shadow-color: rgba(255, 255, 255, 0.3);
+  }
+}
+
+/* Neobrutalism Cards - Bold Borders */
+[data-theme="neobrutalism"] .vintage-card {
+  background: var(--background);
+  border: 3px solid var(--foreground);
+  box-shadow: 6px 6px 0px var(--foreground);
+  position: relative;
+  padding: 20px;
+  transition: all 0.15s linear;
+}
+
+[data-theme="neobrutalism"] .vintage-card:hover {
+  box-shadow: 8px 8px 0px var(--foreground);
+  transform: translate(-2px, -2px);
+}
+
+[data-theme="neobrutalism"] .vintage-card::before {
+  display: none;
+}
+
+/* Neobrutalism Buttons */
+[data-theme="neobrutalism"] button,
+[data-theme="neobrutalism"] [role="button"] {
+  border: 3px solid var(--foreground);
+  background: var(--background);
+  color: var(--foreground);
+  padding: 12px 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.15s linear;
+  box-shadow: 4px 4px 0px var(--foreground);
+  cursor: pointer;
+}
+
+[data-theme="neobrutalism"] button:hover,
+[data-theme="neobrutalism"] [role="button"]:hover {
+  background: var(--foreground);
+  color: var(--background);
+  box-shadow: 2px 2px 0px var(--foreground);
+  transform: translate(2px, 2px);
+}
+
+[data-theme="neobrutalism"] button:active,
+[data-theme="neobrutalism"] [role="button"]:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0px 0px 0px var(--foreground);
+}
+
+/* Neobrutalism Inputs */
+[data-theme="neobrutalism"] input,
+[data-theme="neobrutalism"] textarea,
+[data-theme="neobrutalism"] select {
+  border: 3px solid var(--foreground);
+  background: var(--background);
+  color: var(--foreground);
+  padding: 12px;
+  font-family: "Courier New", "Courier", monospace;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+[data-theme="neobrutalism"] input:focus,
+[data-theme="neobrutalism"] textarea:focus,
+[data-theme="neobrutalism"] select:focus {
+  outline: none;
+  border-color: var(--foreground);
+  box-shadow: inset 0 0 0 3px var(--background), 0 0 0 6px var(--foreground);
+}
+
+/* Neobrutalism Typography */
+[data-theme="neobrutalism"] h1,
+[data-theme="neobrutalism"] h2,
+[data-theme="neobrutalism"] h3 {
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  line-height: 1.2;
+  border-bottom: 3px solid var(--foreground);
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+}
+
+/* Neobrutalism Link */
+[data-theme="neobrutalism"] a {
+  color: var(--foreground);
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 4px;
+  font-weight: bold;
+  transition: all 0.15s linear;
+}
+
+[data-theme="neobrutalism"] a:hover {
+  background: var(--foreground);
+  color: var(--background);
+  text-decoration: none;
+  padding: 2px 4px;
+}
+
+/* Neobrutalism Table */
+[data-theme="neobrutalism"] table {
+  border-collapse: collapse;
+  width: 100%;
+  border: 3px solid var(--foreground);
+}
+
+[data-theme="neobrutalism"] th,
+[data-theme="neobrutalism"] td {
+  border: 3px solid var(--foreground);
+  padding: 16px;
+  text-align: left;
+  font-weight: bold;
+}
+
+[data-theme="neobrutalism"] th {
+  background: var(--foreground);
+  color: var(--background);
+  text-transform: uppercase;
+}
+
+/* Neobrutalism Code */
+[data-theme="neobrutalism"] code,
+[data-theme="neobrutalism"] pre {
+  background: var(--paper-texture);
+  border: 2px solid var(--foreground);
+  padding: 12px;
+  font-family: "Courier New", "Courier", monospace;
+  font-weight: bold;
+}
+
+[data-theme="neobrutalism"] pre {
+  overflow-x: auto;
+  margin: 20px 0;
+}
+
+/* Neobrutalism Scrollbar */
+[data-theme="neobrutalism"] .simplebar-track.simplebar-vertical,
+[data-theme="neobrutalism"] .simplebar-track.simplebar-horizontal {
+  background: var(--background);
+  border: 2px solid var(--foreground);
+}
+
+[data-theme="neobrutalism"] .simplebar-scrollbar::before {
+  background: var(--foreground);
+  border-radius: 0;
+}
+
+[data-theme="neobrutalism"] .simplebar-scrollbar:hover::before {
+  background: var(--foreground);
+}
+
+/* Neobrutalism Utility Classes */
+[data-theme="neobrutalism"] .neo-box {
+  border: 3px solid var(--foreground);
+  background: var(--background);
+  box-shadow: 6px 6px 0px var(--foreground);
+  padding: 20px;
+}
+
+[data-theme="neobrutalism"] .neo-box:hover {
+  box-shadow: 8px 8px 0px var(--foreground);
+  transform: translate(-2px, -2px);
+  transition: all 0.15s linear;
+}
+
+[data-theme="neobrutalism"] .neo-badge {
+  display: inline-block;
+  border: 3px solid var(--foreground);
+  background: var(--foreground);
+  color: var(--background);
+  padding: 8px 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+  margin: 4px;
+}
+
+/* ===================================
+   NEOBRUTALISM ADDITIONAL UTILITIES
+   =================================== */
+
+/* Section Styling */
+[data-theme="neobrutalism"] section {
+  border-top: 3px solid var(--foreground);
+  padding-top: 40px;
+  margin-top: 40px;
+}
+
+[data-theme="neobrutalism"] section:first-of-type {
+  border-top: none;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+/* Card/Container Styling */
+[data-theme="neobrutalism"] .neo-card {
+  border: 3px solid var(--foreground);
+  background: var(--background);
+  box-shadow: 6px 6px 0px var(--shadow-color);
+  padding: 24px;
+  transition: all 0.15s linear;
+}
+
+[data-theme="neobrutalism"] .neo-card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 9px 9px 0px var(--shadow-color);
+}
+
+/* Grid Item Styling */
+[data-theme="neobrutalism"] .neo-grid-item {
+  border: 3px solid var(--foreground);
+  background: var(--background);
+  padding: 20px;
+  transition: all 0.15s linear;
+}
+
+[data-theme="neobrutalism"] .neo-grid-item:hover {
+  background: var(--foreground);
+  color: var(--background);
+  transform: scale(1.05);
+}
+
+/* Section Headers */
+[data-theme="neobrutalism"] .neo-section-header {
+  font-size: 2rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  border-bottom: 4px solid var(--foreground);
+  padding-bottom: 20px;
+  margin-bottom: 40px;
+  line-height: 1;
+}
+
+/* Tag/Chip Styling */
+[data-theme="neobrutalism"] .neo-tag {
+  display: inline-block;
+  border: 2px solid var(--foreground);
+  background: var(--background);
+  color: var(--foreground);
+  padding: 6px 12px;
+  margin: 4px;
+  font-weight: bold;
+  font-size: 0.85rem;
+  transition: all 0.15s linear;
+}
+
+[data-theme="neobrutalism"] .neo-tag:hover {
+  background: var(--foreground);
+  color: var(--background);
+}
+
+/* Icon Container */
+[data-theme="neobrutalism"] .neo-icon-box {
+  border: 3px solid var(--foreground);
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  background: var(--background);
+  margin-bottom: 16px;
+}
+
+/* Separator/Divider */
+[data-theme="neobrutalism"] .neo-divider {
+  border: none;
+  border-top: 4px solid var(--foreground);
+  margin: 40px 0;
+}
+
+/* Accent Text */
+[data-theme="neobrutalism"] .neo-accent {
+  background: var(--foreground);
+  color: var(--background);
+  padding: 0 6px;
+  font-weight: bold;
+}
+
+/* Code Snippet */
+[data-theme="neobrutalism"] .neo-code {
+  background: var(--background);
+  border: 2px solid var(--foreground);
+  padding: 12px;
+  font-family: "Courier New", monospace;
+  font-weight: bold;
+  overflow-x: auto;
+  margin: 12px 0;
+}
+
+/* List Item */
+[data-theme="neobrutalism"] .neo-list-item {
+  border-left: 4px solid var(--foreground);
+  padding-left: 16px;
+  margin: 12px 0;
+  font-weight: 500;
+}
+
+/* Text Highlight */
+[data-theme="neobrutalism"] .neo-highlight {
+  background: var(--vintage-amber);
+  color: black;
+  padding: 2px 6px;
+  font-weight: bold;
+}
+
+/* Overlay/Modal Backdrop */
+[data-theme="neobrutalism"] .neo-backdrop {
+  background: var(--background);
+  border: 4px solid var(--foreground);
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.75);
+}
+
+/* Social Link */
+[data-theme="neobrutalism"] .neo-social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border: 3px solid var(--foreground);
+  background: var(--background);
+  color: var(--foreground);
+  font-size: 24px;
+  transition: all 0.15s linear;
+  margin: 8px;
+}
+
+[data-theme="neobrutalism"] .neo-social-link:hover {
+  background: var(--foreground);
+  color: var(--background);
+  transform: translate(-3px, -3px);
+}
+
+/* Progress Bar */
+[data-theme="neobrutalism"] .neo-progress-bar {
+  border: 3px solid var(--foreground);
+  background: var(--background);
+  height: 24px;
+  overflow: hidden;
+}
+
+[data-theme="neobrutalism"] .neo-progress-fill {
+  background: var(--foreground);
+  height: 100%;
+  transition: width 0.3s linear;
+}
+
+/* Stat Box */
+[data-theme="neobrutalism"] .neo-stat {
+  border: 3px solid var(--foreground);
+  background: var(--background);
+  padding: 20px;
+  text-align: center;
+}
+
+[data-theme="neobrutalism"] .neo-stat-number {
+  font-size: 2.5rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+[data-theme="neobrutalism"] .neo-stat-label {
+  font-size: 0.875rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-top: 2px solid var(--foreground);
+  margin-top: 12px;
+  padding-top: 12px;
+}
+
+/* Description/Quote */
+[data-theme="neobrutalism"] .neo-description {
+  border-left: 4px solid var(--foreground);
+  padding-left: 20px;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+/* Pill Button */
+[data-theme="neobrutalism"] .neo-pill {
+  border: 3px solid var(--foreground);
+  background: var(--background);
+  color: var(--foreground);
+  padding: 10px 20px;
+  font-weight: bold;
+  display: inline-block;
+  transition: all 0.15s linear;
+}
+
+[data-theme="neobrutalism"] .neo-pill:hover {
+  background: var(--foreground);
+  color: var(--background);
+  transform: translate(-2px, -2px);
+}
+
+[data-theme="neobrutalism"] .neo-pill:active {
+  transform: translate(2px, 2px);
+}
+
+/* Two-Tone Text */
+[data-theme="neobrutalism"] .neo-text-contrast {
+  color: var(--foreground);
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+/* Frame/Window */
+[data-theme="neobrutalism"] .neo-frame {
+  border: 3px solid var(--foreground);
+  background: var(--background);
+  padding: 0;
+}
+
+[data-theme="neobrutalism"] .neo-frame-header {
+  border-bottom: 3px solid var(--foreground);
+  padding: 12px 16px;
+  background: var(--foreground);
+  color: var(--background);
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+[data-theme="neobrutalism"] .neo-frame-body {
+  padding: 20px;
+}
+
+/* === Generic Theme Variables Fallback === */
+
+/* For vintage theme - ensure proper colors */
+[data-theme="vintage"] {
+  --border-color-vintage: #2a2a2a;
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-theme="vintage"] {
+    --border-color-vintage: #e0e0e0;
   }
 }

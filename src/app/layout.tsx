@@ -6,6 +6,7 @@ import "simplebar-react/dist/simplebar.min.css";
 
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
+import ThemeProvider from "./components/ThemeProvider";
 config.autoAddCss = false;
 
 const geistSans = Geist({
@@ -40,8 +41,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} font-mono antialiased dark:bg-neutral-900 bg-neutral-100`}
       >
-        {/* <DynamicFavicon /> */}
-        {children}
+        <ThemeProvider>
+          {/* <DynamicFavicon /> */}
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
