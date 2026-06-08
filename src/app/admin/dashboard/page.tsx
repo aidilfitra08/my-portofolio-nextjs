@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getAuthToken, clearAuthToken, isAuthenticated } from "@/lib/auth";
-import { loadPortfolioData, savePortfolioData } from "@/lib/portfolio";
+import { loadPortfolioData } from "@/lib/portfolio";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSignOut,
@@ -18,6 +18,7 @@ import EditHeader from "../components/EditHeader";
 import EditSkills from "../components/EditSkills";
 import EditEducation from "../components/EditEducation";
 import EditExperience from "../components/EditExperience";
+import EditBingo from "../components/EditBingo";
 import EditProjects from "../components/EditProjects";
 // import EditHeader from "@/app/admin/components/EditHeader";
 // import EditSkills from "@/app/admin/components/EditSkills";
@@ -25,7 +26,13 @@ import EditProjects from "../components/EditProjects";
 // import EditExperience from "@/app/admin/components/EditExperience";
 // import EditProjects from "@/app/admin/components/EditProjects";
 
-type TabType = "header" | "skills" | "education" | "experience" | "projects";
+type TabType =
+  | "header"
+  | "skills"
+  | "education"
+  | "experience"
+  | "projects"
+  | "bingo";
 
 export default function AdminDashboard() {
   const router = useRouter();
@@ -224,6 +231,7 @@ export default function AdminDashboard() {
                     { id: "education", label: "Education" },
                     { id: "experience", label: "Experience" },
                     { id: "projects", label: "Projects" },
+                    { id: "bingo", label: "Bingo" },
                   ].map((item) => (
                     <button
                       key={item.id}
@@ -278,6 +286,12 @@ export default function AdminDashboard() {
                     onChange={(updated) =>
                       handleDataChange("projects", updated)
                     }
+                  />
+                )}
+                {activeTab === "bingo" && (
+                  <EditBingo
+                    data={data.bingo}
+                    onChange={(updated) => handleDataChange("bingo", updated)}
                   />
                 )}
               </div>

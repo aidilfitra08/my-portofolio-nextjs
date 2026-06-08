@@ -154,5 +154,42 @@
       "images": [],
       "visible": true
     }
-  ]
+  ],
+  "bingo": {
+    "title": "Playground Bingo",
+    "subtitle": "Click the matching tiles as you find them. Complete any row, column, or diagonal to win.",
+    "defaultThemeId": "retro-terminal",
+    "texts": [
+      "Deploy",
+      "Debug",
+      "Refactor",
+      "Ship it",
+      "Fix this later",
+      "Code review",
+      "API ready",
+      "Merge conflict",
+      "Hot reload",
+      "Build passes",
+      "TypeScript",
+      "Dark mode",
+      "Responsive layout",
+      "Performance",
+      "Loading state",
+      "Error boundary",
+      "Retro terminal",
+      "Vintage card",
+      "Portfolio update",
+      "Feature complete",
+      "Animation smooth",
+      "No database",
+      "Save to JSON",
+      "Admin panel",
+      "Randomized board",
+      "Play again",
+      "Bingo",
+      "Next.js",
+      "Tailwind CSS",
+      "Frontend polish"
+    ]
+  }
 }

@@ -16,6 +16,7 @@ import {
   faGift,
   faLaptopCode,
   faLock,
+  faBorderAll,
 } from "@fortawesome/free-solid-svg-icons";
 import { HoloHelp } from "../components/HoloHelpComponent";
 
@@ -61,6 +62,10 @@ const playgroundLinks = [
     url: "/playground/easter-egg-game",
     icon: faGift,
   },
+  { name: "Bingo Game",
+    url: "/playground/bingo-game",
+    icon: faBorderAll,
+  }
 ];
 
 export default function PlaygroundIndex() {
