@@ -34,13 +34,8 @@ export default function PDFViewer({
       try {
         // Dynamically import to avoid SSR issues
         const pdfjsLib = await import("pdfjs-dist");
-        // Pin to a CDN worker (match major version if possible)
-        // You can update the version number to match installed pdfjs-dist
-        // Example uses jsDelivr for pdfjs-dist v4
-        // If you update package.json version, also update this URL.
-        // @ts-ignore
         pdfjsLib.GlobalWorkerOptions.workerSrc =
-          "https://cdn.jsdelivr.net/npm/pdfjs-dist@5.4.530/build/pdf.worker.min.mjs";
+          `https://cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
 
         setLoading(true);
         setError(null);
@@ -56,6 +51,7 @@ export default function PDFViewer({
       } catch (e) {
         if (!isMounted) return;
         setError("Failed to load PDF. Please try again.");
+        console.error("PDF load error:", e);
         setLoading(false);
       }
     })();
