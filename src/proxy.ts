@@ -5,24 +5,25 @@ const ALLOWED_IPS = [
   "127.0.0.1", // localhost
   "::1", // localhost IPv6
   "182.253.135.223",
+  "103.19.110.25",
   // 'YOUR_IP_ADDRESS_HERE'
 ];
 
 export function proxy(request: NextRequest) {
   // // Only apply IP restriction to the clock page
-  // if (request.nextUrl.pathname.startsWith("/playground/vscode-clone")) {
-  //   const clientIP = getClientIP(request);
+  if (request.nextUrl.pathname.startsWith("/playground/vscode-clone")) {
+    const clientIP = getClientIP(request);
 
-  //   if (!ALLOWED_IPS.includes(clientIP)) {
-  //     // Return 403 Forbidden for unauthorized IPs
-  //     return new NextResponse("Access Denied: Unauthorized IP", {
-  //       status: 403,
-  //       headers: {
-  //         "Content-Type": "text/plain",
-  //       },
-  //     });
-  //   }
-  // }
+    if (!ALLOWED_IPS.includes(clientIP)) {
+      // Return 403 Forbidden for unauthorized IPs
+      return new NextResponse("Access Denied: Unauthorized IP", {
+        status: 403,
+        headers: {
+          "Content-Type": "text/plain",
+        },
+      });
+    }
+  }
 
   const pathname = request.nextUrl.pathname.toLowerCase();
 
